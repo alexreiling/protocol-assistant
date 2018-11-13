@@ -13,13 +13,13 @@ const TestData = observer(class TestData extends Component {
   }
   addParagraph(){
     if (this.text !== ''){
-      this.props.unit.addParagraph(this.text)
+      this.props.conv.addParagraph(this.text)
       this.text = ''
     }
   }
   addKeyword(){
     if (this.keyword !== ''){
-      this.props.unit.addKeyword(this.keyword)
+      this.props.conv.addKeyword(this.keyword)
       this.keyword = ''
     }
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import H2 from './shared/H2';
 const StyledDiv = styled.div`
+  grid-area: ${props => props.gridArea};
   padding:8px;
   display: grid;
   grid-template-rows: 50px auto;
@@ -14,7 +15,7 @@ const StyledDiv = styled.div`
 class UnitCard extends Component {
   render() {
     return (
-      <StyledDiv>
+      <StyledDiv gridArea={this.props.gridArea}>
         <H2>{this.props.title}</H2>
         <div>{this.props.children}</div>
       </StyledDiv>

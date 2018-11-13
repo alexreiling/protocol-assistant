@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import Unit from './components/Unit';
+import Conversation from './components/Conversation';
 import {Switch,Route} from 'react-router-dom'
 import styled from 'styled-components';
 import UnitStore from './stores/UnitStore';
 const AppLayout = styled.div`
+  width: 1400px;
+  min-height: 500px;
+  margin: auto;
+  font-size: 14px;
+  font-family: Roboto,Helvetica,Arial,sans-serif;
   display: grid;
   height: 100%;
   grid-template-rows: 50px auto 100px;
@@ -25,6 +30,7 @@ const Main = styled.main`
 `
 const Footer = styled.footer`
   background-color: #222222;
+
 `
 class App extends Component {
   constructor(){
@@ -40,7 +46,7 @@ class App extends Component {
         </Header>
         <Main>
           <Switch>
-            <Route path='/' render={()=>(<Unit unit={this.store.createUnit()}/>)}/>
+            <Route path='/' render={()=>(<Conversation conv={this.store.createConv()}/>)}/>
           </Switch>
         </Main>
         <Footer/>

@@ -6,33 +6,38 @@ import CallOnHighlight from './CallOnHighlight';
 import TextContainer from './TextContainer';
 import { decorate, observable } from 'mobx';
 import TestData from './TestData';
+import Keywords from './Keywords';
 
-const UnitGrid = styled.div`
+const TGrid = styled.div`
   display: grid;
+  grid-template-rows: auto;
   grid-template-columns: 50% 50%;
+  grid-template-areas:
+    "meta meta"
+    "conversation details";
   padding: 8px;
   grid-gap: 8px;
-
 `;
+
+
 const Unit = observer(class Unit extends Component {
   render() {
-    var keywords = this.props.unit.getKeywords.map((keyword,i) => <p key={i.toString()}>{keyword}</p>)
     return (
-      <UnitGrid>
-        <UnitCard title='Your Conversation'>
+      <TGrid>
+        <UnitCard gridArea='conversation' title='Your Conversation'>
           <CallOnHighlight call={[
             (e)=>this.props.unit.addKeyword(e.selection.toString())
           ]}>
-            <TextContainer paragraphs={this.props.unit.getParagraphs} keywords={this.props.unit.getKeywordsLookup}/>
+            <TextContainer paragraphs={this.props.conv.getParagraphs} keywords={this.props.conv.getKeywordsLookup}/>
           </CallOnHighlight>
         </UnitCard>
-        <UnitCard title='Your Keywords'>
-          {keywords}
+        <UnitCard gridArea='details' title='Your Keywords'>
+          {/**<Keywords unit={this.props.unit}/>*/}
         </UnitCard>
-        <UnitCard title='Test Data'>
-          <TestData unit={this.props.unit}/>
+        <UnitCard gridArea='meta' title='Test Data'>
+          <TestData conv={this.props.conv}/>
         </UnitCard>
-      </UnitGrid>
+      </TGrid>
     );
   }
 })
