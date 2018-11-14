@@ -1,5 +1,5 @@
 import Paragraph from './Paragraph';
-import { decorate, observable, action, computed } from "mobx";
+import { decorate, observable, action, computed, reaction } from "mobx";
 
 const uuidv1 = require('uuid/v1');
 
@@ -11,6 +11,16 @@ class Conversation{
     this.keywords = new Map()
     this.paragraphs = new Map()
     //this.wordLookup = new Map()
+    reaction(
+      () => this.keywords.size,
+      length => {
+        if(length > 0)
+        {
+          const kw = this.getKeywords.sort((a,b)=>a.length < b.length)
+          this.paragraphs.forEach(p => p.setMarkup(kw))
+        }
+      }
+    )
   }
   /*
     Analyzes given paragraph and returns:
@@ -29,15 +39,15 @@ class Conversation{
       i++
     }
     return words
-  }
+  }*/
   addKeyword(keyword){
     if(!keyword) return
-    keyword = keyword.replace(/\s/g,'')
+    //keyword = keyword.replace(/\s/g,'')
     this.keywords.set(keyword,keyword)
   }
   deleteKeyword(keyword){
     this.keywords.delete(keyword)
-  }*/
+  }
   get getKeywords(){
     return [...this.keywords.values()]
   } 
@@ -70,7 +80,7 @@ decorate(Conversation,{
   keywords: observable,
   paragraphs:observable,
   wordLookup:observable,
-  //getKeywords: computed,
+  getKeywords: computed,
   getParagraphs: computed,
   //getKeywordsLookup: computed
 })

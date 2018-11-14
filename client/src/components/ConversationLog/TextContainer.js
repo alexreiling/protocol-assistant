@@ -7,25 +7,13 @@ const MarkedDown = styled.b`
   color: red;
   font-size: 2em;
 `
-// words[<0:start,1:length,2:mapper>]
-function chunkText(text,words){
-  words.sort((a,b) => a[0]>b[0]?1:-1)
-  var chunks = []
-  var offset = 0
-  words.forEach((section,i) => {
-    let cutoff = section[0] - offset
-    if (cutoff < 0 || cutoff + section[1] > text.length) throw new Error('oops')
-    let left = text.substr(0,cutoff)
-    if(left) chunks.push(<span key={left+i.toString()}>{left}</span>)
-    let word =text.substr(cutoff,section[1])
-    chunks.push(section[2](word,word+i.toString()))
-    text = text.substr(cutoff + section[1])
-    offset = section[0] + section[1]
-  })
-  if (text) chunks.push(<span key={text}>{text}</span>)
-  return chunks
-}
 
+const BubbleBoard = styled.div`
+  display: flex;
+  flex-direction: column;
+
+
+`
 
 const TextContainer = observer(class TextContainer extends Component {
   prepareParagraphs(){
@@ -43,9 +31,9 @@ const TextContainer = observer(class TextContainer extends Component {
   }
   render() {
     return (
-      <div>
+      <BubbleBoard>
         {this.prepareParagraphs()}
-      </div>
+      </BubbleBoard>
     );
   }
 })

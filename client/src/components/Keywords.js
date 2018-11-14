@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react';
 
 const Bubble = styled.div`
   border-radius: 4px;
@@ -31,7 +32,7 @@ class Keyword extends Component{
   }
 }
 
-class Keywords extends Component {  
+const Keywords = observer(class Keywords extends Component {  
   render() {
     var keywords = this.props.conv.getKeywords.map((keyword,i) => <Keyword keyword={keyword} onDelete={(kw) => this.props.conv.deleteKeyword(kw)} key={i.toString()}></Keyword>)
     return (
@@ -40,6 +41,6 @@ class Keywords extends Component {
       </div>
     );
   }
-}
+})
 
 export default Keywords;
