@@ -1,5 +1,7 @@
 import { decorate, observable, computed, toJS } from "mobx";
-
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 class Paragraph{
   constructor(id,text,party){
     this.id = id
@@ -11,12 +13,14 @@ class Paragraph{
     this[name] = value;
   }
   setMarkup(keywords){
-    if(keywords){
-      this.markup.clear();
-      var term = keywords.reduce((result,current) => result + current + '|','\\b(?:')
+    this.markup.clear();
+    if(keywords.length>0){
+      var term = keywords.reduce((result,current) => result + escapeRegExp(current) + '|','\\b(?:')
       const regex = new RegExp(term.substr(0,term.length-1) + ')\\b',"g")
       var match, i = 0
-      while ((match = regex.exec(this.text)) !== null) { this.markup.push([match['index'], match[0].length]);i++;}
+      while ((match = regex.exec(this.text)) !== null) { 
+        this.markup.push([match['index'], match[0].length]);
+        i++;}
     }
   }
   getMarkup(){

@@ -61,10 +61,7 @@ const Paragraph = observer(class Paragraph extends Component {
   }
   
   render() {
-    const chunks = chunkText(this.props.p.text,this.props.p.getMarkup().map(mu => {
-      mu.push(markUp); return mu
-    }))
-    console.log(this.props.p.markup)
+    const chunks = chunkText(this.props.p.text,this.props.p.getMarkup().map(mu => {mu.push(markUp); return mu}))
 
     return (
       <ParagraphBubble party={this.props.p.party}>

@@ -57,6 +57,7 @@ class App extends Component {
           </Main>
           <Footer/>
         </AppLayout>
+  
       </ThemeProvider>
     );
   }

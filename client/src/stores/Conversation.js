@@ -1,5 +1,5 @@
 import Paragraph from './Paragraph';
-import { decorate, observable, action, computed, reaction } from "mobx";
+import { decorate, observable, action, computed, reaction, toJS } from "mobx";
 
 const uuidv1 = require('uuid/v1');
 
@@ -14,11 +14,8 @@ class Conversation{
     reaction(
       () => this.keywords.size,
       length => {
-        if(length > 0)
-        {
-          const kw = this.getKeywords.sort((a,b)=>a.length < b.length)
-          this.paragraphs.forEach(p => p.setMarkup(kw))
-        }
+        const kw = this.getKeywords.sort((a,b)=>b.length-a.length)
+        this.paragraphs.forEach(p => p.setMarkup(kw))
       }
     )
   }
@@ -49,7 +46,7 @@ class Conversation{
     this.keywords.delete(keyword)
   }
   get getKeywords(){
-    return [...this.keywords.values()]
+    return toJS([...this.keywords.values()])
   } 
   addParagraph(text){
 /*     this.paragraphs.push(paragraph)
@@ -80,8 +77,6 @@ decorate(Conversation,{
   keywords: observable,
   paragraphs:observable,
   wordLookup:observable,
-  getKeywords: computed,
-  getParagraphs: computed,
   //getKeywordsLookup: computed
 })
 export default Conversation
