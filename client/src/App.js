@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Conversation from './components/Conversation';
 import {Switch,Route} from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components';
 import UnitStore from './stores/UnitStore';
+import Conversation from './containers/Conversation';
 const AppLayout = styled.div`
   width: 1400px;
   min-height: 500px;

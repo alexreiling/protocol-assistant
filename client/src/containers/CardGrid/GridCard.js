@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import H2 from './shared/H2';
+import H2 from '../../shared/H2'
 const StyledDiv = styled.div`
   grid-area: ${props => props.gridArea};
   display: grid;

@@ -39,7 +39,7 @@ class Conversation{
   }*/
   addKeyword(keyword){
     if(!keyword) return
-    //keyword = keyword.replace(/\s/g,'')
+    keyword = keyword.replace(/^[ \t]+|[ \t]+$/g,'')
     this.keywords.set(keyword,keyword)
   }
   deleteKeyword(keyword){
@@ -57,8 +57,10 @@ class Conversation{
       occurences.push(entry)
       this.wordLookup.set(entry[0],occurences)
     }) */
-    const id = uuidv1();
-    this.paragraphs.set(id,new Paragraph(id,text));
+    const p = new Paragraph(uuidv1(),text);
+    p.setMarkup(this.getKeywords)
+    this.paragraphs.set(p.id,p);
+
   }
   get getParagraphs(){
     return [...this.paragraphs.values()]

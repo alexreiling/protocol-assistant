@@ -13,17 +13,20 @@ class Paragraph{
     this[name] = value;
   }
   setMarkup(keywords){
-    this.markup.clear();
-    if(keywords.length>0){
+    if (keywords.length===0) this.markup.clear();
+    else {
       var term = keywords.reduce((result,current) => result + escapeRegExp(current) + '|','\\b(?:')
       const regex = new RegExp(term.substr(0,term.length-1) + ')\\b',"g")
       var match, i = 0
+      var tempMarkup = []
       while ((match = regex.exec(this.text)) !== null) { 
-        this.markup.push([match['index'], match[0].length]);
-        i++;}
+        tempMarkup.push([match['index'], match[0].length]);
+        i++;
+      }
+      if(tempMarkup.length !== this.markup.length) this.markup = tempMarkup
     }
   }
-  getMarkup(){
+  get getMarkup(){
     return toJS(this.markup);
   }
 
@@ -38,5 +41,6 @@ class Paragraph{
 decorate(Paragraph,{
   party: observable,
   markup: observable,
+  getMarkup: computed({options:{equals: (a,b)=>a.length-b.length}})
 })
 export default Paragraph
