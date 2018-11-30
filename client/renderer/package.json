@@ -1,10 +1,8 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "main": "src/main.js",
   "private": true,
   "dependencies": {
-    "concurrently": "^4.1.0",
     "mobx": "^5.5.2",
     "mobx-react": "^5.3.6",
     "react": "^16.6.0",
@@ -15,15 +13,9 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start-react": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start-electron": "electron .",
-    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000/ && npm run start-electron\""
-  },
-  "devDependencies": {
-    "cross-env": "^5.2.0",
-    "electron": "^3.0.10"
+    "eject": "react-scripts eject"
   }
 }
