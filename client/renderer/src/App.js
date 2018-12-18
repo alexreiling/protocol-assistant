@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import {Switch,Route} from 'react-router-dom'
+import {Switch,Route,Redirect} from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components';
 import UnitStore from './stores/UnitStore';
 import Conversation from './containers/Conversation';
+import AdaptiveList from './containers/AdaptiveList';
+import CardGrid from './containers/CardGrid'
+import Scrollable from './containers/Scrollable';
+
 const AppLayout = styled.div`
-  width: 1400px;
+  width: ${window.innerWidth+'px'};
   min-height: 500px;
+  overflow: hidden;
   margin: auto;
   font-size: 14px;
   font-family: Roboto,Helvetica,Arial,sans-serif;
@@ -27,10 +32,15 @@ const Header = styled.header`
 `
 const Main = styled.main`
   background-color: whitesmoke;
+  grid-template-rows:24px 1fr;
 `
 const Footer = styled.footer`
   background-color: #222222;
 
+`
+const Nav = styled.nav`
+  background-color: #222222;
+  color:white;
 `
 const theme = {
   bubbleMe: '#dcf8c6',
@@ -51,8 +61,15 @@ class App extends Component {
             Digital Protocol Assistant
           </Header>
           <Main>
+            <Nav>
+              <AdaptiveList></AdaptiveList>
+            </Nav>
             <Switch>
-              <Route path='/' render={()=>(<Conversation conv={this.store.createConv()}/>)}/>
+              <Route exact path='/' render={()=>(<Redirect to='/paragraphs'/>)}/>
+              <Route exact path='/test' render={()=><p>Hi</p>}/>
+              <Route exact path='/paragraphs' render={()=>(<Conversation conv={this.store.createConv()}/>)}/>
+              <Route exact path='/scrollable' render={()=>(<Scrollable/>)}/>
+            
             </Switch>
           </Main>
           <Footer/>

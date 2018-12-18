@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const MarkedUpTerm = styled.span`
   text-decoration-line: underline overline;
   text-decoration-style: dotted;
-  color:green;
+  color:red;
 `
 class MarkedUp extends Component {
   render() {

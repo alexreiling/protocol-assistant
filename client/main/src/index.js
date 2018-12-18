@@ -1,7 +1,11 @@
 
 // Modules to control application life and create native browser window
 const electron = require('electron')
-const {app, BrowserWindow} = electron;
+const {app, BrowserWindow,ipcMain} = electron;
+
+ipcMain.on('get-main-window',(e) => {
+  e.sender.send('received', 'This is my message')
+})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
-  
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: Math.max(width/4,400),
@@ -19,7 +23,11 @@ function createWindow () {
     resizable: false,
     movable: false,
     frame:false,
-    backgroundColor: '#222222'
+    backgroundColor: '#222222',
+    webPreferences: {
+      nodeIntegration: false,
+      preload: __dirname + '/preload.js'
+    }
 
   })
 
