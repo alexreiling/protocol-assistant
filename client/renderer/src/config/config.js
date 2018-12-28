@@ -11,7 +11,6 @@ export const columns = {
     {
       Header: 'VNR',
       accessor: 'clientId',
-
     }
   ],
   concern:[

@@ -41,8 +41,12 @@ const theme = {
     fonts: {
       bright: 'white',
       dark: 'black'
+    } 
+  },
+  dims: {
+    scrollbar: {
+      thickness: '15px'
     }
-    
   }
 }
 class App extends Component {
