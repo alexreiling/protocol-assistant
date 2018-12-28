@@ -15,17 +15,7 @@ class Scrollable extends Component {
   render() {
     return (
       <Container>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-        <Item>Test</Item>
-
+        {this.props.children}
       </Container>
     );
   }

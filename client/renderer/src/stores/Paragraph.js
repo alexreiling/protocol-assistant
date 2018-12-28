@@ -17,11 +17,10 @@ class Paragraph{
     else {
       var term = keywords.reduce((result,current) => result + escapeRegExp(current) + '|','\\b(?:')
       const regex = new RegExp(term.substr(0,term.length-1) + ')\\b',"g")
-      var match, i = 0
+      var match
       var tempMarkup = []
       while ((match = regex.exec(this.text)) !== null) { 
         tempMarkup.push([match['index'], match[0].length]);
-        i++;
       }
       if(tempMarkup.length !== this.markup.length) this.markup = tempMarkup
     }

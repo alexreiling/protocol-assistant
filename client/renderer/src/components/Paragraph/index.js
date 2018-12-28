@@ -4,7 +4,6 @@ import ParagraphButton from './ParagraphButton';
 import { BubbleBoardBubble } from '../../shared/BubbleBoard';
 import MarkedUp from './MarkedUpTerm';
 import { chunkAndMap } from '../../util';
-import { decorate, observable } from 'mobx';
 
 const markUp = (word,key) => <MarkedUp key={key} text={word}/>
 

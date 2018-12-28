@@ -16,9 +16,10 @@ function createWindow () {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: Math.max(width/4,400),
+    //width: Math.max(width/3,400),
+    width: 640,
     height: height,
-    x:width*3/4,
+    x:width*2/3,
     y:0,
     resizable: false,
     movable: false,

@@ -1,9 +1,9 @@
 import Paragraph from './Paragraph';
-import { decorate, observable, action, computed, reaction, toJS } from "mobx";
+import { decorate, observable,reaction, toJS } from "mobx";
 
 const uuidv1 = require('uuid/v1');
 
-const regex = /\w+\.\w+|[\u00C0-\u017F\w]+[-\u00C0-\u017F\w]*/g
+//const regex = /\w+\.\w+|[\u00C0-\u017F\w]+[-\u00C0-\u017F\w]*/g
 
 class Conversation{
   constructor(){
