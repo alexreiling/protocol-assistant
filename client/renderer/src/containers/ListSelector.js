@@ -3,9 +3,20 @@ import ReactTable, { ReactTableDefaults } from 'react-table';
 import 'react-table/react-table.css'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import 'react-perfect-scrollbar/dist/css/styles.css'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 const Wrapper = styled.div`
   margin-bottom: 1em;
+
+
 `
+const CustomTbodyComponent = props => (
+  <PerfectScrollbar
+    {...props} 
+    className={'rt-tbody'}>
+      {props.children}
+  </PerfectScrollbar>
+)
 class ListSelector extends Component {
   render() {
     const {data, columns, noHeaders, onSelect} = this.props
@@ -26,6 +37,7 @@ class ListSelector extends Component {
           }}
           pageSize={10}
           {...conditionalProps}
+          TbodyComponent = {CustomTbodyComponent}
           getTdProps={(state,row,column,instance) => {
             return{
               onClick: (e, handleOriginal) => {
@@ -34,6 +46,7 @@ class ListSelector extends Component {
               }
             }
           }}
+
         />
       </Wrapper>
     );
