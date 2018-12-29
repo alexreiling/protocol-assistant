@@ -1,18 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import H3 from './common/H3';
 const Wrapper = styled.div`
   display:flex;
   align-items: center;
   > * {
     margin-left: 16px;
-    font-size: 1.25em;
-    padding: .5em 0 .5em ;
   }
 
 `
-const ClientName = styled.div`
-  font-weight: 500;
-`
+
 
 const ExitButton = styled.div`
   cursor: pointer;
@@ -31,8 +28,8 @@ export default (props) => {
   const {firstName,middleName,lastName,clientId} = props.client
   return(
     <Wrapper>
-      <ClientName>{firstName} {middleName && middleName + ' '}{lastName}</ClientName>
-      <div>{clientId}</div>
+      <H3 style={{fontWeight: 500}}>{firstName} {middleName && middleName + ' '}{lastName}</H3>
+      <H3>{clientId}</H3>
       <ExitButton onClick={()=>props.onExit()}>✕</ExitButton>
     </Wrapper>
   )

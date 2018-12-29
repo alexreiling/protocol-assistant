@@ -40,7 +40,7 @@ const Grid = styled.div`
   }
 `
 
-class ContentHeader extends Component {
+class Header extends Component {
   render() {
     return (
       <Grid>
@@ -54,13 +54,13 @@ class ContentHeader extends Component {
         />
         <SelectAndRender 
           data={concerns}
-          className='concerns'
+          className='concerns custom-scroll'
           label='Erkannte Anliegen'
           columns={columns.concern}            
           sub={(selected,onExit) => <ConcernDetails concern={selected} onExit={onExit}/>}
           noHeaders/>
         <SelectAndRender
-          className='contracts'
+          className='contracts custom-scroll'
           label='Verträge und Vorgänge'
           data={clients}
           columns={columns.client}
@@ -72,4 +72,4 @@ class ContentHeader extends Component {
   }
 }
 
-export default ContentHeader;
+export default Header;
