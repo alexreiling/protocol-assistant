@@ -18,25 +18,28 @@ const InlineTextAndImage = styled.div`
 class ClientDetails extends Component {
   render() {
     // eslint-disable-next-line
-    const {firstName,middleName,lastName,clientId,email,phone,
-      dateOfBirth,maritalStatus,address} = this.props.client
+    const {firstName,middleName,lastName,clientId,email,phone,dateOfBirth,maritalStatus,address} = this.props.client
     const {home, mobile} = phone
-    const {onExit} = this.props
     const iconStyle = {width:28, padding: '4px'}
     return (
       <div>
 
         <Collapsible
+          open
           switch={<Image style={iconStyle}imgName={'icon-address.png'}/>}>
           <div>{address.streetName} {address.number}</div>
           <div>{address.zipCode} {address.city}</div>
           {address.country && <div> {address.country}</div>}
         </Collapsible>
-        {email && <Collapsible
+        
+        {email && 
+        <Collapsible
+          open
           switch={<Image style={iconStyle}imgName={'icon-email.png'}/>}>
           <div>{email}</div>
         </Collapsible>}
         {phone && <Collapsible
+          open
           switch={<Image style={iconStyle}imgName={'icon-contact.png'}/>}>
           {home && <InlineTextAndImage><Image imgName={'icon-phone.png'}/> {phone.home}</InlineTextAndImage>}
           {mobile && <InlineTextAndImage><Image imgName={'icon-mobile.png'}/> {phone.mobile}</InlineTextAndImage>}

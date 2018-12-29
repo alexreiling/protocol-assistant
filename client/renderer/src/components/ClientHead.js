@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 const Wrapper = styled.div`
   display:flex;
@@ -29,11 +29,11 @@ const ExitButton = styled.div`
 `
 export default (props) => {
   const {firstName,middleName,lastName,clientId} = props.client
-  return(<Wrapper>
-    <ClientName>{firstName} {middleName && middleName + ' '}{lastName}</ClientName>
-    <div>{clientId}</div>
-    <ExitButton onClick={()=>props.onExit()}>✕</ExitButton>
-
-  </Wrapper>
-)
+  return(
+    <Wrapper>
+      <ClientName>{firstName} {middleName && middleName + ' '}{lastName}</ClientName>
+      <div>{clientId}</div>
+      <ExitButton onClick={()=>props.onExit()}>✕</ExitButton>
+    </Wrapper>
+  )
 }

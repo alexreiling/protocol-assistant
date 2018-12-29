@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-var scr = require('app-root-path');
 
 const Container = styled.div`
   width: 100%;
@@ -16,7 +15,6 @@ const Img = styled.img`
 class Image extends Component {
   render() {
     const {imgName} = this.props;
-    console.log(imgName)
     return (
       <Container {...this.props}>
         <Img  src={require(`../../../assets/img/${imgName}`)} />

@@ -60,7 +60,8 @@ SelectAndRender.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   label: PropTypes.string,
-  render: PropTypes.func.isRequired,
+  head: PropTypes.func,
+  sub: PropTypes.func,
   noHeaders: PropTypes.bool
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Image from '../../components/common/Image';
-import ReactTable, { ReactTableDefaults } from 'react-table';
+import ReactTable from 'react-table';
 import {columns} from '../../config/';
 import clients from '../../data/clients';
 

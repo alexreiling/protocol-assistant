@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
   display:flex;
@@ -40,6 +41,12 @@ class Collapsible extends Component {
       </Wrapper>
     );
   }
+}
+Collapsible.propTypes = {
+  open: PropTypes.bool,
+  switch: PropTypes.instanceOf(Component).isRequired,
+  children: PropTypes.arrayOf(Component).isRequired
+
 }
 
 export default Collapsible;

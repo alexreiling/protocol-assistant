@@ -32,7 +32,6 @@ const Label = styled.div`
 
 function NavButton (props){
   const {to, imgName, label, vertical} = props
-  console.log(vertical)
   return (
     <Link style={{textDecoration: 'none'}} to={to} theme={props.theme}>
       <Wrapper vertical={vertical}>

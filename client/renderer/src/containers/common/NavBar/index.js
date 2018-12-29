@@ -24,7 +24,7 @@ class NavBar extends Component {
     const {vertical} = this.props;
     return (
       <Container vertical={vertical} theme={this.props.theme} style={this.props.style}>
-        {this.props.items && this.props.items.map(i => <li><NavButton vertical={vertical}{...i}/></li>)}
+        {this.props.items && this.props.items.map((item,key) => <li key={key.toString()}><NavButton vertical={vertical}{...item}/></li>)}
       </Container>
     );
   }
