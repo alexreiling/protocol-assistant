@@ -5,53 +5,67 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
-  margin-bottom: 1em;
-  .rt-thead{
-    padding-right: ${p => p.theme.dims.scrollbar.thickness};
-  }
-  .rt-tbody{
-    ::-webkit-scrollbar {
-      width: ${p => p.theme.dims.scrollbar.thickness};
-    }
-    ::-webkit-scrollbar-thumb {
-      background: ${p => p.theme.colors.bg.dark};
-      border-radius: 1ex;
-      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
-    }
+  display:flex;
+  /*wichtig*/
+  overflow: auto;
+  flex-grow:0;
 
-    ::-webkit-scrollbar-corner {
-      background: ${p => p.theme.colors.bg.bright};
-    }
+  
+  > .ReactTable{
+    flex:1;
   }
+  .rt-thead{
+    padding-right: ${p => p.theme.scrollbar.thickness};
+  }
+  .ReactTable{
+    border-width: 0;
+    border-bottom:0;
+  }
+  .rt-tr-group{
+  }
+  .rt-td, .rt-th{
+    font-size:12px;
+    font-weight:400;
+    padding:.3em !important;
+
+  }
+
+
 `
 
 
 class ListSelector extends Component {
   render() {
-    const {data, columns, noHeaders, onSelect} = this.props
+    const {data, columns, noHeaders, onSelect,style} = this.props
     var conditionalProps = {}
     if(noHeaders) conditionalProps['TheadComponent'] = () => null;
     return (
-      <Wrapper>
+      <Wrapper style={style}>
 
         <ReactTable
           data={data}
           columns={columns}
-          className='-striped -highlight'
+          className='-highlight'
           showPagination={false}
-          style={{height:'10em'}}
           column={{
             ...ReactTableDefaults.column,
             minWidth: 50
           }}
-          pageSize={10}
+          minRows={2}
+          pageSize={100}
           {...conditionalProps}
+
           getTdProps={(state,row,column,instance) => {
             return{
               onClick: (e, handleOriginal) => {
                 if(row) onSelect(row.original)
                 //if (handleOriginal) handleOriginal();
               }
+            }
+          }}
+          getTbodyProps={() => {
+            return {
+              className: 'custom-scroll'
             }
           }}
 

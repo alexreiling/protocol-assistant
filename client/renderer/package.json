@@ -1,10 +1,11 @@
 {
-  "name": "client",
+  "name": "renderer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "mobx": "^5.5.2",
     "mobx-react": "^5.3.6",
+    "moment": "^2.23.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

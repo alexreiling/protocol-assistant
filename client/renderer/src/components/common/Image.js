@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+var scr = require('app-root-path');
 
 const Container = styled.div`
-  padding:4px;
   width: 100%;
   height: 100%;
   box-sizing:border-box;
@@ -12,14 +12,14 @@ const Container = styled.div`
 const Img = styled.img`
   max-height:100%;
   max-width:100%;
-  min-width:16px;
 `
 class Image extends Component {
   render() {
     const {imgName} = this.props;
+    console.log(imgName)
     return (
-      <Container>
-        <Img style={{}} src={require(`../../../assets/img/${imgName}`)} />
+      <Container {...this.props}>
+        <Img  src={require(`../../../assets/img/${imgName}`)} />
       </Container>
     );
   }
