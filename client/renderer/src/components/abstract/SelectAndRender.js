@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react' 
 import { PropTypes } from 'prop-types';
-import ListSelector from '../ListSelector';
-import H3 from '../../components/common/H3';
+import ListSelector from './ListSelector';
+import H3 from '../common/H3';
 import styled from 'styled-components';
 
 const Grid = styled.div`

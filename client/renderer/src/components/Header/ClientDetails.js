@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Image from '../components/common/Image';
-import Collapsible from './Collapsible';
+import Image from '../common/Image';
+import Collapsible from '../abstract/Collapsible';
 import styled from 'styled-components';
 
 

@@ -64,3 +64,27 @@ export const theme = {
     }
   }
 }
+export const menues = {
+  main:[
+    {
+      to:'/#',
+      imgName:'robot-active.png', 
+    }
+  ],
+  sub: [
+    {
+      to:'/selling',
+      label: 'Up-/Crossselling',
+      imgName:'robot-active.png', 
+
+    },
+    {
+      to:'/notes',
+      label: 'Gesprächsnotizen',
+    },
+    {
+      to:'/protocol',
+      label: 'Protokoll'
+    }
+  ]
+}

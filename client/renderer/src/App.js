@@ -1,12 +1,20 @@
+// modules
 import React, { Component } from 'react';
 import {Switch,Route,Redirect} from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components';
+
+// config
+import { theme, menues } from './config';
+
+// stores
 import UnitStore from './stores/UnitStore';
-import Conversation from './containers/Conversation';
-import Header from './containers/Header';
-import NavBar from './containers/common/NavBar';
-import NotesPage from './containers/NotesPage';
-import { theme } from './config';
+
+// components
+import Header from './components/Header/index';
+import NavBar from './components/abstract/NavBar';
+import NotesPage from './components/Pages/NotesPage';
+import ProtocolPage from './components/Pages/ProtocolPage';
+import SellingPage from './components/Pages/SellingPage';
 
 const AppLayout = styled.div`
   width: ${window.innerWidth+'px'};
@@ -44,46 +52,24 @@ const Main = styled.main`
     flex-shrink: 0;
   }
 `
-
-
 class App extends Component {
   constructor(){
     super()
     this.store = new UnitStore()
   }
-
   render() {
-    const mainMenu = [{
-      to:'/#',
-      imgName:'robot-active.png', 
-    }]
-    const subMenu = [
-      {
-        to:'/#',
-        label: 'Up-/Crossselling',
-      imgName:'robot-active.png', 
-
-      },
-      {
-        to:'/notes',
-        label: 'Gesprächsnotizen',
-      },
-      {
-        to:'/#',
-        label: 'Protokoll'
-      }
-    ]
     return (
       <ThemeProvider theme={theme}>
         <AppLayout>
-          <NavBar vertical items={mainMenu} style={{borderRight: '5px solid rgb(255,100,100,.45)'}}/>
+          <NavBar vertical items={menues.main} style={{borderRight: '5px solid rgb(255,100,100,.45)'}}/>
           <Main>
             <Header/>
-            <NavBar items={subMenu} style={{backgroundColor: '#222'}}/>
+            <NavBar items={menues.sub} style={{backgroundColor: '#222'}}/>
             <Switch>
-              <Route exact path='/' render={()=>(<Redirect to='/paragraphs/'/>)}/>
-              <Route exact path='/paragraphs/' render={()=>(<Conversation conv={this.store.createConv()}/>)}/>            
+              <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
+              <Route exact path='/selling/' render={()=>(<SellingPage/>)}/>              
               <Route exact path='/notes/' render={()=>(<NotesPage/>)}/>
+              <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
             </Switch>
           </Main>
         </AppLayout>

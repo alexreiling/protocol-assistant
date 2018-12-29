@@ -1,12 +1,19 @@
+// modules
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import {columns} from '../config';
-import {concerns} from '../data/dummy';
-import clients from '../data/clients';
-import SelectAndRender from './SelectAndRender';
+
+// config
+import {columns} from '../../config';
+
+// mock data
+import {concerns} from '../../data/dummy';
+import clients from '../../data/clients';
+
+// components
+import SelectAndRender from '../abstract/SelectAndRender';
 import ClientDetails from './ClientDetails';
 import ConcernDetails from './ConcernDetails';
-import ClientHead from '../components/ClientHead'
+import ClientHead from './ClientHead'
 
 const Grid = styled.div`
 

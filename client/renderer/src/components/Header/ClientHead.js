@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import H3 from './common/H3';
+import H3 from '../common/H3';
 const Wrapper = styled.div`
   display:flex;
   align-items: center;
