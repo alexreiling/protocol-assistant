@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import H3 from '../common/H3';
+import ExitButton from '../common/ExitButton';
 const Wrapper = styled.div`
   display:flex;
   align-items: center;
@@ -8,21 +9,6 @@ const Wrapper = styled.div`
     margin-left: 16px;
   }
 
-`
-
-
-const ExitButton = styled.div`
-  cursor: pointer;
-  padding: 4px;
-  float: right;
-  border-radius:16px;
-  text-align: center;
-  line-height: 16px;
-  height:16px;
-  width: 16px;
-  :hover{
-    background-color: ${p => p.theme.colors.button.bright.hover}
-  }
 `
 export default (props) => {
   const {firstName,middleName,lastName,clientId} = props.client

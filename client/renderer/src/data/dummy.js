@@ -47,3 +47,191 @@ export const concerns = [
     name: 'Rechtsschutz Kündigung'
   }
 ]
+export const selling = [
+  {
+    type: 'up',
+    name: 'KFZ-Haftpflicht',
+    items: [
+      {
+        name: 'Rabattschutz',
+        color: '#00B',
+        text: 'Fahranfänger verursachen mehr Unfälle'
+      },
+      {
+        name: 'Änderung Fahrerleistung',
+        color: '#005',
+        text: 'Est et ea aute magna in officia laboris duis.'
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  },
+  {
+    type: 'x',
+    name: 'Für Sohn',
+    items: [
+      {
+        name: 'Verkehrsrechtsschutzversicherung',
+        color: '#0BB',
+        text: 'Eu incididunt fugiat minim laborum cupidatat.'
+      },
+      {
+        name: 'Unfallversicherung',
+        color: '#005',
+        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
+
+      }
+    ]
+  }
+]

@@ -6,21 +6,22 @@ import styled, { ThemeProvider } from 'styled-components';
 // config
 import { theme, menues } from './config';
 
-// stores
-import UnitStore from './stores/UnitStore';
+// mock data
+import { selling } from './data/dummy';
+
 
 // components
 import Header from './components/Header/index';
 import NavBar from './components/abstract/NavBar';
 import NotesPage from './components/Pages/NotesPage';
-import ProtocolPage from './components/Pages/ProtocolPage';
+import ProtocolPage from './components/Pages/ProtocolPage/index';
 import SellingPage from './components/Pages/SellingPage';
 
 const AppLayout = styled.div`
   width: ${window.innerWidth+'px'};
   min-height: 500px;
   overflow: hidden;
-  height: 100%;
+  height: 100vh;
   border-left: 1px solid darkblue;
   box-sizing: border-box;
   display: grid;
@@ -55,7 +56,7 @@ const Main = styled.main`
 class App extends Component {
   constructor(){
     super()
-    this.store = new UnitStore()
+    //this.store = new UnitStore()
   }
   render() {
     return (
@@ -67,7 +68,7 @@ class App extends Component {
             <NavBar items={menues.sub} style={{backgroundColor: '#222'}}/>
             <Switch>
               <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
-              <Route exact path='/selling/' render={()=>(<SellingPage/>)}/>              
+              <Route exact path='/selling/' render={()=>(<SellingPage items={selling}/>)}/>              
               <Route exact path='/notes/' render={()=>(<NotesPage/>)}/>
               <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
             </Switch>
