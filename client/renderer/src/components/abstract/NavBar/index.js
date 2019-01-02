@@ -23,7 +23,7 @@ class NavBar extends Component {
   render() {
     const {vertical} = this.props;
     return (
-      <Container vertical={vertical} theme={this.props.theme} style={this.props.style}>
+      <Container className={'nav-bar'}vertical={vertical} theme={this.props.theme} style={this.props.style}>
         {this.props.items && this.props.items.map((item,key) => <li key={key.toString()}><NavButton vertical={vertical}{...item}/></li>)}
       </Container>
     );

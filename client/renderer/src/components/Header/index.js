@@ -50,7 +50,7 @@ const Grid = styled.div`
 class Header extends Component {
   render() {
     return (
-      <Grid>
+      <Grid style={this.props.style} className={'header'}>
         <SelectAndRender
           className='clients custom-scroll'
           data={clients}

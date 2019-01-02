@@ -5,6 +5,7 @@ const Container = styled.div`
   flex-shrink: 1;
   overflow-y:auto;
   min-height:0;
+  padding-right: 8px;
 `
 const Card = styled.div`
   margin: 8px 0;
@@ -15,7 +16,7 @@ const Card = styled.div`
 `
 const VerticalCardList = (props) =>
 (
- <Container>
+ <Container {...props}>
    {props.items.map((item,key) => <Card key={key.toString()}>{props.renderItem(item)}</Card>)}
  </Container>
 ) ;

@@ -182,56 +182,5 @@ export const selling = [
 
       }
     ]
-  },
-  {
-    type: 'x',
-    name: 'Für Sohn',
-    items: [
-      {
-        name: 'Verkehrsrechtsschutzversicherung',
-        color: '#0BB',
-        text: 'Eu incididunt fugiat minim laborum cupidatat.'
-      },
-      {
-        name: 'Unfallversicherung',
-        color: '#005',
-        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
-
-      }
-    ]
-  },
-  {
-    type: 'x',
-    name: 'Für Sohn',
-    items: [
-      {
-        name: 'Verkehrsrechtsschutzversicherung',
-        color: '#0BB',
-        text: 'Eu incididunt fugiat minim laborum cupidatat.'
-      },
-      {
-        name: 'Unfallversicherung',
-        color: '#005',
-        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
-
-      }
-    ]
-  },
-  {
-    type: 'x',
-    name: 'Für Sohn',
-    items: [
-      {
-        name: 'Verkehrsrechtsschutzversicherung',
-        color: '#0BB',
-        text: 'Eu incididunt fugiat minim laborum cupidatat.'
-      },
-      {
-        name: 'Unfallversicherung',
-        color: '#005',
-        text: 'Eu labore sit mollit exercitation sint consectetur ipsum eu nulla anim voluptate.'
-
-      }
-    ]
   }
 ]

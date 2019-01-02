@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import Page from '../Page';
 
 class NotesPage extends Component {
   render() {
-    return (
-      <div>
-        I am the NotesPage
-      </div>
+    return ( 
+      <Page title='Notizen'>
+        <button type='button'>Neues Thema</button>
+      </Page>
+
     );
   }
 }

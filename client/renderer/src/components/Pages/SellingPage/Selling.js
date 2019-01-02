@@ -12,7 +12,9 @@ const Label = styled.div`
 const Header = styled.div`
   display:flex;
   align-items: center;
-  margin-right:8px;
+  > * {
+    margin-right:4px;
+  }
 `
 const Wrapper = styled.div`
   display:flex;
@@ -38,27 +40,36 @@ const SellingItem = (props) => {
 var Selling = observer(class Selling extends Component {
   constructor(){
     super()
-    this.filter = [];
+    this.filter = new Map();
     this.filterItem = this.filterItem.bind(this)
     this.isFiltered = this.isFiltered.bind(this)
-
+    this.toggle = this.toggle.bind(this)
+  }
+  toggle(){
+    const items = this.props.item.items
+    if([...this.filter.keys()].length===items.length) this.filter.clear()
+    else items.forEach(item => this.filterItem(item))
   }
   filterItem(item){
-    this.filter.push(item.name)
+    this.filter.set(item.name,item)
   }
   isFiltered(item){
-    return this.filter.includes(item.name)
+    return this.filter.has(item.name)
   }
   render() {
     const {type, name, items} = this.props.item
     return (
       <div>
         <Header>
-          <H3>{name}</H3>
-          {this.filter.length===items.length 
+{/*           {this.filter.length!==items.length 
             && <ExitButton 
               r={8} 
-              onClick={()=>this.filter.clear()}>↻</ExitButton>}
+              onClick={()=>items.forEach(item =>this.filterItem(item))}>-</ExitButton>} */}
+          <H3 style={{cursor: 'pointer'}} onClick={this.toggle}>{name}</H3>
+{/*           {this.filter.length>0 
+            && <ExitButton 
+              r={8} 
+              onClick={()=>this.filter.clear()}>↻</ExitButton>} */}
         </Header>
         <div>
           {items.map((item,key) => !this.isFiltered(item)

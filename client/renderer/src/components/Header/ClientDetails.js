@@ -19,7 +19,7 @@ class ClientDetails extends Component {
   render() {
     // eslint-disable-next-line
     const {firstName,middleName,lastName,clientId,email,phone,dateOfBirth,maritalStatus,address} = this.props.client
-    const {home, mobile} = phone
+    const {home, mobile} = phone || {}
     const iconStyle = {width:28, padding: '4px'}
     return (
       <div>

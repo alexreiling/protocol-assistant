@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import H2 from '../../common/H2';
 import VerticalCardList from '../../abstract/VerticalCardList';
 import Selling from './Selling';
-const Page = styled.div`
-  padding: 8px;
-  display:flex;
-  flex-direction: column;
-`
+import Page from '../Page';
+
 
 class SellingPage extends Component {
   render() {
     return (
-      <Page>
-        <H2>Cross- und Upselling</H2>
-        <VerticalCardList
+      <Page title='Cross- und Upselling'>
+        <VerticalCardList className={'custom-scroll'}
           items={this.props.items}
-          renderItem={(item)=><Selling item={item}/>}
-        />
+          renderItem={(item)=><Selling item={item}/>}/>
       </Page>
     );
   }

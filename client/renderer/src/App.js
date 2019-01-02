@@ -1,7 +1,9 @@
 // modules
 import React, { Component } from 'react';
-import {Switch,Route,Redirect} from 'react-router-dom'
+import {Switch,Route,Redirect, withRouter} from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components';
+import { decorate, observable } from 'mobx';
+import { observer } from 'mobx-react';
 
 // config
 import { theme, menues } from './config';
@@ -46,17 +48,40 @@ const AppLayout = styled.div`
 `
 const Main = styled.main`
   background-color: whitesmoke;
-  display: grid;
-  grid-template-rows: ${p => p.theme.layout.header.height} ${p => p.theme.layout.nav.thicknessSub} 1fr;
+  display: flex;
+  /* grid-template-rows: ${p => p.theme.layout.header.height} ${p => p.theme.layout.nav.thicknessSub} 1fr; */
   flex-direction: column;
-  > * {
-    flex-shrink: 0;
+  height: ${window.innerHeight+'px'};
+
+  .header{
+    height:${p => p.theme.layout.header.height};
+    flex-grow:0;
+    flex-shrink:0;
+  }
+  .nav-bar{
+    height: ${p => p.theme.layout.nav.thicknessSub};
+    flex-grow:0;
+    flex-shrink:0;
+  }
+  .page{
+    flex-grow: 1;
   }
 `
-class App extends Component {
+const Toggler = (props) => {
+  const {displayState,onClick,style} = props
+  return (
+    <div style={style} onClick={onClick}>{displayState ? '⯅' : '⯆'}</div>
+  )
+}
+const App = observer(class App extends Component {
   constructor(){
     super()
     //this.store = new UnitStore()
+    this.headerVisible = true
+    this.toggleHeader = this.toggleHeader.bind(this)
+  }
+  toggleHeader(){
+    this.headerVisible = !this.headerVisible;
   }
   render() {
     return (
@@ -64,7 +89,11 @@ class App extends Component {
         <AppLayout>
           <NavBar vertical items={menues.main} style={{borderRight: '5px solid rgb(255,100,100,.45)'}}/>
           <Main>
-            <Header/>
+            <Header style={{display: !this.headerVisible && 'none'}}/>
+            <Toggler 
+              onClick={this.toggleHeader} 
+              style={{textAlign: 'center', cursor: 'pointer'}} 
+              displayState={this.headerVisible}>Click</Toggler>
             <NavBar items={menues.sub} style={{backgroundColor: '#222'}}/>
             <Switch>
               <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
@@ -77,6 +106,10 @@ class App extends Component {
       </ThemeProvider>
     )
   }
-}
+})
 
-export default App;
+decorate(App,{
+  headerVisible: observable
+})
+
+export default withRouter(App);

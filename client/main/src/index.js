@@ -24,6 +24,7 @@ function createWindow () {
     resizable: false,
     movable: false,
     frame:false,
+    hasShadow:true,
     backgroundColor: '#222222',
     webPreferences: {
       nodeIntegration: false,
