@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react';
 
 const Container = styled.div`
   flex-shrink: 1;
@@ -14,10 +15,10 @@ const Card = styled.div`
   padding: 0 8px 8px 8px;
 
 `
-const VerticalCardList = (props) =>
+const VerticalCardList = observer((props) =>
 (
  <Container {...props}>
    {props.items.map((item,key) => <Card key={key.toString()}>{props.renderItem(item)}</Card>)}
  </Container>
-) ;
+)) ;
 export default VerticalCardList;

@@ -18,6 +18,7 @@ import NavBar from './components/abstract/NavBar';
 import NotesPage from './components/Pages/NotesPage';
 import ProtocolPage from './components/Pages/ProtocolPage/index';
 import SellingPage from './components/Pages/SellingPage';
+import NoteStore from './stores/NoteStore';
 
 const AppLayout = styled.div`
   width: ${window.innerWidth+'px'};
@@ -77,6 +78,7 @@ const App = observer(class App extends Component {
   constructor(){
     super()
     //this.store = new UnitStore()
+    this.noteStore = new NoteStore();
     this.headerVisible = true
     this.toggleHeader = this.toggleHeader.bind(this)
   }
@@ -98,7 +100,7 @@ const App = observer(class App extends Component {
             <Switch>
               <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
               <Route exact path='/selling/' render={()=>(<SellingPage items={selling}/>)}/>              
-              <Route exact path='/notes/' render={()=>(<NotesPage/>)}/>
+              <Route exact path='/notes/' render={()=>(<NotesPage store={this.noteStore}/>)}/>
               <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
             </Switch>
           </Main>
