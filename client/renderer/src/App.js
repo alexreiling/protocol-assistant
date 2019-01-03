@@ -71,7 +71,7 @@ const Main = styled.main`
 const Toggler = (props) => {
   const {displayState,onClick,style} = props
   return (
-    <div style={style} onClick={onClick}>{displayState ? '⯅' : '⯆'}</div>
+    <div style={style} onClick={onClick}>{displayState ? '▲' : '▼'}</div>
   )
 }
 const App = observer(class App extends Component {

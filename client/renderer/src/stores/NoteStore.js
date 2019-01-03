@@ -1,21 +1,36 @@
 import { decorate, observable } from "mobx";
 
-class Item {
-  constructor(item){
-    this.text = item.text;
+class Entry {
+  constructor(entry){
+    entry = entry || {}
+    this.text = entry.text || 'Neuer Eintrag...';
+  }
+  setProp(name,value){
+    this[name] = value
   }
 }
+
+decorate(Entry,{
+  text: observable
+})
 class Note{
   constructor(item){
     this.label = item.label
     this.subline = ''
-    this.items = []
+    this.entries = []
   }
-  addItem(){
-    let item = new Item()
-    this.items.push(item)
+  addEntry(){
+    let entry = new Entry()
+    this.entries.push(entry)
+  }
+  getEntries(){
+    return this.entries
   }
 }
+
+decorate(Note,{
+  entries: observable
+})
 
 class NoteStore{
   constructor() {

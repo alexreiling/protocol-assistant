@@ -15,13 +15,17 @@ const NotesPage = class NotesPage extends Component {
     this.addNote = this.addNote.bind(this)
   }
   addNote(text) {
-    console.log(text)
     this.store.addNote({label: text})
+    
   }
   render() {
     return ( 
       <Page title='Notizen'>
-        <InputWithButton onSubmit={this.addNote}/>
+        <InputWithButton 
+          onSubmit={this.addNote} 
+          buttonText='Neues Thema'
+          validator={text => text}
+          messageOnInvalid='Bitte benennen Sie das neue Thema'/>
         <VerticalCardList className={'custom-scroll'}
           items={this.store.getNotes()}
           renderItem={(note)=><Note data={note}/>}/>

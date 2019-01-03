@@ -1,33 +1,47 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import Entry from './Entry';
+import ExitButton from '../../common/ExitButton';
+import H3 from '../../common/H3';
+import { observer } from 'mobx-react';
+
+const Wrapper = styled.div`
+`
 
 const Header = styled.div`
-
+  display:flex;
+  align-items:center;
+  > * {
+    margin-right: 8px;
+  }
 `
 const Footer = styled.div`
 
 `
 
-class Note extends Component{
+const Note = observer(class Note extends Component{
   constructor(){
     super();
-    this.entries = []
+    this.addEntry = this.addEntry.bind(this)
   }
   addEntry(){
-    this.entries.push(new Entry())
+    const note = this.props.data
+    note.addEntry({})
   }
   render() {
-    console.log(this.props.data)
+    const {data:note} = this.props;
     return (
-      <div>
-        <Header>Header</Header>
-          {this.props.data.label}
+      <Wrapper>
+        <Header>
+          <H3>{note.label}</H3>
+          <ExitButton onClick={this.addEntry}>+</ExitButton>
+        </Header>
+          {note.getEntries().map(entry => <Entry data={entry}/>)}
         <Footer>Footer</Footer>
-      </div>
+      </Wrapper>
     )
   }
 
-}
+})
 
 export default Note;
