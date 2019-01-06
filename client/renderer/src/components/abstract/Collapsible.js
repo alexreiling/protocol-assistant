@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   > .switch{
     cursor:pointer;
     :hover{
-      background-color: ${p => p.theme.colors.button.bright.hover}
+      background-color: ${p => p.theme.button.hover.backgroundColor}
     }
   }
   

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import H3 from '../../common/H3';
-import ExitButton from '../../common/ExitButton';
+import ExitButton from '../../common/RoundButton';
 import CircleDiv from '../../common/CircleDiv';
 import {observer} from 'mobx-react' 
 import { decorate, observable } from 'mobx';

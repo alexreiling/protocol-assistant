@@ -184,3 +184,35 @@ export const selling = [
     ]
   }
 ]
+
+export const notes = [
+  {
+    text: 'Anliegen KFZ-Vertragsänderung',
+    entries: [
+      {
+        text: 'Einschluss Sohn'
+      }
+    ],
+    transactions: [
+      {
+        text: 'Fahrer geändert: VN+Angehörige'
+      },
+      {
+        text: 'Jahresleistung geändert: 20 000 km'
+      }
+    ]
+  },
+  {
+    text: 'Anliegen Angebot',
+    entries: [
+      {
+        text: 'Angebot, Verkehrsrechtsschutz'
+      }
+    ],
+    transactions: [
+      {
+        text: 'Angebot Verkehrsrechtsschutz'
+      }
+    ]
+  }
+]

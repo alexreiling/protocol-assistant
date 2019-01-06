@@ -10,9 +10,15 @@ const Container = styled.div`
 `
 const Card = styled.div`
   margin: 8px 0;
-  background-color: rgb(0,0,0,.03);
-  border-radius: 8px;
-  padding: 0 8px 8px 8px;
+  border-radius: 4px;
+  padding: 1px 8px 8px 8px;
+  box-sizing:content-box;
+  border-left:1px solid ${p => p.theme.gridline.color};
+  :hover{
+    padding: 0px 7px 7px 8px;
+    border: 1px solid ${p => p.theme.gridline.color};
+
+  }
 
 `
 const VerticalCardList = observer((props) =>

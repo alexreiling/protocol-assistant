@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import specialKeyPressed from '../../util/specialKeyPressed';
+import Input from './Input';
+import Button from '../common/Button';
 const Wrapper = styled.div`
   display:flex;
-`
-const Input = styled.input`
-`
-const Button = styled.button`
+  > * {
+    margin-right: 8px;
+  }
 `
 class InputWithButton extends Component {
   constructor(){
@@ -28,15 +30,15 @@ class InputWithButton extends Component {
     this.setState({text: ''})
   }
   handleKeyPress(e){
-    if(e.charCode===13) 
+    if(specialKeyPressed(e,'enter')) 
       this.handleSubmit(e)
   }
   render() {
-    const {onSubmit, buttonText} = this.props
+    const {placeholder, width, buttonText} = this.props
     return (
       <Wrapper>
-        <Input name='text'value={this.state.text} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
-        <Button onClick={this.handleSubmit}>{buttonText}</Button>
+        <Input contrast style={{width:width}}placeholder={placeholder} name='text'value={this.state.text} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+        <Button strong onClick={this.handleSubmit}>{buttonText}</Button>
       </Wrapper>
     );
   }

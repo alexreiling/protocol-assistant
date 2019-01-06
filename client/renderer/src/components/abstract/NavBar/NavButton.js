@@ -1,15 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from '../../../components/common/Image';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 const Wrapper = styled.div`
-  
-  text-decoration: none;
-  background-color: ${p => p.theme.colors.bg.dark};
-  color: ${p => p.theme.colors.fonts.bright};
   :hover{
-    background-color: #595959;
+    background-color: ${p => p.theme.nav.button.hover.backgroundColor};
   }
   height:100%;
   width:100%;
@@ -18,6 +14,8 @@ const Wrapper = styled.div`
   flex-direction:row;
   box-sizing:border-box;
   >*{
+  text-decoration: none;
+
     min-height:2em;
   }
 `
@@ -27,18 +25,19 @@ const Label = styled.div`
   line-height:24px;
   padding: 0 1em;
   margin: auto;
+  font-weight: ${p => p.theme.nav.button.fontWeight};
 
 `
 
 function NavButton (props){
   const {to, imgName, label, vertical} = props
   return (
-    <Link style={{textDecoration: 'none'}} to={to} theme={props.theme}>
+    <NavLink to={to} theme={props.theme}>
       <Wrapper vertical={vertical}>
         {imgName && <Image vertical={vertical} imgName={imgName}/>}
         {label && <Label>{label}</Label>}
       </Wrapper>
-    </Link>
+    </NavLink>
   )
 }
 

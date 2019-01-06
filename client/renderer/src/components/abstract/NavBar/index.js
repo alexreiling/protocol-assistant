@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import NavButton from './NavButton';
 
 const Container = styled.ul`
+  background-color: ${p => p.theme.nav.bar.backgroundColor};
+
   padding: 0;
   margin: 0;
-  background-color: ${p => p.theme.colors.bg.dark};
-  color: ${p => p.theme.colors.fonts.bright};
   display: flex;
   flex-direction: ${p => p.vertical ? 'column' : 'row'};
   list-style-type: none;
@@ -14,6 +14,14 @@ const Container = styled.ul`
   > li{
     max-height: 100%;
     max-width: 100%;
+  }
+  a {
+    text-decoration: none;
+    color:${p => p.theme.nav.button.inactive.color};
+  }
+  .active>*{
+    background-color: ${p => p.theme.nav.button.active.backgroundColor};
+    color:${p => p.theme.nav.button.active.color};
   }
 
 `

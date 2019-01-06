@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import H3 from '../common/H3';
-import ExitButton from '../common/ExitButton';
+import ExitButton from '../common/RoundButton';
 const Wrapper = styled.div`
   display:flex;
   align-items: center;

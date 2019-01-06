@@ -9,6 +9,6 @@ export default styled.div`
   height:${p => 2 * (p.r || rDefault) + 'px'};
   width: ${p => 2 * (p.r || rDefault) + 'px'};
   :hover{
-    background-color: ${p => p.theme.colors.button.bright.hover}
+    background-color: ${p => p.hoverColor ? p.theme.button.hover.specialBg[p.hoverColor] : p.theme.button.hover.backgroundColor}
   }
 `

@@ -25,7 +25,6 @@ function createWindow () {
     movable: false,
     frame:false,
     hasShadow:true,
-    backgroundColor: '#222222',
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/preload.js'

@@ -31,28 +31,91 @@ export const columns = {
     }
   ]
 }
+const colors = {
+  lightblue: '#66F',
+  blue: '#1967d2',
+  darkblue: '#00A',
+  white: '#ffffff',
+  lightgray: '#f1f3f4',
+  gray: '#70757a',
+  linegray:'#dadce0',
+  darkgray: '#222222',
+  black: 'black',
+  lightred: '#FDD',
+  lightgreen: '#CFD'
+}
 export const theme = {
-  bubbleMe: '#dcf8c6',
-  bubbleThey: '#e6f2ff',
-  bubbleStd: '#f5f5f5',
-  colors: {
-    bg: {
-      dark: '#222222',
-      bright: 'whitesmoke'
-    },
-    fonts: {
-      bright: 'white',
-      dark: 'black'
-    },
-    button:{
-      bright:
-      {
-        hover:'#DDD',
+  bg: {
+    dark: colors.darkgray,
+    bright: colors.white,
+    contrast: colors.lightgray
+  },
+  gridline: {
+    color:colors.linegray
+  },
+  font: {
+    color:{
+      bright: colors.white,
+      dark: colors.darkgray,
+      gray: colors.gray,
+      linkHovered: colors.blue,
+    }
+  },
+  button:{
+    hover: {
+      backgroundColor: colors.lightgray,
+      specialBg: {
+        red: colors.lightred,
+        green: colors.lightgreen
       }
     }
   },
+  strongButton: {
+    backgroundColor: colors.blue,
+    color: colors.white,
+    hover:{
+      backgroundColor: colors.lightblue
+    },
+    active:{
+      backgroundColor: colors.darkblue,
+    }
+  },
+  input: {
+    borderBottom: '1px solid grey',
+    contrast: {
+      backgroundColor: colors.lightgray
+    },
+    focus: {
+      borderBottom: `2px solid ${colors.blue}`
+    }
+  },
   scrollbar: {
-    thickness: '10px'
+    thickness: '10px',
+    color: {
+      thumb: colors.gray,
+      lane: colors.lightgray
+    }
+  },
+  nav:{
+    bar: {
+      color: 'inherit',
+      backgroundColor: colors.lightgray
+    },
+    button:{
+      fontWeight: 500,
+      active:{
+        backgroundColor: colors.white,
+        color: colors.darkgray
+      },
+      hover: {
+        backgroundColor: colors.white,
+        color: colors.darkgray
+      },
+      inactive: {
+        backgroundColor: colors.lightgray,
+        color: colors.gray
+      }
+    }
   },
   layout: {
     nav: {
@@ -87,4 +150,7 @@ export const menues = {
       label: 'Protokoll'
     }
   ]
+}
+export const defaults = {
+  newEntryPlaceholder: 'Neuer Eintrag...'
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react';
+import specialKeyPressed from '../../util/specialKeyPressed';
 
 const TestData = observer(class TestData extends Component {
   constructor(){
@@ -24,7 +25,7 @@ const TestData = observer(class TestData extends Component {
     }
   }
   handleKeyPress(e){
-    if(e.charCode===13) 
+    if(specialKeyPressed(e,'enter')) 
       if(e.target.name==='text') this.addParagraph()
       else this.addKeyword()
   }
