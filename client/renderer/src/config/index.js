@@ -20,7 +20,7 @@ export const columns = {
     {
       id: 'dateOfBirth',
       Header: 'Geburtsdatum',
-      accessor: client => moment(client.dateOfBirth).format('DD.MM.YYYY'),
+      accessor: client => moment(client.dateOfBirth,'DD.MM.YYYY').format('DD.MM.YYYY'),
       sortMethod: (a,b) => moment(a,'DD.MM.YYYY').valueOf() > moment(b,'DD.MM.YYYY').valueOf() ? 1 : -1
     }
   ],
@@ -131,23 +131,24 @@ export const menues = {
   main:[
     {
       to:'/#',
-      imgName:'robot-active.png', 
+      imgName:'Snooze_grau.png', 
     }
   ],
   sub: [
     {
       to:'/selling',
       label: 'Up-/Crossselling',
-      imgName:'robot-active.png', 
-
+      imgName:'Vertragsänderung_schwarz.png'
     },
     {
       to:'/notes',
       label: 'Gesprächsnotizen',
+      imgName:'Upselling_schwarz.png'
     },
     {
       to:'/protocol',
-      label: 'Protokoll'
+      label: 'Protokoll',
+      imgName:'Upselling_schwarz.png'
     }
   ]
 }

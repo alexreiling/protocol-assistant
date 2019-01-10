@@ -85,7 +85,7 @@ const App = observer(class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <AppLayout>
-          <NavBar vertical items={menues.main} style={{borderRight: `1px solid ${theme.gridline.color}`}}/>
+          <NavBar vertical items={menues.main} style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}/>
           <Main>
             <Header style={{display: !this.headerVisible && 'none'}}/>
             <Toggler
