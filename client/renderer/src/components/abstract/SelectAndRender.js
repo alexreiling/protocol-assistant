@@ -28,7 +28,9 @@ const SelectAndRender = observer(class SelectAndRender extends Component {
   }
   handleSelect(selected){
     this.selected = selected
+    this.props.onSelect && this.props.onSelect(selected)
   }
+
   render() {
     const {data, columns, label, head ,sub, noHeaders, className} = this.props
     return (
@@ -46,12 +48,12 @@ const SelectAndRender = observer(class SelectAndRender extends Component {
             noHeaders={noHeaders}/>
         {this.selected && render(this.selected,this.handleSelect)} */}
         <ListSelector 
-          style={{display: this.selected ? 'none' : 'flex'}}
+          style={{display: this.selected ? 'none' : 'flex', height: '100%'}}
           data={data}
           columns={columns}
           onSelect={this.handleSelect}
           noHeaders={noHeaders}/>
-        {this.selected && sub && sub (this.selected,this.handleSelect)}
+        {this.selected && data && sub && sub(this.selected,this.handleSelect)}
       </Grid>
     );
   }

@@ -22,15 +22,14 @@ const Wrapper = styled.div`
     border-bottom:0;
   }
   .rt-tr-group{
+    max-height:24px;
+
   }
   .rt-td, .rt-th{
     font-size:12px;
     font-weight:400;
     padding:.3em !important;
-
   }
-
-
 `
 
 
@@ -51,6 +50,7 @@ class ListSelector extends Component {
             ...ReactTableDefaults.column,
             minWidth: 50
           }}
+          p
           minRows={2}
           pageSize={100}
           {...conditionalProps}
@@ -68,6 +68,7 @@ class ListSelector extends Component {
               className: 'custom-scroll'
             }
           }}
+          noDataText='Keine Daten'
 
         />
       </Wrapper>

@@ -19,7 +19,7 @@ class Image extends Component {
     const {imgName} = this.props;
     return (
       <Container {...this.props}>
-        <Img src={require(`../../../assets/img/${imgName}`)} />
+        <Img src={require(`../../assets/img/${imgName}`)} />
       </Container>
     );
   }

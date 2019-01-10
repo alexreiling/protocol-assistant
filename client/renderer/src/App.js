@@ -29,7 +29,7 @@ const AppLayout = styled.div`
   background-color: ${p => p.theme.bg.bright};
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: ${p => p.theme.layout.nav.thicknessMain} 1fr;
+  grid-template-columns: ${p => p.theme.nav.thickness.main} 1fr;
   grid-template-areas:
   "nav content";
   .custom-scroll{
@@ -50,7 +50,6 @@ const AppLayout = styled.div`
 `
 const Main = styled.main`
   display: flex;
-  /* grid-template-rows: ${p => p.theme.layout.header.height} ${p => p.theme.layout.nav.thicknessSub} 1fr; */
   flex-direction: column;
   height: ${window.innerHeight+'px'};
 
@@ -60,7 +59,7 @@ const Main = styled.main`
     flex-shrink:0;
   }
   .nav-bar{
-    height: ${p => p.theme.layout.nav.thicknessSub};
+    height: ${p => p.theme.nav.thickness.sub};
     flex-grow:0;
     flex-shrink:0;
   }

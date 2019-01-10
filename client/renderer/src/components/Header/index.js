@@ -14,6 +14,9 @@ import SelectAndRender from '../abstract/SelectAndRender';
 import ClientDetails from './ClientDetails';
 import ConcernDetails from './ConcernDetails';
 import ClientHead from './ClientHead'
+import { decorate, observable } from 'mobx';
+import { observer } from 'mobx-react';
+import ContractDetails from './ContractDetails';
 
 const Grid = styled.div`
 
@@ -47,7 +50,11 @@ const Grid = styled.div`
   }
 `
 
-class Header extends Component {
+const Header = observer(class Header extends Component {
+  constructor(){
+    super()
+    this.selectedClient = null
+  }
   render() {
     return (
       <Grid style={this.props.style} className={'header'}>
@@ -55,6 +62,7 @@ class Header extends Component {
           className='clients custom-scroll'
           data={clients}
           label='Erkannte Versicherungsnehmer'
+          onSelect={(selected) => this.selectedClient = selected}
           columns={columns.client}
           head={(selected,onExit) => <ClientHead client={selected} onExit={onExit}/>}
           sub={(selected,onExit) => <ClientDetails client={selected} onExit={onExit}/>}
@@ -69,14 +77,16 @@ class Header extends Component {
         <SelectAndRender
           className='contracts custom-scroll'
           label='Verträge und Vorgänge'
-          data={clients}
-          columns={columns.client}
+          data={this.selectedClient ? this.selectedClient.contracts : []}
+          columns={columns.contract}
+          sub={(selected,onExit) => <ContractDetails contract={selected} onExit={onExit}/>}
           noHeaders/>
-
 
       </Grid>
     );
   }
-}
-
+})
+decorate(Header,{
+  selectedClient: observable
+})
 export default Header;

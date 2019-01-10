@@ -1,4 +1,5 @@
 import moment from 'moment'
+import img from '../assets/img';
 export const columns = {
   client: [
     {
@@ -23,6 +24,16 @@ export const columns = {
       accessor: client => moment(client.dateOfBirth,'DD.MM.YYYY').format('DD.MM.YYYY'),
       sortMethod: (a,b) => moment(a,'DD.MM.YYYY').valueOf() > moment(b,'DD.MM.YYYY').valueOf() ? 1 : -1
     }
+  ],
+  contract:[
+    {
+      Header: 'Code',
+      accessor: 'code',
+    },
+    {
+      Header: 'Typ',
+      accessor: 'name'
+    },
   ],
   concern:[
     {
@@ -97,6 +108,10 @@ export const theme = {
     }
   },
   nav:{
+    thickness: {
+      main: '48px',
+      sub: '32px'
+    },
     bar: {
       color: 'inherit',
       backgroundColor: colors.lightgray
@@ -118,10 +133,7 @@ export const theme = {
     }
   },
   layout: {
-    nav: {
-      thicknessMain: '48px',
-      thicknessSub: '32px'
-    },
+
     header: {
       height: '300px'
     }
@@ -131,24 +143,27 @@ export const menues = {
   main:[
     {
       to:'/#',
-      imgName:'Snooze_grau.png', 
+      img:img.robotInactive, 
     }
   ],
   sub: [
     {
       to:'/selling',
       label: 'Up-/Crossselling',
-      imgName:'Vertragsänderung_schwarz.png'
+      img: img.upsellingActive,
+      imgInactive: img.upsellingInactive
     },
     {
       to:'/notes',
       label: 'Gesprächsnotizen',
-      imgName:'Upselling_schwarz.png'
+      img: img.notesActive,
+      imgInactive: img.notesInactive
     },
     {
       to:'/protocol',
       label: 'Protokoll',
-      imgName:'Upselling_schwarz.png'
+      img: img.protocollActive,
+      imgInactive: img.protocollInactive
     }
   ]
 }

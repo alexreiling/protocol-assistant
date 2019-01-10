@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import RoundButton from '../common/RoundButton';
 class ConcernDetails extends Component {
   render() {
 
     return (
       <div>
-        CondernDetail
+        <RoundButton onClick={()=>this.props.onExit()}>✕</RoundButton>
+
+        ConcernDetail
       </div>
     );
   }
