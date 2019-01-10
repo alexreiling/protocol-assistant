@@ -29,6 +29,7 @@ export const columns = {
     {
       Header: 'Code',
       accessor: 'code',
+      width: 50
     },
     {
       Header: 'Typ',
