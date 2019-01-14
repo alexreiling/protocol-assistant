@@ -20,6 +20,8 @@ import ProtocolPage from './components/Pages/ProtocolPage/index';
 import SellingPage from './components/Pages/SellingPage';
 import NoteStore from './stores/NoteStore';
 import Toggler from './components/abstract/Toggler';
+import Button from './components/common/Button';
+
 var userAgent = navigator.userAgent.toLowerCase();
 const isElectron = userAgent.indexOf(' electron/') > -1
 const ipcRenderer = isElectron ? window.electron.ipcRenderer : null;
@@ -99,6 +101,9 @@ const App = observer(class App extends Component {
       ipcRenderer.send('ready-to-show')
     }
   }
+  closeApp(){
+    ipcRenderer.send('close-app')
+  }
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -108,11 +113,14 @@ const App = observer(class App extends Component {
             items={menues.main}
             onToggle={this.toggleWidth}
             style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
-            <Toggler
-              onClick={this.toggleAppCollapse}
-              style={{marginTop: 'auto', height: '48px', lineHeight: theme.nav.thickness.main}}
-              displayState={this.appCollapsed}
-              vertical/>
+            <div style={{marginTop: 'auto'}}>
+              <Toggler
+                onClick={this.toggleAppCollapse}
+                style={{ height: '48px', lineHeight: theme.nav.thickness.main}}
+                displayState={!this.appCollapsed}
+                vertical/>
+              <Button onClick={this.closeApp}>✕</Button>
+            </div>
           </NavBar>
           <Main>
             <Header style={{display: !this.headerVisible && 'none'}}/>
@@ -121,7 +129,6 @@ const App = observer(class App extends Component {
                 onClick={this.toggleHeader}
                 style={{marginLeft: 'auto', width: '48px', lineHeight: theme.nav.thickness.sub}}
                 displayState={this.headerVisible}
-
               />
             </NavBar>
             <Switch>

@@ -2,7 +2,7 @@
 // Modules to control application life and create native browser window
 const electron = require('electron')
 const config = require('./config');
-const {app, BrowserWindow,ipcMain} = electron;
+const {app, BrowserWindow,ipcMain,dialog} = electron;
 
 ipcMain.on('toggle-width',(e,args) => {
   const appWidth = mainWindow.collapsed ? getFullWidth() : config.collapsedWidth
@@ -10,6 +10,19 @@ ipcMain.on('toggle-width',(e,args) => {
   mainWindow.collapsed = !mainWindow.collapsed
   dockRight()
 
+})
+ipcMain.on('close-app', (e,args) => {
+  dialog.showMessageBox({
+    title:'Anwendung schließen',
+    message: 'Wollen Sie Elisa wirklich beenden?',
+    type: 'question',
+    defaultId: 1,
+    cancelId: 1,
+    buttons: ['Ja','Nein']
+  },(response) => {
+    console.log(response)
+    if(response===0) mainWindow.close();
+  })
 })
 
 function resize(width,height){
