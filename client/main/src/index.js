@@ -1,40 +1,60 @@
 
 // Modules to control application life and create native browser window
 const electron = require('electron')
+const config = require('./config');
 const {app, BrowserWindow,ipcMain} = electron;
 
-ipcMain.on('get-main-window',(e) => {
-  e.sender.send('received', 'This is my message')
+ipcMain.on('toggle-width',(e,args) => {
+  const appWidth = mainWindow.collapsed ? getFullWidth() : config.collapsedWidth
+  resize(appWidth)
+  mainWindow.collapsed = !mainWindow.collapsed
+  dockRight()
+
 })
 
+function resize(width,height){
+  height = height || mainWindow.getSize()[1]
+  mainWindow.setResizable(true)
+  mainWindow.setSize(width, height || mainWindow.getSize()[1])
+  mainWindow.webContents.send('toggled',{width:getFullWidth(), height})
+  mainWindow.setResizable(false)
+}
+function dockRight(){
+  const screenWidth = electron.screen.getPrimaryDisplay().workAreaSize.width
+  const appWidth =  mainWindow.getSize()[0]
+  mainWindow.setPosition(screenWidth-appWidth,0)
+}
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
-  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
 
+function getFullWidth(){
+  return Math.round(electron.screen.getPrimaryDisplay().workAreaSize.width * config.fullWidthScreenRatio)
+}
+
+function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     //width: Math.max(width/3,400),
-    width: 640,
-    height: height,
-    x:width*2/3,
-    y:0,
-    resizable: false,
-    movable: false,
-    frame:false,
+    height: electron.screen.getPrimaryDisplay().workAreaSize.height,
+    width: config.collapsedWidth,
+    resizable:false,
+    frame: false,
+    minWidth: 0,
+    show: false,
+    minHeight:0,
     hasShadow:true,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/preload.js'
     }
-
   })
-
+  mainWindow.collapsed = true;
   // and load the index.html of the app.
   mainWindow.loadURL('http://localhost:3000/')
   mainWindow.once('ready-to-show', ()=>{
+    dockRight()
     mainWindow.show()
   })
   // Open the DevTools.
@@ -70,6 +90,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
