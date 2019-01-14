@@ -34,10 +34,8 @@ const AppLayout = styled.div`
   box-sizing: border-box;
   display: grid;
   grid-template-columns: ${p => p.theme.nav.thickness.main} 1fr;
-  grid-template-rows: 1fr 1fr;
   grid-template-areas:
-  "nav main"
-  "test main";
+  "nav main";
   .custom-scroll{
     ::-webkit-scrollbar {
       width: ${p => p.theme.scrollbar.thickness};
@@ -79,6 +77,7 @@ const App = observer(class App extends Component {
   constructor(){
     super()
     this.toggleHeader = this.toggleHeader.bind(this)
+    this.toggleAppCollapse = this.toggleAppCollapse.bind(this)
     if(isElectron) ipcRenderer.on('toggled',(e,args) => {
       if(this.appWidth !== args.width) this.appWidth = args.width
     })
@@ -86,8 +85,10 @@ const App = observer(class App extends Component {
     this.noteStore = new NoteStore();
     this.noteStore.init();
     this.headerVisible = true
+    this.appCollapsed = true
   }
-  toggleWidth(){
+  toggleAppCollapse(){
+    this.appCollapsed = !this.appCollapsed
     ipcRenderer.send('toggle-width')
   }
   toggleHeader(){
@@ -102,16 +103,27 @@ const App = observer(class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <AppLayout appWidth={this.appWidth}>
-          <NavBar vertical items={menues.main} style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}/>
-          <button style={{gridArea:'test',border: '1px solid limegreen'}}type='button' onClick={this.toggleWidth}>Test</button>
-
+          <NavBar 
+            vertical
+            items={menues.main}
+            onToggle={this.toggleWidth}
+            style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
+            <Toggler
+              onClick={this.toggleAppCollapse}
+              style={{marginTop: 'auto', height: '48px', lineHeight: theme.nav.thickness.main}}
+              displayState={this.appCollapsed}
+              vertical/>
+          </NavBar>
           <Main>
             <Header style={{display: !this.headerVisible && 'none'}}/>
-            <Toggler
-              onClick={this.toggleHeader} 
-              style={{marginTop: '.5em'}}
-              displayState={this.headerVisible}>Click</Toggler>
-            <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}/>
+            <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
+              <Toggler
+                onClick={this.toggleHeader}
+                style={{marginLeft: 'auto', width: '48px', lineHeight: theme.nav.thickness.sub}}
+                displayState={this.headerVisible}
+
+              />
+            </NavBar>
             <Switch>
               <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
               <Route exact path='/selling/' render={()=>(<SellingPage items={selling}/>)}/>              
@@ -127,6 +139,7 @@ const App = observer(class App extends Component {
 
 decorate(App,{
   headerVisible: observable,
+  appCollapsed: observable,
   appWidth: observable
 })
 

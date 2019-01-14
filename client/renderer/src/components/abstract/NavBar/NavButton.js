@@ -12,10 +12,8 @@ const Wrapper = styled.div`
   display:flex;
   flex-direction: ${p => p.vertical ? 'column' : 'row'};
   flex-direction:row;
-  box-sizing:border-box;
   >*{
-  text-decoration: none;
-
+    text-decoration: none;
     min-height:2em;
   }
 `

@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import NavButton from './NavButton';
 
-const Container = styled.ul`
+const Container = styled.div`
   background-color: ${p => p.theme.nav.bar.backgroundColor};
-
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: ${p => p.vertical ? 'column' : 'row'};
-  list-style-type: none;
   align-items: stretch;
-  > li{
-    max-height: 100%;
-    max-width: 100%;
+  .toggle-button{
+    margin-top: auto;
+    border: 1px solid limegreen;
   }
   a {
     text-decoration: none;
@@ -29,10 +27,11 @@ const Container = styled.ul`
 
 class NavBar extends Component {
   render() {
-    const {vertical} = this.props;
+    const {vertical,items,style,theme, children} = this.props;
     return (
-      <Container className={'nav-bar'}vertical={vertical} theme={this.props.theme} style={this.props.style}>
-        {this.props.items && this.props.items.map((item,key) => <li key={key.toString()}><NavButton vertical={vertical}{...item}/></li>)}
+      <Container className={'nav-bar'}vertical={vertical} theme={theme} style={style}>
+        {items && items.map((item,key) => <NavButton key={key.toString()} vertical={vertical}{...item}/>)}
+        {children}
       </Container>
     );
   }

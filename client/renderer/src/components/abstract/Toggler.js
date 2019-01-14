@@ -11,8 +11,8 @@ const Div = styled.div`
   }
 `
 export default (props) => {
-  const {displayState,onClick,style} = props
+  const {vertical,displayState,onClick,style} = props
   return (
-    <Div style={style} onClick={onClick}>{displayState ? '▲' : '▼'}</Div>
+    <Div style={style} onClick={onClick}>{vertical ? displayState ? '▶': '◀' : displayState ? '▲': '▼' }</Div>
   )
 }
