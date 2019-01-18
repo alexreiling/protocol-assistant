@@ -24,7 +24,7 @@ const Grid = styled.div`
   flex-direction:row;
   flex-wrap: wrap;
   
-  padding: 0 8px 0 8px;
+  padding: 0 1px 1px 8px;
   > * {
     flex:1;
     box-sizing: border-box;
