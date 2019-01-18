@@ -2,11 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {NavLink} from 'react-router-dom';
 import { theme } from '../../../config';
+import Button from './Button';
 // TODO: Clean up this mess
-const Wrapper = styled.div`
-  :hover{
-    background-color: ${p => p.theme.nav.button.hover.backgroundColor};
-  }
+const Wrapper = styled(Button)`
   height:100%;
   width:100%;
   display:flex;
@@ -48,7 +46,6 @@ const Image = (props) => {
 
 function NavButton (props){
   const {to, img, imgInactive, label, vertical} = props
-  console.log(process.env.PUBLIC_URL)
   return (
     <NavLink to={to} theme={props.theme}>
       <Wrapper vertical={vertical}>

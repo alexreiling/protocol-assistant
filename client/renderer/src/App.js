@@ -20,7 +20,7 @@ import ProtocolPage from './components/Pages/ProtocolPage/index';
 import SellingPage from './components/Pages/SellingPage';
 import NoteStore from './stores/NoteStore';
 import Toggler from './components/abstract/Toggler';
-import Button from './components/common/Button';
+import Button from './components/abstract/NavBar/Button';
 
 var userAgent = navigator.userAgent.toLowerCase();
 const isElectron = userAgent.indexOf(' electron/') > -1
@@ -35,7 +35,7 @@ const AppLayout = styled.div`
   background-color: ${p => p.theme.bg.bright};
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: ${p => p.theme.nav.thickness.main} 1fr;
+  grid-template-columns: ${p => `${p.theme.nav.thickness.main} calc(${p.appWidth}px - ${p.theme.nav.thickness.main})`};
   grid-template-areas:
   "nav main";
   .custom-scroll{
@@ -113,21 +113,21 @@ const App = observer(class App extends Component {
             items={menues.main}
             onToggle={this.toggleWidth}
             style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
-            <div style={{marginTop: 'auto'}}>
-              <Toggler
-                onClick={this.toggleAppCollapse}
-                style={{ height: '48px', lineHeight: theme.nav.thickness.main}}
-                displayState={!this.appCollapsed}
-                vertical/>
-              <Button onClick={this.closeApp}>✕</Button>
-            </div>
+            <Toggler
+              onClick={this.toggleAppCollapse}
+              style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+              displayState={!this.appCollapsed}
+              vertical/>
+            <Button 
+              style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+              onClick={this.closeApp}>✕</Button>
           </NavBar>
           <Main>
             <Header style={{display: !this.headerVisible && 'none'}}/>
             <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
               <Toggler
                 onClick={this.toggleHeader}
-                style={{marginLeft: 'auto', width: '48px', lineHeight: theme.nav.thickness.sub}}
+                style={{width: '48px', lineHeight: theme.nav.thickness.sub}}
                 displayState={this.headerVisible}
               />
             </NavBar>
