@@ -52,9 +52,10 @@ const colors = {
   gray: '#70757a',
   linegray:'#dadce0',
   darkgray: '#222222',
-  black: 'black',
+  black: '#000',
   lightred: '#FDD',
-  lightgreen: '#CFD'
+  lightgreen: '#CFD',
+  red: '#E33'
 }
 export const theme = {
   bg: {
@@ -121,11 +122,19 @@ export const theme = {
       fontWeight: 500,
       active:{
         backgroundColor: colors.white,
-        color: colors.darkgray
+        color: colors.darkgray,
+        red: {
+          backgroundColor: colors.lightred,
+          color: colors.white,
+        }
       },
       hover: {
         backgroundColor: colors.white,
-        color: colors.darkgray
+        color: colors.darkgray,
+        red: {
+          backgroundColor: colors.red,
+          color: colors.white,
+        }
       },
       inactive: {
         backgroundColor: colors.lightgray,

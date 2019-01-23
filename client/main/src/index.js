@@ -1,16 +1,30 @@
 
 // Modules to control application life and create native browser window
 const electron = require('electron')
-const config = require('./config');
-const {app, BrowserWindow,ipcMain,dialog} = electron;
+const {app,ipcMain,dialog} = electron;
 
-ipcMain.on('toggle-width',(e,args) => {
-  const appWidth = mainWindow.collapsed ? getFullWidth() : config.collapsedWidth
-  resize(appWidth)
-  mainWindow.collapsed = !mainWindow.collapsed
-  dockRight()
+var MainWindow = require('./windows/mainWindow')
+var SimTools = require('./windows/simTools')
 
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', MainWindow.create)
+
+app.on('activate', function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (MainWindow.window === null) {
+    MainWindow.create()
+  }
 })
+
+// event handlers
+ipcMain.on('toggle-width',(e,args) => {
+  MainWindow.toggleCollapse()
+})
+
 ipcMain.on('close-app', (e,args) => {
   dialog.showMessageBox({
     title:'Anwendung schließen',
@@ -20,72 +34,19 @@ ipcMain.on('close-app', (e,args) => {
     cancelId: 1,
     buttons: ['Ja','Nein']
   },(response) => {
-    console.log(response)
-    if(response===0) mainWindow.close();
-  })
-})
-
-function resize(width,height){
-  height = height || mainWindow.getSize()[1]
-  mainWindow.setResizable(true)
-  mainWindow.setSize(width, height || mainWindow.getSize()[1])
-  mainWindow.webContents.send('toggled',{width:getFullWidth(), height})
-  mainWindow.setResizable(false)
-}
-function dockRight(){
-  const screenWidth = electron.screen.getPrimaryDisplay().workAreaSize.width
-  const appWidth =  mainWindow.getSize()[0]
-  mainWindow.setPosition(screenWidth-appWidth,0)
-}
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
-
-
-function getFullWidth(){
-  return Math.round(electron.screen.getPrimaryDisplay().workAreaSize.width * config.fullWidthScreenRatio)
-}
-
-function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    //width: Math.max(width/3,400),
-    height: electron.screen.getPrimaryDisplay().workAreaSize.height,
-    width: config.collapsedWidth,
-    resizable:false,
-    frame: false,
-    minWidth: 0,
-    show: false,
-    minHeight:0,
-    hasShadow:true,
-    webPreferences: {
-      nodeIntegration: false,
-      preload: __dirname + '/preload.js'
+    if(response===0) {
+      MainWindow.close();
+      SimTools.close();
     }
   })
-  mainWindow.collapsed = true;
-  // and load the index.html of the app.
-  mainWindow.loadURL('http://localhost:3000/')
-  mainWindow.once('ready-to-show', ()=>{
-    dockRight()
-    mainWindow.show()
-  })
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
-  })
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+})
+ipcMain.on('open-dev', (e,args) => {
+  MainWindow.window.openDevTools({mode:'detach'})
+})
+ipcMain.on('open-sim-tools', (e,args) => {
+  if(!SimTools.window) SimTools.create()
+  else SimTools.window.focus()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -93,13 +54,5 @@ app.on('window-all-closed', function () {
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
-  }
-})
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
   }
 })

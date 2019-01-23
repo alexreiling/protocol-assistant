@@ -1,7 +1,7 @@
 // modules
 import React, { Component } from 'react';
 import {Switch,Route,Redirect, withRouter} from 'react-router-dom'
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
@@ -96,50 +96,63 @@ const App = observer(class App extends Component {
   toggleHeader(){
     this.headerVisible = !this.headerVisible;
   }
+  openSimTools(){
+    if(isElectron) ipcRenderer.send('open-sim-tools')    
+  }
+  openDevTools(){
+    if(isElectron) ipcRenderer.send('open-dev')
+  }
   componentDidMount(){
-    if(isElectron) {
-      ipcRenderer.send('ready-to-show')
-    }
+    if(isElectron) ipcRenderer.send('ready-to-show')
   }
   closeApp(){
     ipcRenderer.send('close-app')
   }
   render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <AppLayout appWidth={this.appWidth}>
-          <NavBar 
-            vertical
-            items={menues.main}
-            onToggle={this.toggleWidth}
-            style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
+    return (        
+      <AppLayout appWidth={this.appWidth}>
+        <NavBar 
+          vertical
+          items={menues.main}
+          onToggle={this.toggleWidth}
+          style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
+          {isElectron && <Button
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            onClick={this.openSimTools}>
+            SIM
+          </Button>}
+          {isElectron && <Button
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            onClick={this.openDevTools}>
+            DEV
+          </Button>}
+          <Toggler
+            onClick={this.toggleAppCollapse}
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            displayState={!this.appCollapsed}
+            vertical/>
+          <Button 
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            onClick={this.closeApp}
+            red>✕</Button>
+        </NavBar>
+        <Main>
+          <Header style={{display: !this.headerVisible && 'none'}}/>
+          <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
             <Toggler
-              onClick={this.toggleAppCollapse}
-              style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
-              displayState={!this.appCollapsed}
-              vertical/>
-            <Button 
-              style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
-              onClick={this.closeApp}>✕</Button>
+              onClick={this.toggleHeader}
+              style={{width: '48px', lineHeight: theme.nav.thickness.sub}}
+              displayState={this.headerVisible}
+            />
           </NavBar>
-          <Main>
-            <Header style={{display: !this.headerVisible && 'none'}}/>
-            <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
-              <Toggler
-                onClick={this.toggleHeader}
-                style={{width: '48px', lineHeight: theme.nav.thickness.sub}}
-                displayState={this.headerVisible}
-              />
-            </NavBar>
-            <Switch>
-              <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
-              <Route exact path='/selling/' render={()=>(<SellingPage items={selling}/>)}/>              
-              <Route exact path='/notes/' render={()=>(<NotesPage store={this.noteStore}/>)}/>
-              <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
-            </Switch>
-          </Main>
-        </AppLayout>
-      </ThemeProvider>
+          <Switch>
+            <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
+            <Route exact path='/selling/' render={()=>(<SellingPage items={selling}/>)}/>              
+            <Route exact path='/notes/' render={()=>(<NotesPage store={this.noteStore}/>)}/>
+            <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
+          </Switch>
+        </Main>
+      </AppLayout>
     )
   }
 })
