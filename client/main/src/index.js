@@ -43,6 +43,10 @@ ipcMain.on('close-app', (e,args) => {
 ipcMain.on('open-dev', (e,args) => {
   MainWindow.window.openDevTools({mode:'detach'})
 })
+ipcMain.on('store-action',(event,args) => {
+  console.log(args)
+  MainWindow.storeAction(args)
+})
 ipcMain.on('open-sim-tools', (e,args) => {
   if(!SimTools.window) SimTools.create()
   else SimTools.window.focus()

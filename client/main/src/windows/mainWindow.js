@@ -72,5 +72,8 @@ module.exports = MainWindow = {
     const screenWidth = electron.screen.getPrimaryDisplay().workAreaSize.width
     const appWidth = mainWindow.getSize()[0]
     mainWindow.setPosition(screenWidth-appWidth,0)
+  },
+  storeAction: (params) => {
+    mainWindow.webContents.send('store-action',params)
   }
 }

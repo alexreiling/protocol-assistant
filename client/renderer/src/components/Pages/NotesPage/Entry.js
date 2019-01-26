@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import RoundButton from '../../common/RoundButton';
 import OnClickInput from '../../common/OnClickInput';
-import { defaults } from '../../../config';
+import { placeholders } from '../../../config';
 const Wrapper = styled.div`
   display:flex;
   > * { 
@@ -33,8 +33,8 @@ const Entry = observer(class Entry extends Component {
           onChange={this.handleChange}
           name='text'
           value={entry.text}
-          placeholder={defaults.newEntryPlaceholder}>
-          <div style={{padding: '.5em .5em 5px'}}>{entry.text|| defaults.newEntryPlaceholder}</div>
+          placeholder={placeholders.newEntryPlaceholder}>
+          <div style={{padding: '.5em .5em 5px'}}>{entry.text|| placeholders.newEntry}</div>
         </OnClickInput>
             
       </Wrapper>

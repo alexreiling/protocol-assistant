@@ -10,9 +10,9 @@ const Wrapper = styled.div`
   }
 `
 class InputWithButton extends Component {
-  constructor(){
-    super()
-    this.state = {text: ''}
+  constructor(props){
+    super(props)
+    this.state = {text: props.value || ''}
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
@@ -21,13 +21,13 @@ class InputWithButton extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
   handleSubmit(){
-    const {onSubmit, validator, messageOnInvalid} = this.props
+    const {onSubmit, clearAfterSubmit, validator, messageOnInvalid} = this.props
     if(validator && !validator(this.state.text)) {
       alert(messageOnInvalid || 'Invalid Input')
       return
     }
     this.props.onSubmit(this.state.text)
-    this.setState({text: ''})
+    if(clearAfterSubmit) this.setState({text: ''})
   }
   handleKeyPress(e){
     if(specialKeyPressed(e,'enter')) 

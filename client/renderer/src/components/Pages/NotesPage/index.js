@@ -23,6 +23,7 @@ const NotesPage = class NotesPage extends Component {
       <Page title='Notizen'>
         <InputWithButton 
           onSubmit={this.addNote}
+          clearAfterSubmit
           width='300px' 
           buttonText='Hinzufügen'
           placeholder='Neues Thema...'

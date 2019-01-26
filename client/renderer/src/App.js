@@ -21,10 +21,9 @@ import SellingPage from './components/Pages/SellingPage';
 import NoteStore from './stores/NoteStore';
 import Toggler from './components/abstract/Toggler';
 import Button from './components/abstract/NavBar/Button';
+import clientStore from './stores/ClientStore';
+import { isElectron, ipcRenderer } from './util/electronHelpers';
 
-var userAgent = navigator.userAgent.toLowerCase();
-const isElectron = userAgent.indexOf(' electron/') > -1
-const ipcRenderer = isElectron ? window.electron.ipcRenderer : null;
 
 
 const AppLayout = styled.div`
@@ -80,14 +79,28 @@ const App = observer(class App extends Component {
     super()
     this.toggleHeader = this.toggleHeader.bind(this)
     this.toggleAppCollapse = this.toggleAppCollapse.bind(this)
-    if(isElectron) ipcRenderer.on('toggled',(e,args) => {
-      if(this.appWidth !== args.width) this.appWidth = args.width
-    })
+    if(isElectron) {
+      ipcRenderer.on('toggled',(e,args) => {if(this.appWidth !== args.width) this.appWidth = args.width})
+      ipcRenderer.on('store-action',(e,{store,params={},action}) =>{
+        console.log(store,...params,action)
+        try{
+          switch(store){
+            case 'clients': clientStore[action](...params); break
+            default: break
+          }
+        }catch(error){
+          console.log(error)
+        }
+
+          
+      })
+    }
     this.appWidth = window.innerWidth;
     this.noteStore = new NoteStore();
     this.noteStore.init();
     this.headerVisible = true
     this.appCollapsed = true
+    
   }
   toggleAppCollapse(){
     this.appCollapsed = !this.appCollapsed
@@ -116,6 +129,7 @@ const App = observer(class App extends Component {
           items={menues.main}
           onToggle={this.toggleWidth}
           style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
+          <button type='button' onClick={() => alert(clientStore.getTest())}>Get 5</button>
           {isElectron && <Button
             style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
             onClick={this.openSimTools}>

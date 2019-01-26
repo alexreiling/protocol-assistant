@@ -2,8 +2,9 @@
 
 import React, { Component } from 'react';
 import styled, {css} from 'styled-components';
+import { theme } from '../../config';
 
-const height = 24;
+const height = 16;
 const padding = Math.round(height / 8.5);
 const Switch = styled.div`
   position: relative;
@@ -20,7 +21,7 @@ const Slider = styled.span`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${p => p.checked ? '#2196F3' : '#ccc'};
+  background-color: ${p => p.checked ? theme.toggleSwitch.checked.backgroundColor : theme.toggleSwitch.backgroundColor};
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: ${height + 'px'};
@@ -32,7 +33,7 @@ const Slider = styled.span`
     width: ${height - 2 * padding + 'px'};
     left: ${padding + 'px'};
     bottom: ${padding + 'px'};
-    background-color: white;
+    background-color: ${theme.toggleSwitch.color};
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 50%;
