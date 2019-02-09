@@ -1,4 +1,4 @@
-import Paragraph from './Paragraph';
+import Paragraph from '../components/archive/Paragraph';
 import { decorate, observable,reaction, toJS } from "mobx";
 
 const uuidv1 = require('uuid/v1');

@@ -5,7 +5,7 @@ const {app,ipcMain,dialog} = electron;
 
 var MainWindow = require('./windows/mainWindow')
 var SimTools = require('./windows/simTools')
-
+const {sendToWebContents} = require('./util/electronHelpers')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -44,8 +44,10 @@ ipcMain.on('open-dev', (e,args) => {
   MainWindow.window.openDevTools({mode:'detach'})
 })
 ipcMain.on('store-action',(event,args) => {
-  console.log(args)
-  MainWindow.storeAction(args)
+  sendToWebContents(MainWindow.window,'store-action',args)
+})
+ipcMain.on('store-action-response',(event,args) => {
+  sendToWebContents(SimTools.window,'store-action-response',args)
 })
 ipcMain.on('open-sim-tools', (e,args) => {
   if(!SimTools.window) SimTools.create()

@@ -47,7 +47,7 @@ export const concerns = [
     name: 'Rechtsschutz Kündigung'
   }
 ]
-export const selling = [
+export const sellingHints = [
   {
     type: 'up',
     name: 'KFZ-Haftpflicht',

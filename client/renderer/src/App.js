@@ -9,7 +9,7 @@ import { observer } from 'mobx-react';
 import { theme, menues } from './config';
 
 // mock data
-import { selling } from './data/dummy';
+import { sellingHints } from './data/dummy';
 
 
 // components
@@ -21,10 +21,8 @@ import SellingPage from './components/Pages/SellingPage';
 import NoteStore from './stores/NoteStore';
 import Toggler from './components/abstract/Toggler';
 import Button from './components/abstract/NavBar/Button';
-import clientStore from './stores/ClientStore';
-import { isElectron, ipcRenderer } from './util/electronHelpers';
-
-
+import conversations from './stores/ConversationStore';
+import { isElectron, ipcRenderer, sendToMain } from './util/electronHelpers';
 
 const AppLayout = styled.div`
   width: ${p => p.appWidth + 'px'};
@@ -73,26 +71,16 @@ const Main = styled.main`
     flex-grow: 1;
   }
 `
-
 const App = observer(class App extends Component {
   constructor(){
     super()
+
+    // method bindings
     this.toggleHeader = this.toggleHeader.bind(this)
     this.toggleAppCollapse = this.toggleAppCollapse.bind(this)
     if(isElectron) {
-      ipcRenderer.on('toggled',(e,args) => {if(this.appWidth !== args.width) this.appWidth = args.width})
-      ipcRenderer.on('store-action',(e,{store,params={},action}) =>{
-        console.log(store,...params,action)
-        try{
-          switch(store){
-            case 'clients': clientStore[action](...params); break
-            default: break
-          }
-        }catch(error){
-          console.log(error)
-        }
-
-          
+      ipcRenderer.on('toggled',(e,args) => {
+        if(this.appWidth !== args.width) this.appWidth = args.width
       })
     }
     this.appWidth = window.innerWidth;
@@ -104,32 +92,33 @@ const App = observer(class App extends Component {
   }
   toggleAppCollapse(){
     this.appCollapsed = !this.appCollapsed
-    ipcRenderer.send('toggle-width')
+    sendToMain('toggle-width')
   }
   toggleHeader(){
     this.headerVisible = !this.headerVisible;
   }
   openSimTools(){
-    if(isElectron) ipcRenderer.send('open-sim-tools')    
+    sendToMain('open-sim-tools')    
   }
   openDevTools(){
-    if(isElectron) ipcRenderer.send('open-dev')
+    sendToMain('open-dev')
   }
   componentDidMount(){
-    if(isElectron) ipcRenderer.send('ready-to-show')
+    sendToMain('ready-to-show')
   }
   closeApp(){
-    ipcRenderer.send('close-app')
+    sendToMain('close-app')
   }
   render() {
-    return (        
+    const conv = conversations.getConversation()
+    console.log(conv)
+    return (
       <AppLayout appWidth={this.appWidth}>
         <NavBar 
           vertical
           items={menues.main}
           onToggle={this.toggleWidth}
           style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
-          <button type='button' onClick={() => alert(clientStore.getTest())}>Get 5</button>
           {isElectron && <Button
             style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
             onClick={this.openSimTools}>
@@ -150,27 +139,30 @@ const App = observer(class App extends Component {
             onClick={this.closeApp}
             red>✕</Button>
         </NavBar>
+        {conv ?
         <Main>
-          <Header style={{display: !this.headerVisible && 'none'}}/>
-          <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
-            <Toggler
-              onClick={this.toggleHeader}
-              style={{width: '48px', lineHeight: theme.nav.thickness.sub}}
-              displayState={this.headerVisible}
-            />
-          </NavBar>
-          <Switch>
-            <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
-            <Route exact path='/selling/' render={()=>(<SellingPage items={selling}/>)}/>              
-            <Route exact path='/notes/' render={()=>(<NotesPage store={this.noteStore}/>)}/>
-            <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
-          </Switch>
+            <Header style={{display: !this.headerVisible && 'none'}}/>
+            <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
+              <Toggler
+                onClick={this.toggleHeader}
+                style={{width: '48px', lineHeight: theme.nav.thickness.sub}}
+                displayState={this.headerVisible}
+              />
+            </NavBar>
+            <Switch>
+              <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
+              <Route exact path='/selling/' render={()=>(<SellingPage items={sellingHints}/>)}/>              
+              <Route exact path='/notes/' render={()=>(<NotesPage store={this.noteStore}/>)}/>
+              <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
+            </Switch>
         </Main>
+        : <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
+          <Button strong style={{width: '200px'}}type='button' onClick={() => conversations.createNewConversation()}>Init</Button>
+        </div>}
       </AppLayout>
     )
   }
 })
-
 decorate(App,{
   headerVisible: observable,
   appCollapsed: observable,

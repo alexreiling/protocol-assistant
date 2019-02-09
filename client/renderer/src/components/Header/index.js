@@ -17,7 +17,7 @@ import ClientHead from './ClientHead'
 import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import ContractDetails from './ContractDetails';
-import clientStore from '../../stores/ClientStore';
+import conversations from '../../stores/ConversationStore';
 
 
 const Grid = styled.div`
@@ -62,7 +62,7 @@ const Header = observer(class Header extends Component {
       <Grid style={this.props.style} className={'header'}>
         <SelectAndRender
           className='clients custom-scroll'
-          data={clientStore.data}
+          data={conversations.getCustomers()}
           label='Erkannte Versicherungsnehmer'
           onSelect={(selected) => this.selectedClient = selected}
           columns={columns.client}

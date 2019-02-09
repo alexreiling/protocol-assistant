@@ -1,6 +1,7 @@
 const electron = require('electron')
 const {BrowserWindow} = electron;
 const config = require('../config');
+const {sendToWebContents} =require('../util/electronHelpers')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -65,15 +66,13 @@ module.exports = MainWindow = {
     height = height || mainWindow.getSize()[1]
     mainWindow.setResizable(true)
     mainWindow.setSize(width, height || mainWindow.getSize()[1])
-    mainWindow.webContents.send('toggled',{width: getFullWidth(), height})
+    sendToWebContents(mainWindow,'toggled',{width: getFullWidth(), height})
     mainWindow.setResizable(false)
   },
   dockRight: () => {
     const screenWidth = electron.screen.getPrimaryDisplay().workAreaSize.width
     const appWidth = mainWindow.getSize()[0]
     mainWindow.setPosition(screenWidth-appWidth,0)
-  },
-  storeAction: (params) => {
-    mainWindow.webContents.send('store-action',params)
   }
+
 }

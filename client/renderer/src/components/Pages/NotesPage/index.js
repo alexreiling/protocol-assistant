@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import Page from '../Page';
 import Note from './Note';
-import { observer, Observer } from 'mobx-react';
 import { decorate, observable } from 'mobx'
 import VerticalCardList from '../../abstract/VerticalCardList';
 import InputWithButton from '../../abstract/InputWithButton';
@@ -16,7 +14,6 @@ const NotesPage = class NotesPage extends Component {
   }
   addNote(text) {
     this.store.addNote({text})
-    
   }
   render() {
     return ( 
