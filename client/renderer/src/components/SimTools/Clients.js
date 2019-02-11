@@ -13,13 +13,9 @@ function ipcMessage(message,params){
 
 
 class Clients extends Component {
-  constructor(){
-    super()
-
-  }
 
   render(){
-    const initialTimeout = workerUpdateSelected.timeout || stores.defaultOptions.workers.timeout
+    const initialTimeout = workerUpdateSelected.timeout
     return (
       <React.Fragment>
         <Control style={{}}>

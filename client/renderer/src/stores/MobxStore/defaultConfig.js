@@ -1,6 +1,8 @@
 export const defaultConfig = {
   options: {
-    pollingInterval: 1000
+    keyProperty: '_id',
+    softDelete: false,
+    softDeleteProperty: 'deleted'
   }
 }
 export default defaultConfig

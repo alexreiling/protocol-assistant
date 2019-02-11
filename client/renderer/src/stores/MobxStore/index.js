@@ -4,50 +4,68 @@ import { defaultConfig } from './defaultConfig';
 import httpRequest from './httpRequest'
 class Store {
   static instances = {}
-  constructor(storeName,options = {},remoteMethods = {}){
+  constructor(storeName, options = {}, remoteMethods = {}, workers = {}){
     if(!storeName) throw new Error('Could not create store: storeName prop missing')
     if(! Store.instances[storeName]){
-      // default props
-      this._selected = null
-      options = Object.assign(defaultConfig.options, options)
-      this._remote = remoteMethods
       this._data = new Map();
-      this._storeName = storeName
+      this._selected = null
+      this._storeName = storeName      
+      this._options = Object.assign(defaultConfig.options, options)
+      this._keyProp = this._options.keyProperty
+      this._remote = remoteMethods
+
+      // workers
+      Object.keys(workers).forEach(workerId => {
+        let worker = workers[workerId]
+        const cbWithStore = () => worker.callback(this)
+        this.createWorker(worker.workerId, cbWithStore, worker.options)
+      })
+
       Store.instances[storeName] = this;
     }
    return Store.instances[storeName];
   }
   // remote
-  async remote(method, body){
-    if(!this._remote[method]) throw new Error(`cannot execute remote request without ${method} config`)
-    return httpRequest(this._remote[method], body)
+  async remote(method, data, checkAutoFire){
+    if(!this._remote[method]) return data
+    if (checkAutoFire && !this._remote[method].autoFire) return data
+    return httpRequest(this._remote[method], data)
   }
 
   // local
-  async createOne(obj, keyPropName, createRemote){
+  async createOne(localData = {}, ignoreRemote = false){
     // TODO: key conflicts, try-catch?
-    
-    if(createRemote){
-      console.log('create remote')
-      let newObject = await this.remote('createOne',obj)
-      console.log('test')
-      this._data.set(newObject[keyPropName],newObject)
-      return newObject
-    }
-    else {
-      this._data.set(obj[keyPropName],obj)
-      return obj
-    }
+    let remoteData = await this.remote('createOne',localData,true)
+    console.log(remoteData)
+    this._data.set(remoteData[this._keyProp],remoteData)
+    return remoteData
   }
-
-  get data(){
-    return [...this._data.values()]
+  async createMany(localDataArray=[], ignoreRemote = false){
+    let remoteDataArray = await this.remote('createMany',localDataArray,true)
+    // TODO: make non-blocking
+    for(let i = 0; i < remoteDataArray.length; i++) {
+      this.createOne(remoteDataArray[i],ignoreRemote);
+    }
+    return remoteDataArray
   }
   getOne(key){
     return this._data.get(key)
   }
-  remove(key){
-    this._data.delete(key)
+  async getMany(){
+    let remoteDataArray = await this.remote('getMany')
+    if (remoteDataArray) {
+      this._data = new Map()
+      return this.createMany(remoteDataArray)
+    }
+    return [...this._data.values()]
+  }
+  deleteOne(key){
+    const {softDelete,softDeleteProperty} = this._options
+    if(softDelete) this._data.get(key)[softDeleteProperty] = true
+    else this._data.delete(key)
+  }
+  deleteMany(){
+    throw new Error('Not implemented')
   }
   setSelected(id){
     this._selected = this.getOne(id)
@@ -58,8 +76,8 @@ class Store {
 
   getFullWorkerName(workerId){ return this._storeName + '_' + workerId}
   // worker control flow
-  createWorker(workerId,timeout,callback){
-    workers.createWorker(this.getFullWorkerName(workerId),timeout,callback)
+  createWorker(workerId,callback, options){
+    return workers.createWorker(this.getFullWorkerName(workerId),callback,options)
   }
   activateWorker(workerId){
     workers.activate(this.getFullWorkerName(workerId))
@@ -78,7 +96,6 @@ class Store {
 
 decorate(Store,{
   _data: observable,
-  _selected:observable,
-  data: computed
+  _selected:observable
 })
 export default Store;

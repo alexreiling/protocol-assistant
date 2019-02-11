@@ -3,24 +3,15 @@ import {stores} from '../config'
 import { isElectron, ipcRenderer, sendToMain } from "../util/electronHelpers";
 
 console.warn('Required ConversationStore')
-
-const {updateSelected: workerUpdateSelected} = stores.conversations.workers
-let store = new Store(stores.conversations.storeName, stores.conversations.options, stores.conversations.remoteMethods)
-store.createWorker(workerUpdateSelected.workerId, workerUpdateSelected.timeout, async() => {
-    let item = await store.remote('updateOne',store.selected)
-    store._data.set(item.conversationId, item)
-    store.setSelected(item.conversationId) 
-  }
-)
+const {storeName,options,remoteMethods,workers} = stores.conversations
+let store = new Store(storeName, options, remoteMethods, workers)
 let conversations = {
   async createNewConversation(){
-    let newConv = await store.createOne(null,'conversationId',true)
+    let newConv = await store.createOne(null,true)
     store.setSelected(newConv.conversationId)
     return newConv
   },
-  getConversationList(){
-    return store.data
-  },
+
   getConversation(id){
     if(id) return store.get(id)
     return store.selected

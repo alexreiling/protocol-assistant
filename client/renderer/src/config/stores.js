@@ -6,7 +6,9 @@ import shortId from 'shortid';
 async function dummyRequest(data, manipulator = (data) => data, delay = 500, failureProb = 0) {
   return new Promise((resolve,reject)=> {
     setTimeout(() => {
-      return (Math.random() < failureProb) ? reject({status: 400, msg: 'dummy request failed'}) : resolve({status: 200, body: manipulator(data)})
+      return (Math.random() < failureProb) 
+        ? reject(new Response(JSON.stringify({msg: 'dummy request failed'}),{status:400})) 
+        : resolve(new Response(JSON.stringify(manipulator(data)),{status:200}))
     }, delay)
   })
 }
@@ -22,43 +24,71 @@ function dummyConversation(){
 }
 export const stores = {
   conversations: {
-    storeName: 'clients',
+    storeName: 'conversations',
+    options: {
+      keyProperty: "conversationId",
+      softDelete: true,
+      softDeleteProperty: 'deleted'
+    },
     workers:{
       updateSelected: {
         workerId: 'updateSelected',
-        timeout: 2000,
+        options: {
+          timeout: 2000
+        },
+        callback: async(store) => {
+          let item = await store.remote('updateOne',store.selected)
+          store._data.set(item.conversationId, item)
+          store.setSelected(item.conversationId)
+        }
       }
     }, 
     remoteMethods: {
-      createOne:{
-        method: 'POST',
-        endpoint: '/create',
-        override: (reqData) => dummyRequest({converationId: shortId()},data=>data,3000),
-        postProcessor: (resData) => resData.body 
+      createOne: {
+        url: '/create',
+        // fetch init object: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+        init:{
+          method: 'POST',
+          headers: {
+            'uselessHeader': 1
+          },
+          mode: 'cors'
+        },
+        // if true: create remotely => add locally
+        autoFire: true,
+        // if set, the provided method will be called instead of fetch
+        override: (url,fetchOptions,body) => dummyRequest({converationId: shortId()},undefined,5000),
+        postProcessor: (data, response) => data
+      },
+      createMany: {
+        disabled: true
       },
       getMany:{
-
-      },
-      getOne:{
-        method: 'GET',
+        disabled: true
       },
       updateOne: {
-        method: 'PUT',
-        endpoint: '/update',
-        override: (reqData) => dummyRequest(dummyConversation()),
-        postProcessor: (resData) => resData.body
+        url: '/update',
+        init: {
+          method: 'PUT'
+        },
+        preProcessor: (storeData) => {
+          let bodyData = storeData
+          // make changes to body here
+          return bodyData
+        },
+        override: (data, req) => dummyRequest(dummyConversation(),undefined,5000),
+        postProcessor: (data, res) => data
+      },
+      updateMany: {
+        disabled: true
+      },
+      deleteOne: {
+        autoFire: true,
+        disabled: true
+      },
+      deleteMany: {
+        disabled: true
       }
-    }
-  },
-  clients: {
-    storeName: 'clients',
-    options: {
-      timeout: 1000
-    }
-  },
-  defaultOptions: {
-    workers: {
-      timeout: 2000
     }
   }
 }
