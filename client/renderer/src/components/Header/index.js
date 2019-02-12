@@ -5,10 +5,6 @@ import styled from 'styled-components';
 // config
 import {columns} from '../../config';
 
-// mock data
-import {concerns} from '../../data/dummy';
-import clients from '../../data/clients';
-
 // components
 import SelectAndRender from '../abstract/SelectAndRender';
 import ClientDetails from './ClientDetails';
@@ -55,7 +51,6 @@ const Grid = styled.div`
 const Header = observer(class Header extends Component {
   constructor(){
     super()
-    this.selectedClient = null
   }
   render() {
     return (
@@ -64,13 +59,13 @@ const Header = observer(class Header extends Component {
           className='clients custom-scroll'
           data={conversations.getCustomers()}
           label='Erkannte Versicherungsnehmer'
-          onSelect={(selected) => this.selectedClient = selected}
+          onSelect={(selected) => conversations.setCustomer(selected)}
           columns={columns.client}
           head={(selected,onExit) => <ClientHead client={selected} onExit={onExit}/>}
           sub={(selected,onExit) => <ClientDetails client={selected} onExit={onExit}/>}
         />
         <SelectAndRender 
-          data={concerns}
+          data={conversations.getConcerns()}
           className='concerns custom-scroll'
           label='Erkannte Anliegen'
           columns={columns.concern}            
@@ -79,7 +74,7 @@ const Header = observer(class Header extends Component {
         <SelectAndRender
           className='contracts custom-scroll'
           label='Verträge und Vorgänge'
-          data={this.selectedClient ? this.selectedClient.contracts : []}
+          data={conversations.getCustomer() ? conversations.getCustomer().contracts : []}
           columns={columns.contract}
           sub={(selected,onExit) => <ContractDetails contract={selected} onExit={onExit}/>}
           noHeaders/>

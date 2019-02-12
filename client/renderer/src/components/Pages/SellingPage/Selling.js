@@ -6,6 +6,7 @@ import CircleDiv from '../../common/CircleDiv';
 import {observer} from 'mobx-react' 
 import { decorate, observable } from 'mobx';
 import ReactTooltip from 'react-tooltip'
+import { theme } from '../../../config';
 const Label = styled.div`
 
 `
@@ -30,7 +31,7 @@ const SellingItem = (props) => {
   return(
     <Wrapper>
       <ReactTooltip />
-      <CircleDiv  data-tip={item.text} style={{backgroundColor: item.color}}r={4}/>
+      <CircleDiv  data-tip={item.text} style={{backgroundColor: item.color || theme.sellingHints.defaultColor}}r={4}/>
       <Label>{item.name}</Label>
       <ExitButton r={8} onClick={()=>onFilter(item)}>✕</ExitButton>
     </Wrapper>
@@ -46,7 +47,8 @@ var Selling = observer(class Selling extends Component {
     this.toggle = this.toggle.bind(this)
   }
   toggle(){
-    const items = this.props.item.items
+    //const items = this.props.item.items
+    const items = [{name: this.props.item.text}]
     if([...this.filter.keys()].length===items.length) this.filter.clear()
     else items.forEach(item => this.filterItem(item))
   }
@@ -57,19 +59,12 @@ var Selling = observer(class Selling extends Component {
     return this.filter.has(item.name)
   }
   render() {
-    const {type, name, items} = this.props.item
+    const {type, name} = this.props.item
+    const items = [{name: this.props.item.text}]
     return (
       <div>
         <Header>
-{/*           {this.filter.length!==items.length 
-            && <ExitButton 
-              r={8} 
-              onClick={()=>items.forEach(item =>this.filterItem(item))}>-</ExitButton>} */}
           <H3 style={{cursor: 'pointer'}} onClick={this.toggle}>{name}</H3>
-{/*           {this.filter.length>0 
-            && <ExitButton 
-              r={8} 
-              onClick={()=>this.filter.clear()}>↻</ExitButton>} */}
         </Header>
         <div>
           {items.map((item,key) => !this.isFiltered(item)

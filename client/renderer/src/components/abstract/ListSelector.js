@@ -50,7 +50,6 @@ class ListSelector extends Component {
             ...ReactTableDefaults.column,
             minWidth: 50
           }}
-          p
           minRows={2}
           pageSize={100}
           {...conditionalProps}

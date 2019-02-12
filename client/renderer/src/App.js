@@ -8,17 +8,12 @@ import { observer } from 'mobx-react';
 // config
 import { theme, menues } from './config';
 
-// mock data
-import { sellingHints } from './data/dummy';
-
-
 // components
 import Header from './components/Header/index';
 import NavBar from './components/abstract/NavBar';
 import NotesPage from './components/Pages/NotesPage';
 import ProtocolPage from './components/Pages/ProtocolPage/index';
 import SellingPage from './components/Pages/SellingPage';
-import NoteStore from './stores/NoteStore';
 import Toggler from './components/abstract/Toggler';
 import Button from './components/abstract/NavBar/Button';
 import conversations from './stores/ConversationStore';
@@ -84,8 +79,6 @@ const App = observer(class App extends Component {
       })
     }
     this.appWidth = window.innerWidth;
-    this.noteStore = new NoteStore();
-    this.noteStore.init();
     this.headerVisible = true
     this.appCollapsed = true
     
@@ -151,8 +144,8 @@ const App = observer(class App extends Component {
             </NavBar>
             <Switch>
               <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
-              <Route exact path='/selling/' render={()=>(<SellingPage items={sellingHints}/>)}/>              
-              <Route exact path='/notes/' render={()=>(<NotesPage store={this.noteStore}/>)}/>
+              <Route exact path='/selling/' render={()=>(<SellingPage items={conversations.getSellingHints()}/>)}/>              
+              <Route exact path='/notes/' render={()=>(<NotesPage store={conversations}/>)}/>
               <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
             </Switch>
         </Main>

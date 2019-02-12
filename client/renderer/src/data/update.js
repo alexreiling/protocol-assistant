@@ -40686,56 +40686,64 @@ export const conversation = {
            "detections":2,
            "probability":0.4,
            "content":" <b style='color:#1c879b'>guten</b> <b style='color:#1c879b'>tag</b> in dieser versicherung sprechen mit frau bau . <b style='color:#1c879b'>guten</b> <b style='color:#1c879b'>tag</b> ist max müller . mein",
-           "displayColor":"#1c879b"
+           "displayColor":"#1c879b",
+           "id": 1
         },
         {  
            "name":"Anliegen Einschluss KFZ Familienmitglied",
            "detections":5,
            "probability":1.0,
            "content":" <b style='color:#c599ac'>sohn</b> denn es hat seinen <b style='color:#c599ac'>führerschein</b> <b style='color:#c599ac'>bestanden</b> und möchte jetzt mit unserem auto fahren . das ist schön wie lautet das",
-           "displayColor":"#c599ac"
+           "displayColor":"#c599ac",
+           "id": 2
         },
         {  
            "name":"Identifikation Kennzeichen",
            "detections":2,
            "probability":0.4,
            "content":" <b style='color:#93e260'>kennzeichen</b> ihres fahrzeugs . das <b style='color:#93e260'>kennzeichen</b> ist k s c . eins zwei drei vier . zum abgleich benötige ich noch ihr",
-           "displayColor":"#93e260"
+           "displayColor":"#93e260",
+           "id": 3
         },
         {  
            "name":"Identifikation Geburtsdatum",
            "detections":4,
            "probability":0.8,
            "content":" <b style='color:#578efe'>geburtsdatum</b> und ihre",
-           "displayColor":"#578efe"
+           "displayColor":"#578efe",
+           "id": 4
         },
         {  
            "name":"Identifikation Anschrift",
            "detections":2,
            "probability":0.4,
            "content":" <b style='color:#22e437'>anschrift</b> . ich bin am siebzehnten dritten 1973 <b style='color:#578efe'>geboren</b> . und <b style='color:#22e437'>wohnen</b> der bahnhofstraße 11. in sieben sechs eins zwei drei köln . vielen dank wann es denn es <b style='color:#578efe'>geboren</b> denn es ist am sechzehnten ersten 2001 <b style='color:#578efe'>geboren</b> . hatte am begleiten",
-           "displayColor":"#22e437"
+           "displayColor":"#22e437",
+           "id": 5
         },
         {  
            "name":"Abfrage Familienmitglied",
            "detections":2,
            "probability":0.4,
            "content":" <b style='color:#6037a7'>begleiteten</b> <b style='color:#6037a7'>fahren</b> teilgenommen nein oder nicht . in ordnung ich trage das kurz ein . der neue beitrag liegt bei fünfhundertsiebenundachtzigtausendzweihundertein . da gebe ich ihnen recht aber ein <b style='color:#6037a7'><b style='color:#c599ac'>junger</b></b> fahrer hat aufgrund fehlender vertrags ist ein hohes unfallrisiko . soll ich denn es zu diesem beitrag <b style='color:#c599ac'>einschließen</b> . ja bitte . okay erledigt . zudem empfehle ich ihnen den abschluss einer",
-           "displayColor":"#6037a7"
+           "displayColor":"#6037a7",
+           "id": 6
         },
         {  
            "name":"Empfehlung Verkehrsrechtschutzversicherung",
            "detections":2,
            "probability":0.4,
            "content":" <b style='color:#4a6c98'>verkehrs</b> <b style='color:#4a6c98'>rechtsschutzversicherung</b> erfahren fänger ein höheres unfallrisiko haben . vielen dank für den hinweis . bitte",
-           "displayColor":"#4a6c98"
+           "displayColor":"#4a6c98",
+           "id": 7
         },
         {  
            "name":"Anfrage Angebot",
            "detections":2,
            "probability":0.4,
            "content":" <b style='color:#e0e3ec'>schicken</b> sie mir ein <b style='color:#e0e3ec'>angebot</b> <b style='color:#e0e3ec'>zu</b> und ich werde mich wieder bei ihnen in verbindung setzen sehr gerne ich wünsche",
-           "displayColor":"#e0e3ec"
+           "displayColor":"#e0e3ec",
+           "id": 8
         }
      ]
   }

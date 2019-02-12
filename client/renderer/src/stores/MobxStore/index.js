@@ -29,7 +29,7 @@ class Store {
   async remote(method, data, checkAutoFire){
     if(!this._remote[method]) return data
     if (checkAutoFire && !this._remote[method].autoFire) return data
-    return httpRequest(this._remote[method], data)
+    return httpRequest(this._remote[method], data, this)
   }
 
   // local

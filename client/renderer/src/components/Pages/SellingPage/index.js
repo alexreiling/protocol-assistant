@@ -22,6 +22,7 @@ SellingPage.propTypes = {
   items: PropTypes.arrayOf({
     type: PropTypes.string, //cross || up
     name: PropTypes.string,
+    text: PropTypes.string,
     color: PropTypes.string,
     priority: PropTypes.number
   })

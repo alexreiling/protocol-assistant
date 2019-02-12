@@ -5,6 +5,10 @@ import H3 from '../../common/H3';
 import { observer } from 'mobx-react';
 import OnClickInput from '../../common/OnClickInput';
 import RoundButton from '../../common/RoundButton';
+import { Note as NoteDict } from '../../../config/dictionary';
+import conversations from '../../../stores/ConversationStore';
+import CircleDiv from '../../common/CircleDiv';
+import { theme } from '../../../config';
 
 const Wrapper = styled.div`
   >*{
@@ -38,13 +42,19 @@ const Note = observer(class Note extends Component{
     super();
     this.addEntry = this.addEntry.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.setSavePending = this.setSavePending.bind(this)
   }
   addEntry(){
     const note = this.props.data
-    note.addEntry({})
+    this.setSavePending()
+    note.entries.push({createdLocally:true})
   }
   handleChange(e){
-    this.props.data.setProp(e.target.name, e.target.value)
+    this.setSavePending()
+    this.props.data[e.target.name] = e.target.value
+  }
+  setSavePending(){
+    this.props.data.savePending = true
   }
   render() {
     const {data:note} = this.props;
@@ -58,14 +68,15 @@ const Note = observer(class Note extends Component{
             name='text'>
             <H3>{note.text}</H3>
           </OnClickInput>
+          {note.savePending && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>nicht gespeichert</div>}
           <RoundButton onClick={this.addEntry}>＋</RoundButton>
           <NoteNavigator className='note-nav'>
-            <RoundButton onClick={()=>note.changeIndex(-1)}>🡅</RoundButton>
-            <RoundButton onClick={()=>note.changeIndex(1)}>🡇</RoundButton>
+          <RoundButton onClick={()=>conversations.changeNoteIndex(note,-1)}>🡅</RoundButton>
+          <RoundButton onClick={()=>conversations.changeNoteIndex(note,1)}>🡇</RoundButton>
           </NoteNavigator>
         </Header>
-          {note.getEntries().map(entry => <Entry data={entry}/>)}
-        <Footer>{note.getTransactions().map(t => <div>{t.text}</div>)}</Footer>
+          {note.entries.filter(entry => !entry.deleted).map((entry,key) => <Entry key={key} data={entry} onEdit={this.setSavePending}/>)}
+        <Footer>{note.transactions.map(t => <div>{t.text}</div>)}</Footer>
       </Wrapper>
     )
   }

@@ -16,10 +16,6 @@ const Layout = styled.div`
   height: 100vh;
   box-sizing: border-box;
 `
-
-
-
-
 class SimTools extends Component {
   render() {
     return (

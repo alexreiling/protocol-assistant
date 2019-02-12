@@ -1,26 +1,25 @@
-import clients from "../data/clients";
-import {concerns, sellingHints} from '../data/dummy';
+import { conversation } from '../data/update';
 import shortId from 'shortid';
 
 
-async function dummyRequest(data, manipulator = (data) => data, delay = 500, failureProb = 0) {
+async function dummyRequest(data, delay = 500, failureProb = 0) {
   return new Promise((resolve,reject)=> {
     setTimeout(() => {
       return (Math.random() < failureProb) 
         ? reject(new Response(JSON.stringify({msg: 'dummy request failed'}),{status:400})) 
-        : resolve(new Response(JSON.stringify(manipulator(data)),{status:200}))
+        : resolve(new Response(JSON.stringify(data),{status:200}))
     }, delay)
   })
 }
-function dummyConversation(){
-  let limit1 = Math.random() * clients.length - 1
-  let limit2 = Math.random() * clients.length - 1
-  return {
-    customers: clients.slice(Math.min(limit1,limit2), Math.max(limit1,limit2)),
-    concerns: concerns,
-    sellingHints: sellingHints,
-    notes: []
-  }
+function dummyConversation(localConv){
+  let dummy = Object.assign({},conversation)
+  let limit1 = Math.random() * dummy.customerCandidates.length - 1
+  let limit2 = Math.random() * dummy.customerCandidates.length - 1
+  let notes = new Map(dummy.notes.topics.map(note => [note.id,note]))
+  localConv.notes.topics.forEach(note => notes.set(note.id,note))
+  dummy.notes.topics = [...notes.values()]
+  dummy.customerCandidates = conversation.customerCandidates.slice(Math.min(limit1,limit2), Math.max(limit1,limit2))
+  return dummy
 }
 export const stores = {
   conversations: {
@@ -38,8 +37,8 @@ export const stores = {
         },
         callback: async(store) => {
           let item = await store.remote('updateOne',store.selected)
-          store._data.set(item.conversationId, item)
-          store.setSelected(item.conversationId)
+          store._data.set(item[store._keyProp], item)
+          store.setSelected(item[store._keyProp])
         }
       }
     }, 
@@ -57,7 +56,13 @@ export const stores = {
         // if true: create remotely => add locally
         autoFire: true,
         // if set, the provided method will be called instead of fetch
-        override: (url,fetchOptions,body) => dummyRequest({converationId: shortId()},undefined,5000),
+        override: (url,fetchOptions,body) => dummyRequest({
+          conversationId: shortId(),
+          concernCandidates: [],
+          customerCandidates: [],
+          notes: [],
+          sellingHints: []
+        },1000),
         postProcessor: (data, response) => data
       },
       createMany: {
@@ -71,13 +76,41 @@ export const stores = {
         init: {
           method: 'PUT'
         },
-        preProcessor: (storeData) => {
-          let bodyData = storeData
-          // make changes to body here
-          return bodyData
+        afterPickup: (store) => {
+          store.selected.notes.forEach(note => note.savePending = false)
         },
-        override: (data, req) => dummyRequest(dummyConversation(),undefined,5000),
-        postProcessor: (data, res) => data
+        preProcessor: (conv) => {
+          // make changes to body here before fetch/override
+          const {notes, sellingHints} = conv
+          notes.forEach(note => { note.name = note.text })
+          
+          conv = Object.assign(conv,{
+            notes: {topics: notes},
+            sellingHints: {sellingHints}})
+          return conv
+        },
+        override: (data, req) => {
+          console.log(data.notes)
+          return dummyRequest(dummyConversation(data),5000)
+        },
+        postProcessor: (conv, res, store) => {
+          // TODO: improve for better performance
+          console.log(conv)
+          let unsavedNotes = new Map(store.selected.notes.filter(note => note.savePending).map(note => [note.id,note]))
+          conv.notes = conv.notes.topics.map((note) => {
+            let unsavedNote = unsavedNotes.get(note.id)
+            if (unsavedNote) note = unsavedNote
+            else {
+              note.text = note.name
+              note.entries = note.entries || [ note.content && {text:note.content}]
+              note.transactions = []
+            }
+            return note
+          })
+
+          conv.sellingHints = conv.sellingHints.sellingHints
+          return conv
+        }
       },
       updateMany: {
         disabled: true

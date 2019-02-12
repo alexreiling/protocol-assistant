@@ -1,8 +1,6 @@
 import { decorate, observable } from "mobx";
-import { remoteNotes } from "./TransportLayer";
 import shortId from 'shortid';
-import { defaults } from "../config";
-
+import {Note as NoteDict} from "../config/dictionary";
 class Entry {
   constructor(entry, note){
     this.iid = shortId()
@@ -30,6 +28,7 @@ decorate(Entry,{
   deleted: observable,
   converted: observable
 })
+
 class Note{
   constructor(data, store, index){
     this.iid = shortId()
@@ -37,7 +36,8 @@ class Note{
     this.store = store
     this.transactions = data.transactions || []
     this.entries = []
-    this.text = data.text
+    this.addEntry({text:data.content})
+    this.text = data[NoteDict.text]
     if(data.entries) data.entries.forEach(entry => this.addEntry(entry))
   }
   addEntry(data){
@@ -64,38 +64,4 @@ decorate(Note,{
   index: observable
 })
 
-class NoteStore{
-  constructor() {
-    this.indexCounter = 0;
-    this.notes = []
-    this.remote = {
-      get: remoteNotes.get
-    }
-  }
-  async init() {
-    let notes = await this.remote.get()
-    notes.forEach(note => this.addNote(note));
-  }
-  addNote(data){
-    let note = new Note(data,this,this.indexCounter++)
-    this.notes.push(note)
-  }
-  changeIndex(noteA, incrOrDecr){
-    if (noteA.index + incrOrDecr < 0 || noteA.index + incrOrDecr > this.indexCounter - 1) return
-    let noteB = this.notes.find(b => b.index === noteA.index + incrOrDecr)
-    noteB.index -= incrOrDecr
-    noteA.index += incrOrDecr
-    this.notes.replace(this.notes.slice().sort((a,b)=> a.index-b.index))
-  }
-  getNotes(){
-    return this.notes
-  }
-  convert({text}) {
-    this.addNote({text})
-  }
-}
-decorate(NoteStore,{
-  notes: observable,
-  indexCounter:observable
-})
-export default NoteStore
+export default Note

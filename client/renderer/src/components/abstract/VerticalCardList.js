@@ -24,7 +24,7 @@ const Card = styled.div`
 const VerticalCardList = observer((props) =>
 (
  <Container {...props}>
-   {props.items.map((item,key) => <Card key={key.toString()}>{props.renderItem(item)}</Card>)}
+   {props.items.filter(item => !item.deleted).map((item,key) => <Card key={key.toString()}>{props.renderItem(item,key)}</Card>)}
  </Container>
 )) ;
 export default VerticalCardList;

@@ -26,6 +26,7 @@ export const theme = {
       bright: colors.white,
       dark: colors.gray4,
       gray: colors.gray3,
+      red: colors.red,
       linkHovered: colors.blue,
     }
   },
@@ -103,6 +104,9 @@ export const theme = {
         color: colors.gray3
       }
     }
+  },
+  sellingHints:{
+    defaultColor: colors.darkblue
   },
   layout: {
 

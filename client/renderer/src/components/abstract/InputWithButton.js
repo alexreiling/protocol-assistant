@@ -5,6 +5,7 @@ import Input from './Input';
 import Button from '../common/Button';
 const Wrapper = styled.div`
   display:flex;
+  flex-shrink:0;
   > * {
     margin-right: 8px;
   }
@@ -36,10 +37,10 @@ class InputWithButton extends Component {
 
   //TODO: Use destructuring
   render() {
-    const {placeholder, width, buttonText, name} = this.props
+    const {buttonText, name, ...inputProps} = this.props
     return (
       <Wrapper>
-        <Input contrast name={name || 'value'} style={{width:width}} placeholder={placeholder} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+        <Input contrast name={name || 'value'} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeyPress} {...inputProps}/>
         <Button strong onClick={this.handleSubmit}>{buttonText}</Button>
       </Wrapper>
     );
