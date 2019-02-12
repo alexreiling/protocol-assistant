@@ -41,7 +41,7 @@ export const stores = {
     }, 
     remoteMethods: {
       createOne: {
-        url: '/create',
+        url: 'http://localhost:8082/create',
         // fetch init object: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
         init:{
           method: 'POST',
@@ -53,7 +53,7 @@ export const stores = {
         // if true: create remotely => add locally
         autoFire: true,
         // if set, the provided method will be called instead of fetch
-        override: (url,fetchOptions,body) => dummyRequest({
+        /*override: (url,fetchOptions,body) => dummyRequest({
           state:{
             conversationState: 'APPROVAL_PENDING'
           },
@@ -62,8 +62,13 @@ export const stores = {
           customerCandidates: [],
           notes: [],
           sellingHints: []
-        },1000),
-        postProcessor: (data, response) => data
+        },1000),*/
+        postProcessor: (conv, response) => {
+          // TODO: improve for better performance
+          conv.sellingHints = conv.sellingHints.sellingHints
+          conv.notes = conv.notes.topics
+          return conv
+        }
       },
       createMany: {
         disabled: true
@@ -72,10 +77,15 @@ export const stores = {
         disabled: true
       },
       updateOne: {
-        url: '/update',
+        url: 'http://localhost:8082/update',
         init: {
-          method: 'PUT'
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'uselessHeader': 1
+          }
         },
+        mode: 'cors',
         afterPickup: (store) => {
           if(store.selected)store.selected.notes.forEach(note => note.savePending = false)
         },
@@ -89,10 +99,10 @@ export const stores = {
             sellingHints: {sellingHints}})
           return conv
         },
-        override: (data, req) => {
+        /*override: (data, req) => {
           console.log(data.notes)
           return dummyRequest(dummyConversation(data),1000)
-        },
+        },*/
         postProcessor: (conv, res, store) => {
           // TODO: improve for better performance
           console.log(conv)

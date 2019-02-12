@@ -41,8 +41,8 @@ class SimTools extends Component {
             onChange={(checked)=>console.log(checked)}/>
         </Section> */}
         <Section 
-          title='Datenänderung: Erkannte Versicherungsnehmer'
-          description='Simuliert die Änderung von Daten erkannter Versicherungsnehmer im Backend.'>
+          title='Datenänderung:'
+          description='Simuliert die Änderung von Daten im Backend.'>
           <Clients/>
         </Section>
       </Layout>

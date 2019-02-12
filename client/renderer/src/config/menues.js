@@ -19,12 +19,12 @@ export const menues = {
       img: img.notesActive,
       imgInactive: img.notesInactive
     },
-    {
+    /*{
       to:'/protocol',
       label: 'Protokoll',
       img: img.protocollActive,
       imgInactive: img.protocollInactive
-    }
+    }*/
   ]
 }
 export default menues

@@ -66,7 +66,7 @@ const Note = observer(class Note extends Component{
             onChange={this.handleChange}
             value={note.text}
             name='text'>
-            <H3>{note.text}</H3>
+            <H3 style={{color: note.displayColor}}><b>{note.text}</b></H3>
           </OnClickInput>
           {note.savePending && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>nicht gespeichert</div>}
           <RoundButton onClick={this.addEntry}>＋</RoundButton>
