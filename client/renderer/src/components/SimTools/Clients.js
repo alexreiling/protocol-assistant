@@ -3,13 +3,10 @@ import React,{Component} from 'react';
 import InputWithButton from '../abstract/InputWithButton';
 import { Control, Label } from './Layout';
 import ToggleSwitch from '../common/ToggleSwitch';
-import { sendToMain } from '../../util/electronHelpers';
 import { stores } from '../../config';
+import ipcMessage from './ipcMessage';
 const {updateSelected: workerUpdateSelected} =stores.conversations.workers
-function ipcMessage(message,params){
-  params.store = 'conversations'
-  sendToMain(message,params)
-}
+
 
 
 class Clients extends Component {

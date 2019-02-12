@@ -66,7 +66,7 @@ module.exports = MainWindow = {
     height = height || mainWindow.getSize()[1]
     mainWindow.setResizable(true)
     mainWindow.setSize(width, height || mainWindow.getSize()[1])
-    sendToWebContents(mainWindow,'toggled',{width: getFullWidth(), height})
+    sendToWebContents(mainWindow,'toggled',{width, height})
     mainWindow.setResizable(false)
   },
   dockRight: () => {

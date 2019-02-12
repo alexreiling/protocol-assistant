@@ -36,7 +36,7 @@ const ImageContainer = styled.div`
 `
 const ImageWrapper = styled.div`
 `
-const Image = (props) => {
+export const Image = (props) => {
   return (
     <ImageWrapper style={props.style}>
       <ImageContainer img={props.img}/>

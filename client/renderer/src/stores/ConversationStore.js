@@ -43,6 +43,9 @@ let conversations = {
     let notes = this.getNotes()
     return notes.length ? notes[notes.length-1].index : 0
   },
+  getConversationState(){
+    return store.state.conversationState
+  },
   exec(action,params){
     try{ return store[action](...params) }
     catch(error) { console.log(error) }
@@ -69,9 +72,10 @@ if(isElectron){
     const { store, args = {}, action, respond = false} = originalParams
     if(store==='conversations') {
       console.log('store:',store,'action:',action,'args:',args, 'requesting response:', respond)
-      let response = await conversations.exec(action,args);
+      let response = conversations[action] ? await conversations[action](...args) : await conversations.exec(action,args);
       if (respond) sendToMain('store-action-response', {response, originalParams})
     }
   })
+
 }
 export default conversations

@@ -55,8 +55,7 @@ class Store {
   async updateOne(item){
     let updatedObj = await this.remote('updateOne', item)    
     let prevObj = this.getOne(item[this._keyProp])
-    console.log('updating:', this._protectedProps)
-    console.log('updating:', prevObj)
+
     if(prevObj) {
       Object.keys(this._protectedProps).forEach(key => {
         if(this._protectedProps[key]) updatedObj[key] = prevObj[key]

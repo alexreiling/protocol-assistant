@@ -54,6 +54,9 @@ export const stores = {
         autoFire: true,
         // if set, the provided method will be called instead of fetch
         override: (url,fetchOptions,body) => dummyRequest({
+          state:{
+            conversationState: 'APPROVAL_PENDING'
+          },
           conversationId: shortId(),
           concernCandidates: [],
           customerCandidates: [],
@@ -88,7 +91,7 @@ export const stores = {
         },
         override: (data, req) => {
           console.log(data.notes)
-          return dummyRequest(dummyConversation(data),5000)
+          return dummyRequest(dummyConversation(data),1000)
         },
         postProcessor: (conv, res, store) => {
           // TODO: improve for better performance

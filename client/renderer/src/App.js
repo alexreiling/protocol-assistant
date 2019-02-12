@@ -18,6 +18,8 @@ import Toggler from './components/abstract/Toggler';
 import Button from './components/abstract/NavBar/Button';
 import conversations from './stores/ConversationStore';
 import { isElectron, ipcRenderer, sendToMain } from './util/electronHelpers';
+import img from './assets/img';
+import { Image } from './components/abstract/NavBar/NavButton';
 
 const AppLayout = styled.div`
   width: ${p => p.appWidth + 'px'};
@@ -69,13 +71,18 @@ const Main = styled.main`
 const App = observer(class App extends Component {
   constructor(){
     super()
-
     // method bindings
     this.toggleHeader = this.toggleHeader.bind(this)
     this.toggleAppCollapse = this.toggleAppCollapse.bind(this)
     if(isElectron) {
       ipcRenderer.on('toggled',(e,args) => {
-        if(this.appWidth !== args.width) this.appWidth = args.width
+        console.log(args.width)
+
+        if(this.appWidth !== args.width) 
+        {
+          this.appCollapsed = args.width < this.appWidth
+          this.appWidth = args.width
+        }
       })
     }
     this.appWidth = window.innerWidth;
@@ -84,7 +91,6 @@ const App = observer(class App extends Component {
     
   }
   toggleAppCollapse(){
-    this.appCollapsed = !this.appCollapsed
     sendToMain('toggle-width')
   }
   toggleHeader(){
@@ -149,8 +155,9 @@ const App = observer(class App extends Component {
               <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
             </Switch>
         </Main>
-        : <div style={{display:'flex', alignItems: 'center', justifyContent:'center'}}>
-          <Button strong style={{width: '200px'}}type='button' onClick={() => conversations.createNewConversation()}>Init</Button>
+        : !this.appCollapsed && <div style={{display:'flex',flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
+          <img src={img.robotInactive} style={{width:'50px'}}/>
+          <div style={{fontSize:24, color: theme.font.color.gray, marginTop:'1em'}}>eLisA schläft...</div>
         </div>}
       </AppLayout>
     )

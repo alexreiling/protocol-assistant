@@ -6,6 +6,8 @@ import ToggleSwitch from '../common/ToggleSwitch';
 
 import Section from './Section';
 import Clients from './Clients';
+import Button from '../common/Button';
+import ipcMessage from './ipcMessage';
 
 // TODO: pack in function
 
@@ -24,29 +26,25 @@ class SimTools extends Component {
           <H2>eLisA SimTools</H2>
           <p>Mit diesem Panel können verschiedene Betriebszustände von eLisA getestet werden.</p>
         </Section>
-        <Section 
+        <Section
+          title='Beginn eines neuen Kundengespräches'
+          description='Simuliert den Beginn eines neuen Kundengespräches'>
+          <Button strong onClick={() => ipcMessage('store-action',{
+            action: 'createNewConversation'
+          })}>Neues Gespräch initiieren</Button>
+        </Section>
+{/*         <Section 
           title='Aktivität/Einverständnis Versicherungsnehmer'
           description='Steuert die Aktivität von eLisA, die abhängig von der Einverständniserklärung des Versicherungsnehmers ist.'>
           
           <ToggleSwitch
             onChange={(checked)=>console.log(checked)}/>
-        </Section>
+        </Section> */}
         <Section 
           title='Datenänderung: Erkannte Versicherungsnehmer'
           description='Simuliert die Änderung von Daten erkannter Versicherungsnehmer im Backend.'>
           <Clients/>
         </Section>
-        <Section 
-          title='Datenänderung: Erkannte Anliegen'
-          description='Simuliert die Änderung von Daten erkannter Anliegen im Backend.'>
-        </Section>
-        <Section 
-          title='Datenänderung: Cross-/Upselling'
-          description='Simuliert die Änderung von Daten relevanter Cross- bzw. Upsellingvorschläge im Backend..'>
-        </Section>
-
-
-
       </Layout>
     );
   }
