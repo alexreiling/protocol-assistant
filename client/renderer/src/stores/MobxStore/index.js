@@ -13,6 +13,7 @@ class Store {
       this._options = Object.assign(defaultConfig.options, options)
       this._keyProp = this._options.keyProperty
       this._remote = remoteMethods
+      this._protectedProps = {}
 
       // workers
       Object.keys(workers).forEach(workerId => {
@@ -51,6 +52,25 @@ class Store {
   getOne(key){
     return this._data.get(key)
   }
+  async updateOne(item){
+    let updatedObj = await this.remote('updateOne', item)    
+    let prevObj = this.getOne(item[this._keyProp])
+    console.log('updating:', this._protectedProps)
+    console.log('updating:', prevObj)
+    if(prevObj) {
+      Object.keys(this._protectedProps).forEach(key => {
+        if(this._protectedProps[key]) updatedObj[key] = prevObj[key]
+      })
+    }
+    this._data.set(updatedObj[this._keyProp], updatedObj)
+    return updatedObj
+  }
+  async updateSelected(){
+    if (!this.selected) return null
+    let conv = await this.updateOne(this.selected)
+    this.setSelected(conv[this._keyProp])
+    return conv
+  }
   async getMany(){
     let remoteDataArray = await this.remote('getMany')
     if (remoteDataArray) {
@@ -64,6 +84,7 @@ class Store {
     if(softDelete) this._data.get(key)[softDeleteProperty] = true
     else this._data.delete(key)
   }
+  
   deleteMany(){
     throw new Error('Not implemented')
   }
@@ -92,6 +113,11 @@ class Store {
     return workers.getWorker(this.getFullWorkerName(workerId))
   }
 
+  freezeProp(propName){
+    this._protectedProps[propName] = true
+  }
+  unfreezeProp(propName) {this._protectedProps[propName] = false}
+  unfreezeAllProps(){this._protectedProps = {}}
 }
 
 decorate(Store,{

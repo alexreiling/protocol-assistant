@@ -49,9 +49,7 @@ const Grid = styled.div`
 `
 
 const Header = observer(class Header extends Component {
-  constructor(){
-    super()
-  }
+
   render() {
     return (
       <Grid style={this.props.style} className={'header'}>

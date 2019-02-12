@@ -9,8 +9,7 @@ let store = new Store(storeName, options, remoteMethods, workers)
 let conversations = {
   async createNewConversation(){
     let newConv = await store.createOne(null,true)
-    console.log(store.getOne(newConv.conversationId))
-    store.setSelected(newConv.conversationId)
+    store.setSelected(newConv[store._keyProp])
     return newConv
   },
 
@@ -18,7 +17,14 @@ let conversations = {
     if(id) return store.getOne(id)
     return store.selected
   },
-  setCustomer(customer){ store.selected.customer = customer },
+  setCustomer(customer){
+    store.freezeProp('customer') 
+    store.selected.customer = customer
+  },
+  setConcern(concern){
+    store.freezeProp('concern') 
+    store.selected.concern = concern
+  },
   getCustomer(){ return store.selected.customer},
   getCustomers(){ return store.selected.customerCandidates },
   getConcerns(){ return store.selected.concernCandidates },

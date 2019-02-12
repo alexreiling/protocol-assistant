@@ -4,6 +4,7 @@ export default async function httpRequest(config,reqData,store){
     console.log(`Request ${config} is disabled. Returning data without processing`)
     return reqData
   }
+  store.unfreezeAllProps()
   if(config.afterPickup) await config.afterPickup(store)
   reqData = isObservable(reqData) ? toJS(reqData) : reqData
   reqData = config.preProcessor ? await config.preProcessor(reqData) : reqData

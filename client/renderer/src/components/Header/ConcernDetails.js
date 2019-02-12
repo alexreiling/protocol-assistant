@@ -7,8 +7,8 @@ class ConcernDetails extends Component {
     return (
       <div>
         <RoundButton onClick={()=>this.props.onExit()}>✕</RoundButton>
-
-        ConcernDetail
+        {this.props.concern.name}
+        
       </div>
     );
   }

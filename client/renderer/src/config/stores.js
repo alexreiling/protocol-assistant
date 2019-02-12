@@ -18,6 +18,7 @@ function dummyConversation(localConv){
   let notes = new Map(dummy.notes.topics.map(note => [note.id,note]))
   localConv.notes.topics.forEach(note => notes.set(note.id,note))
   dummy.notes.topics = [...notes.values()]
+  dummy.customer = localConv.customer
   dummy.customerCandidates = conversation.customerCandidates.slice(Math.min(limit1,limit2), Math.max(limit1,limit2))
   return dummy
 }
@@ -35,11 +36,7 @@ export const stores = {
         options: {
           timeout: 2000
         },
-        callback: async(store) => {
-          let item = await store.remote('updateOne',store.selected)
-          store._data.set(item[store._keyProp], item)
-          store.setSelected(item[store._keyProp])
-        }
+        callback: async(store) => store.updateSelected()
       }
     }, 
     remoteMethods: {
@@ -77,7 +74,7 @@ export const stores = {
           method: 'PUT'
         },
         afterPickup: (store) => {
-          store.selected.notes.forEach(note => note.savePending = false)
+          if(store.selected)store.selected.notes.forEach(note => note.savePending = false)
         },
         preProcessor: (conv) => {
           // make changes to body here before fetch/override
@@ -107,7 +104,6 @@ export const stores = {
             }
             return note
           })
-
           conv.sellingHints = conv.sellingHints.sellingHints
           return conv
         }

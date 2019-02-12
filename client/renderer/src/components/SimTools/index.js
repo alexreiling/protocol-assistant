@@ -27,6 +27,7 @@ class SimTools extends Component {
         <Section 
           title='Aktivität/Einverständnis Versicherungsnehmer'
           description='Steuert die Aktivität von eLisA, die abhängig von der Einverständniserklärung des Versicherungsnehmers ist.'>
+          
           <ToggleSwitch
             onChange={(checked)=>console.log(checked)}/>
         </Section>
