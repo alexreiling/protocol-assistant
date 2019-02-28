@@ -35,11 +35,6 @@ class Clients extends Component {
               args: [workerUpdateSelected.workerId, value]
             })}/>
         </Control>
-        <button type='button' onClick={()=>ipcMessage('store-action',{
-          action: 'getWorker',
-          args: [workerUpdateSelected.workerId],
-          respond: true
-        })}>Send Worker State Request</button>
       </React.Fragment>
     );
   }

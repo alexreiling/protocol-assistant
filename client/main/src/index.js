@@ -46,8 +46,14 @@ ipcMain.on('open-dev', (e,args) => {
 ipcMain.on('store-action',(event,args) => {
   sendToWebContents(MainWindow.window,'store-action',args)
 })
+ipcMain.on('recorder-action',(event,args) => {
+  sendToWebContents(MainWindow.window,'recorder-action',args)
+})
 ipcMain.on('store-action-response',(event,args) => {
   sendToWebContents(SimTools.window,'store-action-response',args)
+})
+ipcMain.on('recorder-state',(event,args) => {
+  if(SimTools && SimTools.window) sendToWebContents(SimTools.window,'recorder-state',args)
 })
 ipcMain.on('open-sim-tools', (e,args) => {
   if(!SimTools.window) SimTools.create()

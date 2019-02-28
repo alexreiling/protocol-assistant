@@ -9,7 +9,7 @@ module.exports = SimTools = {
   create: () => {
     const {width: screenWidth, height: screenHeight} = electron.screen.getPrimaryDisplay().workAreaSize
     bWindow = new BrowserWindow({
-      height: screenHeight / 2,
+      height: screenHeight / 1.5,
       width: screenWidth / 3,
       title: 'eLisA SimTools',
       show: false,
