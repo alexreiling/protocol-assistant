@@ -104,7 +104,6 @@ const App = observer(class App extends Component {
   }
   componentDidMount(){
     sendToMain('ready-to-show')
-    conversations.createNewConversation()
   }
   closeApp(){
     sendToMain('close-app')
