@@ -19,7 +19,7 @@ import Button from './components/abstract/NavBar/Button';
 import conversations from './stores/ConversationStore';
 import { isElectron, ipcRenderer, sendToMain } from './util/electronHelpers';
 import img from './assets/img';
-import { Image } from './components/abstract/NavBar/NavButton';
+import CircleDiv from './components/common/CircleDiv';
 
 const AppLayout = styled.div`
   width: ${p => p.appWidth + 'px'};
@@ -121,6 +121,13 @@ const App = observer(class App extends Component {
           items={menues.main}
           onToggle={this.toggleWidth}
           style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
+          {<CircleDiv pulsate style={{
+            opacity: this.recorderState==='RECORDING' ? 1 : 0, 
+            width: '40px', 
+            height:'40px', 
+            backgroundColor: '#A00',
+            WebkitTransition: 'opacity 0.5s linear',
+            margin:'auto'}}/>}
           {isElectron && <Button
             style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
             onClick={this.openSimTools}>
@@ -187,7 +194,8 @@ const App = observer(class App extends Component {
 decorate(App,{
   headerVisible: observable,
   appCollapsed: observable,
-  appWidth: observable
+  appWidth: observable,
+  recorderState: observable
 })
 
 export default withRouter(App);

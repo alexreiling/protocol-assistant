@@ -55,7 +55,7 @@ function NavButton (props){
           style={{
             opacity: !!unseen ? .85 : 0,
             position: 'absolute',
-            backgroundColor: 'red', 
+            backgroundColor: '#A00', 
             fontSize:'10px', 
             color:'white', 
             top:'2px',
