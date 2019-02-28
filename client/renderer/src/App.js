@@ -104,6 +104,7 @@ const App = observer(class App extends Component {
   }
   componentDidMount(){
     sendToMain('ready-to-show')
+    conversations.createNewConversation()
   }
   closeApp(){
     sendToMain('close-app')
@@ -140,7 +141,25 @@ const App = observer(class App extends Component {
         {conv ?
         <Main>
             <Header style={{display: !this.headerVisible && 'none'}}/>
-            <NavBar items={menues.sub} style={{borderTop: `1px solid ${theme.gridline.color}`}}>
+            <NavBar 
+              items={[
+                {
+                  to:'/selling',
+                  label: 'Up-/Crossselling',
+                  img: img.upsellingActive,
+                  imgInactive: img.upsellingInactive,
+                  unseen: conversations.getNumOfUnseenHints(),
+                  onClick: ()=>conv.sellingHints.unseenCounter = 0
+                },
+                {
+                  to:'/notes',
+                  label: 'Gesprächsnotizen',
+                  img: img.notesActive,
+                  imgInactive: img.notesInactive,
+                  unseen: conversations.getNumOfUnseenNotes()
+                },
+              ]} 
+              style={{borderTop: `1px solid ${theme.gridline.color}`}}>
               <Toggler
                 onClick={this.toggleHeader}
                 style={{width: '48px', lineHeight: theme.nav.thickness.sub}}

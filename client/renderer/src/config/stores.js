@@ -65,7 +65,10 @@ export const stores = {
           concernCandidates: [],
           customerCandidates: [],
           notes: [],
-          sellingHints: []
+          sellingHints: {
+            sellingHints: [],
+            unseenCounter: 5
+          }
         }, 1000),
         postProcessor: (conv, response) => {
           // TODO: improve for better performance
@@ -95,12 +98,12 @@ export const stores = {
         },
         preProcessor: (conv) => {
           // make changes to body here before fetch/override
-          const {notes, sellingHints} = conv
+          const {notes} = conv
           notes.forEach(note => { note.name = note.text })
           
           conv = Object.assign(conv,{
-            notes: {topics: notes},
-            sellingHints: {sellingHints}})
+            notes: {topics: notes}
+          })
           return conv
         },
         override: (data, req) => {
@@ -119,7 +122,6 @@ export const stores = {
             }
             return note
           })
-          conv.sellingHints = conv.sellingHints.sellingHints
           return conv
         }
       },

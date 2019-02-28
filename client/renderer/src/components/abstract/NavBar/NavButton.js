@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import {NavLink} from 'react-router-dom';
 import { theme } from '../../../config';
 import Button from './Button';
+import CircleDiv from '../../common/CircleDiv'
 // TODO: Clean up this mess
 const Wrapper = styled(Button)`
   height:100%;
   width:100%;
+  position: relative;
   display:flex;
   flex-direction: ${p => p.vertical ? 'column' : 'row'};
   flex-direction:row;
@@ -45,10 +47,21 @@ export const Image = (props) => {
 }
 
 function NavButton (props){
-  const {to, img, imgInactive, label, vertical} = props
+  const {unseen,to, img, imgInactive, label,onClick, vertical} = props
   return (
     <NavLink to={to} theme={props.theme}>
-      <Wrapper vertical={vertical}>
+      <Wrapper vertical={vertical} onClick={onClick}>
+        {<CircleDiv 
+          style={{
+            opacity: !!unseen ? .85 : 0,
+            position: 'absolute',
+            backgroundColor: 'red', 
+            fontSize:'10px', 
+            color:'white', 
+            top:'2px',
+            WebkitTransition: 'opacity 2s ease-in-out',
+            left: 25}}
+          r={10}>{!!unseen && unseen}</CircleDiv>}          
         {img && <Image style={{width: vertical ? theme.nav.thickness.main : theme.nav.thickness.sub, padding:'4px'}}img={img}/>}
         {/*imgName && <Image vertical={vertical} imgName={imgName}/>*/}
         {label && <Label>{label}</Label>}

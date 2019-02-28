@@ -43,7 +43,10 @@ let conversations = {
   getCustomer(){ return store.selected.customer},
   getCustomers(){ return store.selected.customerCandidates },
   getConcerns(){ return store.selected.concernCandidates },
-  getSellingHints(){ return store.selected.sellingHints },
+  getSellingHints(){ return store.selected.sellingHints.sellingHints },
+  getNumOfUnseenHints(){ return store.selected.sellingHints.unseenCounter},
+  getNumOfUnseenNotes(){ return store.selected.notes.unseenCounter},
+
   
   // notes
   getNotes(){ return store.selected.notes },
