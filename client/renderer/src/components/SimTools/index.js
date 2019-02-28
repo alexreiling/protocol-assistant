@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import H2 from '../common/H2';
 import { theme } from '../../config';
-import ToggleSwitch from '../common/ToggleSwitch';
 
 import Section from './Section';
-import Clients from './Clients';
+import ConversationStore from './ConversationStore';
 import Button from '../common/Button';
 import ipcMessage from './ipcMessage';
+import Audio from './Audio';
 
 // TODO: pack in function
 
@@ -43,7 +43,12 @@ class SimTools extends Component {
         <Section 
           title='Datenänderung:'
           description='Simuliert die Änderung von Daten im Backend.'>
-          <Clients/>
+          <ConversationStore/>
+        </Section>
+        <Section
+          title='Audiotranskription'
+          description='Steuert die Aufnahme per Mikrofon und Übermittlung an das Backend'>
+          <Audio/>
         </Section>
       </Layout>
     );
