@@ -12,6 +12,9 @@ const DEFAULTS = {
 }
 class AudioRecorder{
   constructor(config){
+    this._listeners = {default: []}
+    Object.keys(STATE).forEach(state => this._listeners[STATE[state].text] = [])
+    console.log(this._listeners)
     this.config = Object.assign(config,DEFAULTS)
     this._setState(STATE.UNINITIALIZED)
     this._data = []
@@ -63,6 +66,8 @@ class AudioRecorder{
       }
     }
     if(onStateChange) onStateChange(this.state)
+    this._listeners[state.text].forEach(listener => listener(this.state,this._error))
+    this._listeners['default'].forEach(listener => listener(this.state,this._error))  
   }
   get state(){
     return Object.assign({},this._state)
@@ -118,6 +123,12 @@ class AudioRecorder{
   }
   getState(){
     return this.state
+  }
+  addEventListener(state,listener){
+    this._listeners[state].push(listener)
+  }
+  addStateChangeListener(listener){
+    this._listeners['default'].push(listener)
   }
 }
 

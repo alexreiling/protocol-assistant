@@ -88,6 +88,7 @@ const App = observer(class App extends Component {
     this.appWidth = window.innerWidth;
     this.headerVisible = true
     this.appCollapsed = true
+    this.recorderState = ''
     
   }
   toggleAppCollapse(){
@@ -103,6 +104,9 @@ const App = observer(class App extends Component {
     sendToMain('open-dev')
   }
   componentDidMount(){
+    conversations.recorder.addStateChangeListener((state,error)=> {
+      this.recorderState=state.text
+    })
     sendToMain('ready-to-show')
   }
   closeApp(){
