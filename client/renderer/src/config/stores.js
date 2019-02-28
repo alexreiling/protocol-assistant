@@ -28,7 +28,11 @@ export const stores = {
     options: {
       keyProperty: "conversationId",
       softDelete: true,
-      softDeleteProperty: 'deleted'
+      softDeleteProperty: 'deleted',
+      wsUrl: 'ws://localhost:8082/audio'
+    },
+    recorderOptions: {
+      bufferSize: 8192
     },
     workers:{
       updateSelected: {
@@ -62,7 +66,7 @@ export const stores = {
           customerCandidates: [],
           notes: [],
           sellingHints: []
-        },1000),
+        }, 1000),
         postProcessor: (conv, response) => {
           // TODO: improve for better performance
           //conv.sellingHints = conv.sellingHints.sellingHints

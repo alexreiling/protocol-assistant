@@ -12,7 +12,7 @@ const DEFAULTS = {
 }
 class AudioRecorder{
   constructor(config){
-    this._config = Object.assign(config,DEFAULTS)
+    this.config = Object.assign(config,DEFAULTS)
     this._setState(STATE.UNINITIALIZED)
     this._data = []
     this._device = null
@@ -26,7 +26,7 @@ class AudioRecorder{
     })
   }
   _setState(state,error = 'an error occured'){
-    const {onError, onInit, onIdle, onRecording, onPaused, onProcessing, onStateChange} = this._config
+    const {onError, onInit, onIdle, onRecording, onPaused, onProcessing, onStateChange} = this.config
     this._state = state
     switch(state){
       case STATE.ERROR: {
@@ -71,20 +71,20 @@ class AudioRecorder{
     return [...states].includes(this._state)  
   }
   _processAudio(e){
-    const onData = this._config.onData
+    const onData = this.config.onData
     const data = e.inputBuffer
     if(onData) onData(data,this.state)
   }
-  startRecording(callback){
+  startRecording(){
     if(this._isStateOneOf(STATE.UNINITIALIZED, STATE.LAUNCHING, STATE.PROCESSING, STATE.RECORDING)){
-      if(callback) return callback(this.state, `Cannot start recording while player is ${this._state.text}`)
+      return
     }
     if(this._isStateOneOf(STATE.IDLE, STATE.ERROR)){
       // start new recording
       let context = new AudioContext();
       this._context = context
       var source = context.createMediaStreamSource(this._stream);
-      var recorder = context.createScriptProcessor(this._config.bufferSize, 1, 1);
+      var recorder = context.createScriptProcessor(this.config.bufferSize, 1, 1);
       recorder.onaudioprocess = this._processAudio.bind(this)   
       recorder.connect(context.destination)   
       source.connect(recorder)
@@ -94,19 +94,17 @@ class AudioRecorder{
       this._context.resume()
     }
     this._setState(STATE.RECORDING);
-    if(callback) callback(this.state)
   }
-  pauseRecording(callback){
+  pauseRecording(){
     if(this._isStateOneOf(STATE.UNINITIALIZED, STATE.LAUNCHING, STATE.PROCESSING, STATE.PAUSED)){
-      if(callback) return callback(this.state, `Cannot pause recording while player is ${this._state.text}`)
+      return
     }
     if(this._isStateOneOf(STATE.RECORDING)) {
       this._context.suspend()
       this._setState(STATE.PAUSED)
     }
-    if (callback) callback(this.state)
   }
-  stopRecording(callback){
+  stopRecording(){
     if(this._isStateOneOf(STATE.RECORDING,STATE.PAUSED)) {
       try{
         // TODO: process data
@@ -117,7 +115,9 @@ class AudioRecorder{
         this._setState(STATE.ERROR)
       }
     }
-    if(callback) callback(this.state)
+  }
+  getState(){
+    return this.state
   }
 }
 

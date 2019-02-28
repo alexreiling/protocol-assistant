@@ -15,6 +15,9 @@ class Store {
       this._remote = remoteMethods
       this._protectedProps = {}
 
+      // webSocket
+      this._ws = this._options.wsUrl ? new WebSocket(this._options.wsUrl) : null
+
       // workers
       Object.keys(workers).forEach(workerId => {
         let worker = workers[workerId]
