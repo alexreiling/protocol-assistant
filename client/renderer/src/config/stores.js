@@ -53,7 +53,7 @@ export const stores = {
         // if true: create remotely => add locally
         autoFire: true,
         // if set, the provided method will be called instead of fetch
-        /*override: (url,fetchOptions,body) => dummyRequest({
+        override: (url,fetchOptions,body) => dummyRequest({
           state:{
             conversationState: 'APPROVAL_PENDING'
           },
@@ -62,11 +62,11 @@ export const stores = {
           customerCandidates: [],
           notes: [],
           sellingHints: []
-        },1000),*/
+        },1000),
         postProcessor: (conv, response) => {
           // TODO: improve for better performance
-          conv.sellingHints = conv.sellingHints.sellingHints
-          conv.notes = conv.notes.topics
+          //conv.sellingHints = conv.sellingHints.sellingHints
+          //conv.notes = conv.notes.topics
           return conv
         }
       },
@@ -99,10 +99,10 @@ export const stores = {
             sellingHints: {sellingHints}})
           return conv
         },
-        /*override: (data, req) => {
+        override: (data, req) => {
           console.log(data.notes)
           return dummyRequest(dummyConversation(data),1000)
-        },*/
+        },
         postProcessor: (conv, res, store) => {
           // TODO: improve for better performance
           console.log(conv)
