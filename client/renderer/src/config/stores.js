@@ -104,12 +104,10 @@ export const stores = {
           return conv
         },
         override: (data, req) => {
-          console.log(data.notes)
           return dummyRequest(dummyConversation(data),1000)
         },
         postProcessor: (conv, res, store) => {
           // TODO: improve for better performance
-          console.log(conv)
           let unsavedNotes = new Map(store.selected.notes.filter(note => note.savePending).map(note => [note.id,note]))
           conv.notes = conv.notes.topics.map((note) => {
             let unsavedNote = unsavedNotes.get(note.id)

@@ -110,7 +110,6 @@ const App = observer(class App extends Component {
   }
   render() {
     const conv = conversations.getConversation()
-    console.log(conv)
     return (
       <AppLayout appWidth={this.appWidth}>
         <NavBar 
