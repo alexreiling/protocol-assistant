@@ -118,7 +118,12 @@ const App = observer(class App extends Component {
       <AppLayout appWidth={this.appWidth}>
         <NavBar 
           vertical
-          items={menues.main}
+          items={[
+            {
+              to:'/#',
+              img:conv ? img.robotActive : img.robotInactive, 
+            }
+          ]}
           onToggle={this.toggleWidth}
           style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
           {<CircleDiv pulsate style={{
