@@ -46,7 +46,10 @@ let conversations = {
   getSellingHints(){ return store.selected.sellingHints.sellingHints },
   getNumOfUnseenHints(){ return store.selected.sellingHints.unseenCounter},
   getNumOfUnseenNotes(){ return store.selected.notes.unseenCounter},
-
+  setAllHintsAsSeen() { 
+    store.selected.sellingHints.sellingHints.forEach(hint => hint.seen = true)
+    store.selected.sellingHints.unseenCounter = 0;
+  },
   
   // notes
   getNotes(){ return store.selected.notes },

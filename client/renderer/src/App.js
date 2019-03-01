@@ -164,7 +164,7 @@ const App = observer(class App extends Component {
                   img: img.upsellingActive,
                   imgInactive: img.upsellingInactive,
                   unseen: conversations.getNumOfUnseenHints(),
-                  onClick: ()=>conv.sellingHints.unseenCounter = 0
+                  onClick: ()=> conversations.setAllHintsAsSeen()
                 },
                 {
                   to:'/notes',

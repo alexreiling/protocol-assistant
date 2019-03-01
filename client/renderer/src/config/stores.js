@@ -73,7 +73,7 @@ export const stores = {
         postProcessor: (conv, response) => {
           // TODO: improve for better performance
           //conv.sellingHints = conv.sellingHints.sellingHints
-          //conv.notes = conv.notes.topics
+          conv.notes = conv.notes.topics
           return conv
         }
       },
@@ -122,6 +122,13 @@ export const stores = {
             }
             return note
           })
+          let seenHints = store.selected.sellingHints.sellingHints.filter(hint => hint.seen).map(hint => hint.name)
+          let unseenCounter = 0
+          conv.sellingHints.sellingHints.forEach(hint => {
+            if (seenHints.includes(hint.name)) hint.seen = true
+            if (!hint.seen) unseenCounter++ 
+          }) 
+          conv.sellingHints.unseenCounter = unseenCounter
           return conv
         }
       },

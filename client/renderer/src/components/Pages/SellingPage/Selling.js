@@ -10,7 +10,7 @@ import { theme } from '../../../config';
 const Label = styled.div`
 
 `
-const Header = styled.div`
+const FlexRow = styled.div`
   display:flex;
   align-items: center;
   > * {
@@ -59,13 +59,18 @@ var Selling = observer(class Selling extends Component {
     return this.filter.has(item.name)
   }
   render() {
-    const {type, name} = this.props.item
+    const {type, name, seen} = this.props.item
     const items = [{name: this.props.item.text}]
     return (
       <div>
-        <Header>
+        <FlexRow>
           <H3 style={{cursor: 'pointer'}} onClick={this.toggle}>{name}</H3>
-        </Header>
+            
+          <FlexRow style={{opacity: !seen ? 1 : 0, fontStyle: 'italic',WebkitTransition: 'opacity 2s linear'}}>
+            <CircleDiv pulsate r={4} style={{backgroundColor: '#A00'}}/>
+            <div style={{color:'#A00'}}>neu!</div>
+          </FlexRow>
+        </FlexRow>
         <div>
           {items.map((item,key) => !this.isFiltered(item)
             && <SellingItem 
