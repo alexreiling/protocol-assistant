@@ -23,8 +23,11 @@ const Wrapper = styled.div`
   }
   .rt-tr-group{
     max-height:24px;
-
+  	:first-of-type > .rt-tr:not(.-padRow){
+      background-color: #EFE !important;
+    }
   }
+
   .rt-td, .rt-th{
     font-size:12px;
     font-weight:400;
