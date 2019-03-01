@@ -45,7 +45,7 @@ export const stores = {
     }, 
     remoteMethods: {
       createOne: {
-        url: 'http://localhost:8082/create',
+        url: 'http://elisa.iao.fraunhofer.de/create',
         // fetch init object: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
         init:{
           method: 'POST',
@@ -57,7 +57,7 @@ export const stores = {
         // if true: create remotely => add locally
         autoFire: true,
         // if set, the provided method will be called instead of fetch
-        override: (url,fetchOptions,body) => dummyRequest({
+/*         override: (url,fetchOptions,body) => dummyRequest({
           state:{
             conversationState: 'APPROVAL_PENDING'
           },
@@ -69,7 +69,7 @@ export const stores = {
             sellingHints: [],
             unseenCounter: 5
           }
-        }, 1000),
+        }, 1000), */
         postProcessor: (conv, response) => {
           // TODO: improve for better performance
           //conv.sellingHints = conv.sellingHints.sellingHints
@@ -84,7 +84,7 @@ export const stores = {
         disabled: true
       },
       updateOne: {
-        url: 'http://localhost:8082/update',
+        url: 'http://elisa.iao.fraunhofer.de/update',
         init: {
           method: 'POST',
           headers: {
@@ -106,9 +106,9 @@ export const stores = {
           })
           return conv
         },
-        override: (data, req) => {
+/*         override: (data, req) => {
           return dummyRequest(dummyConversation(data),1000)
-        },
+        }, */
         postProcessor: (conv, res, store) => {
           // TODO: improve for better performance
           let unsavedNotes = new Map(store.selected.notes.filter(note => note.savePending).map(note => [note.id,note]))
