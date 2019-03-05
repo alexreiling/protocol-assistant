@@ -17,7 +17,9 @@ const Headline = styled.div`
   flex-direction: row;
   flex-shrink:0;
   align-content:flex-end;
-
+  > * {
+    margin-right: 16px;
+  }
   
 `
 const SelectAndRender = observer(class SelectAndRender extends Component {
@@ -32,14 +34,16 @@ const SelectAndRender = observer(class SelectAndRender extends Component {
   }
 
   render() {
-    const {data, columns, label, head ,sub, noHeaders, className} = this.props
+    const {data, columns, label,headOverview, headSelected ,sub, noHeaders, className} = this.props
+    console.log(headOverview)
     return (
       <Grid className={className}>        
         <Headline>
           {label && <H3>
             {label}
           </H3>}
-          {head && this.selected && head(this.selected, this.handleSelect)}
+          {!this.selected && headOverview}
+          {headSelected && this.selected && headSelected(this.selected, this.handleSelect)}
         </Headline>
         {/* <ListSelector style={{display: this.selected ? 'none' : 'initial'}}
             data={data}

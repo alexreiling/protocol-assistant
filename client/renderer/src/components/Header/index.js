@@ -14,6 +14,7 @@ import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import ContractDetails from './ContractDetails';
 import conversations from '../../stores/ConversationStore';
+import BrowserLink from '../abstract/BrowserLink';
 
 
 const Grid = styled.div`
@@ -57,14 +58,16 @@ const Header = observer(class Header extends Component {
           className='clients custom-scroll'
           data={conversations.getCustomers()}
           label='Erkannte Versicherungsnehmer'
+          headOverview={<BrowserLink url='https://www.google.com' label='Externe Suche'><span>🔍</span></BrowserLink>}
           onSelect={(selected) => conversations.setCustomer(selected)}
           columns={columns.client}
-          head={(selected,onExit) => <ClientHead client={selected} onExit={onExit}/>}
+          headSelected={(selected,onExit) => <ClientHead client={selected} onExit={onExit}/>}
           sub={(selected,onExit) => <ClientDetails client={selected} onExit={onExit}/>}
         />
         <SelectAndRender 
           data={conversations.getConcerns()}
           className='concerns custom-scroll'
+          headOverview={<BrowserLink url='https://www.google.com' label='Externe Suche'><span>🔍</span></BrowserLink>}
           label='Erkannte Anliegen'
           columns={columns.concern}            
           sub={(selected,onExit) => <ConcernDetails concern={selected} onExit={onExit}/>}
