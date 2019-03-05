@@ -6,9 +6,9 @@ import { observer } from 'mobx-react';
 import OnClickInput from '../../common/OnClickInput';
 import RoundButton from '../../common/RoundButton';
 import { Note as NoteDict } from '../../../config/dictionary';
-import conversations from '../../../stores/ConversationStore';
 import CircleDiv from '../../common/CircleDiv';
 import { theme } from '../../../config';
+import conversations from '../../../stores/ConversationStore';
 
 const Wrapper = styled.div`
   >*{
@@ -42,41 +42,40 @@ const Note = observer(class Note extends Component{
     super();
     this.addEntry = this.addEntry.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.setSavePending = this.setSavePending.bind(this)
   }
   addEntry(){
     const note = this.props.data
-    this.setSavePending()
+    this.setChangeFlags()
     note.entries.push({createdLocally:true})
   }
   handleChange(e){
-    this.setSavePending()
-    this.props.data[e.target.name] = e.target.value
-  }
-  setSavePending(){
-    this.props.data.savePending = true
+    this.props.note.data[e.target.name] = e.target.value
   }
   render() {
-    const {data:note} = this.props;
+    const {note} = this.props;
     return (
       <Wrapper>
         <Header>
           <OnClickInput
             contrast
             onChange={this.handleChange}
-            value={note.text}
-            name='text'>
-            <H3 style={{color: note.displayColor}}><b>{note.text}</b></H3>
+            value={note.data.name}
+            name='name'>
+            <H3 style={{color: note.data.displayColor}}><b>{note.data.name}</b></H3>
           </OnClickInput>
-          {note.savePending && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>nicht gespeichert</div>}
-          <RoundButton onClick={this.addEntry}>＋</RoundButton>
+          {note.localChange && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>nicht gespeichert</div>}
+          {note.uncommittedChanges && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>not committed</div>}
+          <div style={{color: theme.font.color.green}}>id: {note.data.id}</div>
+          
+          {/* <RoundButton onClick={this.addEntry}>＋</RoundButton> */}
           <NoteNavigator className='note-nav'>
-          <RoundButton onClick={()=>conversations.changeNoteIndex(note,-1)}>🡅</RoundButton>
-          <RoundButton onClick={()=>conversations.changeNoteIndex(note,1)}>🡇</RoundButton>
+            <RoundButton onClick={()=>conversations.changeNoteIndex(note,-1)}>🡅</RoundButton>
+            <RoundButton onClick={()=>conversations.changeNoteIndex(note,1)}>🡇</RoundButton>
           </NoteNavigator>
         </Header>
-          {note.entries.filter(entry => !entry.deleted).map((entry,key) => <Entry key={key} data={entry} onEdit={this.setSavePending}/>)}
-        <Footer>{note.transactions.map(t => <div>{t.text}</div>)}</Footer>
+        {/*note.entries.filter(entry => !entry.deleted).map((entry,key) => <Entry key={key} data={entry} onEdit={this.setChangeFlags}/>)*/}
+        <Entry note={note}/>
+        {/* <Footer>{note.transactions.map(t => <div>{t.text}</div>)}</Footer> */}
       </Wrapper>
     )
   }

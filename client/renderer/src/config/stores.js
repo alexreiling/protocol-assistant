@@ -1,6 +1,6 @@
 import { conversation } from '../data/update';
-import shortId from 'shortid';
-
+import Note from '../stores/Note';
+import { toJS } from 'mobx';
 
 async function dummyRequest(data, delay = 500, failureProb = 0) {
   return new Promise((resolve,reject)=> {
@@ -22,6 +22,7 @@ function dummyConversation(localConv){
   dummy.customerCandidates = conversation.customerCandidates.slice(Math.min(limit1,limit2), Math.max(limit1,limit2))
   return dummy
 }
+
 export const stores = {
   conversations: {
     storeName: 'conversations',
@@ -54,6 +55,8 @@ export const stores = {
           },
           mode: 'cors'
         },
+        mode: 'cors',
+
         // if true: create remotely => add locally
         autoFire: true,
         // if set, the provided method will be called instead of fetch
@@ -70,12 +73,6 @@ export const stores = {
             unseenCounter: 5
           }
         }, 1000), */
-        postProcessor: (conv, response) => {
-          // TODO: improve for better performance
-          //conv.sellingHints = conv.sellingHints.sellingHints
-          conv.notes = conv.notes.topics
-          return conv
-        }
       },
       createMany: {
         disabled: true
@@ -87,41 +84,45 @@ export const stores = {
         url: 'http://elisa.iao.fraunhofer.de/update',
         init: {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'uselessHeader': 1
-          }
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
         },
         mode: 'cors',
         afterPickup: (store) => {
-          if(store.selected)store.selected.notes.forEach(note => note.savePending = false)
+          if(store.selected) store.selected.notes.topics.forEach(note => note.setCommitted())
         },
+        // make changes to body here before fetch/override
         preProcessor: (conv) => {
-          // make changes to body here before fetch/override
-          const {notes} = conv
-          notes.forEach(note => { note.name = note.text })
-          
-          conv = Object.assign(conv,{
-            notes: {topics: notes}
-          })
+          conv.notes.topics = conv.notes.topics.map(note => note.data)
           return conv
         },
-/*         override: (data, req) => {
+        /* override: (data, req) => {
           return dummyRequest(dummyConversation(data),1000)
         }, */
         postProcessor: (conv, res, store) => {
-          // TODO: improve for better performance
-          let unsavedNotes = new Map(store.selected.notes.filter(note => note.savePending).map(note => [note.id,note]))
-          conv.notes = conv.notes.topics.map((note) => {
-            let unsavedNote = unsavedNotes.get(note.id)
-            if (unsavedNote) note = unsavedNote
-            else {
-              note.text = note.name
-              note.entries = note.entries || [ note.content && {text:note.content}]
-              note.transactions = []
+          // TODO: maybe improve for better performance
+          // TODO: remove after fix in backend
+          conv.notes.topics.sort((a,b) => a.index - b.index).forEach((note,index) => note.index = index)
+
+          // protect uncommitted (to backend) local changes from being overridden by backend data
+          let updatedNotes = conv.notes.topics.map(note => new Note(note))
+          let uncommittedNotes = store.selected.notes.topics.filter(note => note.uncommittedChanges)
+          uncommittedNotes.forEach(uncommittedNote => {
+            let found = false
+            for (let i = 0; i < updatedNotes.length; i++) {
+              if (updatedNotes[i].data.id === uncommittedNote.data.id){
+                updatedNotes[i] = uncommittedNote
+                found = true;
+                break;
+              }
             }
-            return note
+            if(!found)updatedNotes.push(uncommittedNote)
           })
+          conv.notes.topics = updatedNotes;
+ /*          conv.notes.topics = conv.notes.topics.map((noteData) => {
+            return uncommittedNotes.get(noteData.id) || new Note(noteData)
+          }) */
+
           let seenHints = store.selected.sellingHints.sellingHints.filter(hint => hint.seen).map(hint => hint.name)
           let unseenCounter = 0
           conv.sellingHints.sellingHints.forEach(hint => {

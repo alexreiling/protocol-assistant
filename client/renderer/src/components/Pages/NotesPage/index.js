@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Page from '../Page';
 import Note from './Note';
-import { decorate, observable } from 'mobx'
 import VerticalCardList from '../../abstract/VerticalCardList';
 import InputWithButton from '../../abstract/InputWithButton';
 import { observer } from 'mobx-react';
-import shortId from 'shortid';
 
 
 
@@ -14,8 +12,8 @@ const NotesPage = observer(class NotesPage extends Component {
     super(props)
     this.addNote = this.addNote.bind(this)
   }
-  addNote(text) {
-    this.props.store.addNote({id: shortId(),text,savePending: true})
+  addNote(name) {
+    this.props.store.addNote(name)
   }
   render() {
     return ( 
@@ -30,7 +28,7 @@ const NotesPage = observer(class NotesPage extends Component {
           style={{width:'300px'}}/>
         <VerticalCardList className={'custom-scroll'}
           items={this.props.store.getNotes()}
-          renderItem={(note)=><Note data={note}/>}/>
+          renderItem={(note)=><Note note={note}/>}/>
       </Page>
 
     );

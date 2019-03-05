@@ -40,7 +40,6 @@ class Store {
   async createOne(localData = {}, ignoreRemote = false){
     // TODO: key conflicts, try-catch?
     let remoteData = await this.remote('createOne',localData,true)
-    console.log(remoteData)
     this._data.set(remoteData[this._keyProp],remoteData)
     return remoteData
   }
@@ -56,9 +55,11 @@ class Store {
     return this._data.get(key)
   }
   async updateOne(item){
-    let updatedObj = await this.remote('updateOne', item)    
     let prevObj = this.getOne(item[this._keyProp])
-
+    let updatedObj = await this.remote('updateOne', item).catch(error => {
+      console.log(error)
+      return prevObj
+    })
     if(prevObj) {
       Object.keys(this._protectedProps).forEach(key => {
         if(this._protectedProps[key]) updatedObj[key] = prevObj[key]
@@ -69,9 +70,9 @@ class Store {
   }
   async updateSelected(){
     if (!this.selected) return null
-    let conv = await this.updateOne(this.selected)
-    this.setSelected(conv[this._keyProp])
-    return conv
+    let updatedObj = await this.updateOne(this.selected)
+    this.setSelected(updatedObj[this._keyProp])
+    return updatedObj
   }
   async getMany(){
     let remoteDataArray = await this.remote('getMany')

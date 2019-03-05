@@ -3,11 +3,12 @@ import {stores} from '../config'
 import { isElectron, ipcRenderer, sendToMain } from "../util/electronHelpers";
 import AudioRecorder from '../util/AudioRecorder'
 import {convertFloat32ToInt16} from '../util'
+import Note from "./Note";
+import shortId from 'shortid';
 
 console.warn('Required ConversationStore')
 
 const {recorderOptions,storeName,options,remoteMethods,workers} = stores.conversations
-
 let store = new Store(storeName, options, remoteMethods, workers)
 let conversations = {
   recorder: new AudioRecorder({
@@ -23,7 +24,13 @@ let conversations = {
 
   async createNewConversation(){
     this.recorder.init()
-    let newConv = await store.createOne(null,true)
+    let newConv
+    try{
+      newConv = await store.createOne(null,true)
+    }catch(error){
+      console.log(error)
+      return null
+    }
     store.setSelected(newConv[store._keyProp])
     return newConv
   },
@@ -52,17 +59,17 @@ let conversations = {
   },
   
   // notes
-  getNotes(){ return store.selected.notes },
-  addNote(data){ 
-    data.entries = []
-    data.transactions = []
+  getNotes(){ return store.selected.notes.topics },
+  addNote(name){ 
+    let note = new Note({name, id: Math.round(Math.random()*10000), rawText:'', index: this.getHighestNoteIndex()})
+    note.setUncommitted()
     let notes = this.getNotes()
-    notes.push(data)
-    notes.forEach((note,index) => note.index = index);
+    notes.push(note)
+    notes.forEach((note,index) => note.data.index = index);
   },
   getHighestNoteIndex(){
     let notes = this.getNotes()
-    return notes.length ? notes[notes.length-1].index : 0
+    return notes.length ? notes[notes.length-1].data.index : 0
   },
   getConversationState(){
     return store.state.conversationState
@@ -72,16 +79,13 @@ let conversations = {
     catch(error) { console.log(error) }
   },
   changeNoteIndex(noteA, incrOrDecr){
-    
     let notes = this.getNotes()
-    if (noteA.index + incrOrDecr < 0 || noteA.index + incrOrDecr > this.getHighestNoteIndex()) return
-    let noteB = notes.find(b => b.index === noteA.index + incrOrDecr)
+    if (noteA.data.index + incrOrDecr < 0 || noteA.data.index + incrOrDecr > this.getHighestNoteIndex()) return
+    let noteB = notes.find(b => b.data.index === noteA.data.index + incrOrDecr)
     if(noteB){
-      noteA.savePending = true
-      noteB.savePending = true
-      noteB.index -= incrOrDecr
-      noteA.index += incrOrDecr
-      notes.replace(notes.slice().sort((a,b)=> a.index-b.index))
+      noteB.data.index -= incrOrDecr
+      noteA.data.index += incrOrDecr
+      notes.replace(notes.slice().sort((a,b)=> a.data.index-b.data.index))
     }
   },
   convert({text}) {

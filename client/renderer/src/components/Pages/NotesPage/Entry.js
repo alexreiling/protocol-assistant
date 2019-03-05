@@ -22,31 +22,37 @@ const Entry = observer(class Entry extends Component {
   }
 
   handleChange(e){
-    this.props.onEdit && this.props.onEdit()
-    const entry = this.props.data;
-    entry[e.target.name] = e.target.value
+    this.props.note.data[e.target.name] = e.target.value
   }
   deleteEntry(){
     this.props.onEdit && this.props.onEdit()    
     this.props.data.deleted = true
   }
   render() {
-    const {data:entry} = this.props
+    const {note} = this.props
     return (
       <Wrapper>
         {/* <RoundButton hoverColor='green' onClick={()=>alert('Nichts passiert...')}>✓</RoundButton> */}
-        <RoundButton hoverColor='red' onClick={this.deleteEntry}>✕</RoundButton>
+        {/* <RoundButton hoverColor='red' onClick={this.deleteEntry}>✕</RoundButton> */}
         {/* <RoundButton onClick={this.convertEntry}>⬅</RoundButton> */}
-        {entry.createdLocally
+        {/*  {entry.createdLocally
         ? <OnClickInput
           contrast
           onChange={this.handleChange}
           name='text'
           value={entry.text}
           placeholder={placeholders.newEntryPlaceholder}>
-          <div style={{padding: '.5em .5em 5px'}}>{entry.text|| placeholders.newEntry}</div>
+          <div style={{padding: '.5em .5em 5px'}}>{text|| placeholders.newEntry}</div>
         </OnClickInput>
-        : <div dangerouslySetInnerHTML={{__html: entry.text}}></div>}
+        : <div dangerouslySetInnerHTML={{__html: entry.text}}></div>} */}
+        <OnClickInput
+          contrast
+          onChange={this.handleChange}
+          name='rawText'
+          value={note.data.rawText}
+          placeholder={placeholders.newEntryPlaceholder}>
+          <div style={{padding: '.5em .5em 5px'}}>{note.data.rawText || placeholders.newEntry}</div>
+        </OnClickInput>
             
       </Wrapper>
     );

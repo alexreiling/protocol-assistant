@@ -126,13 +126,13 @@ const App = observer(class App extends Component {
           ]}
           onToggle={this.toggleWidth}
           style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
-          {<CircleDiv pulsate style={{
+          <CircleDiv pulsate style={{
             opacity: this.recorderState==='RECORDING' ? 1 : 0, 
             width: '40px', 
             height:'40px', 
             backgroundColor: '#A00',
             WebkitTransition: 'opacity 0.5s linear',
-            margin:'auto'}}/>}
+            margin:'auto'}}/>
           {isElectron && <Button
             style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
             onClick={this.openSimTools}>
