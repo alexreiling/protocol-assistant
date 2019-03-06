@@ -35,7 +35,6 @@ const SelectAndRender = observer(class SelectAndRender extends Component {
 
   render() {
     const {data, columns, label,headOverview, headSelected ,sub, noHeaders, className} = this.props
-    console.log(headOverview)
     return (
       <Grid className={className}>        
         <Headline>

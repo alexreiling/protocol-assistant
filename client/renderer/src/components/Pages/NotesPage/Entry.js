@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import RoundButton from '../../common/RoundButton';
 import OnClickInput from '../../common/OnClickInput';
 import { placeholders } from '../../../config';
+import { markUpText } from './MarkUpHelpers';
 const Wrapper = styled.div`
   display:flex;
   > ${RoundButton} {
@@ -30,6 +31,15 @@ const Entry = observer(class Entry extends Component {
   }
   render() {
     const {note} = this.props
+    const {rawText, keywords} = note.data
+    let markupDict = {}
+    keywords.forEach(kw => 
+      markupDict[kw.text] = {
+        word: kw.text,
+        markUpFunc: (text,key) => <span key={key} style={{color: kw.displayColor}}>{text}</span>
+      }
+    )
+    const markedUpText = markUpText(rawText, markupDict)
     return (
       <Wrapper>
         {/* <RoundButton hoverColor='green' onClick={()=>alert('Nichts passiert...')}>✓</RoundButton> */}
@@ -51,7 +61,7 @@ const Entry = observer(class Entry extends Component {
           name='rawText'
           value={note.data.rawText}
           placeholder={placeholders.newEntryPlaceholder}>
-          <div style={{padding: '.5em .5em 5px'}}>{note.data.rawText || placeholders.newEntry}</div>
+          <div style={{padding: '.5em .5em 5px'}}>{markedUpText || placeholders.newEntry}</div>
         </OnClickInput>
             
       </Wrapper>

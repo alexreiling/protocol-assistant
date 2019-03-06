@@ -1,5 +1,4 @@
 import {toJS,isObservable} from 'mobx'
-import Note from '../Note';
 export default async function httpRequest(config,reqData,store){
   if (config.disabled) {
     console.log(`Request ${config} is disabled. Returning data without processing`)

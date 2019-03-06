@@ -4,6 +4,11 @@ class Note {
   constructor(data,store){
     this.setUncommitted = this.setUncommitted.bind(this)
     this.data = data
+    decorate(this.data,{
+      index: observable,
+      name:observable,
+      rawText: observable
+    })
     this.localChange = false
     this.uncommittedChanges = false 
     reaction(
@@ -31,7 +36,7 @@ class Note {
   }
 }
 decorate(Note,{
-  data: observable,
+  //data: observable,
   localChange: observable,
   uncommittedChanges: observable
 })

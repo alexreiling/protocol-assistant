@@ -5,8 +5,6 @@ import H3 from '../../common/H3';
 import { observer } from 'mobx-react';
 import OnClickInput from '../../common/OnClickInput';
 import RoundButton from '../../common/RoundButton';
-import { Note as NoteDict } from '../../../config/dictionary';
-import CircleDiv from '../../common/CircleDiv';
 import { theme } from '../../../config';
 import conversations from '../../../stores/ConversationStore';
 
