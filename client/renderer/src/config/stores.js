@@ -46,7 +46,8 @@ export const stores = {
     }, 
     remoteMethods: {
       createOne: {
-        url: 'http://elisa.iao.fraunhofer.de/create',
+        //url: 'http://elisa.iao.fraunhofer.de/create',
+        url: 'http://localhost:8082/create',
         // fetch init object: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
         init:{
           method: 'POST',
@@ -81,7 +82,8 @@ export const stores = {
         disabled: true
       },
       updateOne: {
-        url: 'http://elisa.iao.fraunhofer.de/update',
+        //url: 'http://elisa.iao.fraunhofer.de/update',
+        url: 'http://localhost:8082/update',
         init: {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
