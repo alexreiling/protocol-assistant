@@ -47,12 +47,17 @@ const Slider = styled.span`
 
 `
 class ToggleSwitch extends Component{
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.handleChange = this.handleChange.bind(this)
     this.state = {
-      checked: false
+      checked: props.checked
     }
+  }
+  componentWillReceiveProps(){
+    this.setState({
+      checked: this.props.checked
+    })
   }
   handleChange(){
     const {onChange} = this.props
