@@ -21,16 +21,47 @@ let conversations = {
     onStateChange: (state,error) => sendToMain('recorder-state', {state,error})
   }),
 
+  async startRecording(){
+    console.log(store.selected.conversationId)
+    let mess = {
+      
+      "task": "START_RECORD",
+      "conversation": {
+        "conversationId": store.selected.conversationId
+      }
+    }
+    store._ws.send(JSON.stringify(mess))
+    this.recorder.startRecording()
+  },
+
+  async pauseRecording(){
+    this.recorder.pauseRecording()
+  },
+
+  async stopRecording(){
+    let mess = {
+      "task": "STOP_RECORD",
+      "conversation": {
+        "conversationId": store.selected.conversationId
+      }
+    }
+    
+    store._ws.send(JSON.stringify(mess))
+    this.recorder.stopRecording()
+  },
+
 
   async createNewConversation(){
     this.recorder.init()
     let newConv
     try{
       newConv = await store.createOne(null,true)
+      store.reopenWebsocket()
     }catch(error){
       console.log(error)
       return null
     }
+    
     store.setSelected(newConv[store._keyProp])
     return newConv
   },

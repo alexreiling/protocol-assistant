@@ -26,12 +26,12 @@ class Audio extends Component {
           type='button'
           strong
           style={{marginRight:8}}
-          onClick={() => ipcMessage('recorder-action',{action: 'startRecording'})}>
+          onClick={() => ipcMessage('store-action',{action: 'startRecording'})}>
           Start Recording</Button>
         <Button 
           type='button'
           strong
-          onClick={() => ipcMessage('recorder-action',{action: 'stopRecording'})}>
+          onClick={() => ipcMessage('store-action',{action: 'stopRecording'})}>
           Stop Recording</Button>
         <div style={{marginTop:'1em'}}>Recorder state: <b>{recorderState}</b></div>
       </div>

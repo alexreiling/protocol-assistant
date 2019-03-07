@@ -20,7 +20,7 @@ class Store {
 
       // workers
       Object.keys(workers).forEach(workerId => {
-        let worker = workers[workerId]
+        let worker = workers[workerId] 
         const cbWithStore = () => worker.callback(this)
         this.createWorker(worker.workerId, cbWithStore, worker.options)
       })
@@ -35,6 +35,12 @@ class Store {
     if (checkAutoFire && !this._remote[method].autoFire) return data
     return httpRequest(this._remote[method], data, this)
   }
+
+  async reopenWebsocket(){
+    this._ws.close()
+    this._ws = new WebSocket(this._options.wsUrl)
+  }
+
 
   // local
   async createOne(localData = {}, ignoreRemote = false){
