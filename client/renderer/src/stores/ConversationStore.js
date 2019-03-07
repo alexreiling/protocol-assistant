@@ -60,8 +60,14 @@ let conversations = {
   
   // notes
   getNotes(){ return store.selected.notes.topics },
+  // TODO: move default props inside constructor
   addNote(name){ 
-    let note = new Note({name, id: Math.round(Math.random()*10000), rawText:'', index: this.getHighestNoteIndex()})
+    let note = new Note({
+      name, 
+      id: shortId(),
+      rawText:'',
+      keywords: [],
+      index: this.getHighestNoteIndex()})
     note.setUncommitted()
     let notes = this.getNotes()
     notes.push(note)

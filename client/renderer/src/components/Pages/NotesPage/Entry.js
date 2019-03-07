@@ -31,7 +31,7 @@ const Entry = observer(class Entry extends Component {
   }
   render() {
     const {note} = this.props
-    const {rawText, keywords} = note.data
+    const {rawText = '', keywords = []} = note.data
     let markupDict = {}
     keywords.forEach(kw => 
       markupDict[kw.text] = {
@@ -39,7 +39,7 @@ const Entry = observer(class Entry extends Component {
         markUpFunc: (text,key) => <span key={key} style={{color: kw.displayColor}}>{text}</span>
       }
     )
-    const markedUpText = markUpText(rawText, markupDict)
+    const markedUpText = rawText ? markUpText(rawText, markupDict) : ''
     return (
       <Wrapper>
         {/* <RoundButton hoverColor='green' onClick={()=>alert('Nichts passiert...')}>✓</RoundButton> */}
@@ -60,7 +60,7 @@ const Entry = observer(class Entry extends Component {
           onChange={this.handleChange}
           name='rawText'
           value={note.data.rawText}
-          placeholder={placeholders.newEntryPlaceholder}>
+          placeholder={placeholders.newEntry}>
           <div style={{padding: '.5em .5em 5px'}}>{markedUpText || placeholders.newEntry}</div>
         </OnClickInput>
             
