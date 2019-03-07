@@ -7,6 +7,7 @@ import {observer} from 'mobx-react'
 import { decorate, observable } from 'mobx';
 import ReactTooltip from 'react-tooltip'
 import { theme } from '../../../config';
+import BrowserLink from '../../abstract/BrowserLink';
 const Label = styled.div`
 
 `
@@ -32,7 +33,7 @@ const SellingItem = (props) => {
     <Wrapper>
       <ReactTooltip />
       <CircleDiv  data-tip={item.text} style={{backgroundColor: item.color || theme.sellingHints.defaultColor}}r={4}/>
-      <Label>{item.name}</Label>
+      <Label><BrowserLink url='https://www.google.com'  label='mehr Informationen'>{item.name}</BrowserLink></Label>
       <ExitButton r={8} onClick={()=>onFilter(item)}>✕</ExitButton>
     </Wrapper>
   )

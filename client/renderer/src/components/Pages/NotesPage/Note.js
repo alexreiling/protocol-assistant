@@ -63,7 +63,7 @@ const Note = observer(class Note extends Component{
           </OnClickInput>
           {note.localChange && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>nicht gespeichert</div>}
           {note.uncommittedChanges && <div style={{color: theme.font.color.red, fontStyle:'italic'}}>not committed</div>}
-          <div style={{color: theme.font.color.green}}>id: {note.data.id}</div>
+          <div style={{color: theme.font.color.green}}></div>
           
           {/* <RoundButton onClick={this.addEntry}>＋</RoundButton> */}
           <NoteNavigator className='note-nav'>

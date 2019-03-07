@@ -22,7 +22,7 @@ let conversations = {
   }),
 
   async startRecording(){
-    console.log(store.selected.conversationId)
+    if (null !=store.selected){
     let mess = {
       
       "task": "START_RECORD",
@@ -32,6 +32,7 @@ let conversations = {
     }
     store._ws.send(JSON.stringify(mess))
     this.recorder.startRecording()
+  }
   },
 
   async pauseRecording(){
@@ -39,15 +40,18 @@ let conversations = {
   },
 
   async stopRecording(){
+    if (null !=store.selected){
     let mess = {
       "task": "STOP_RECORD",
       "conversation": {
         "conversationId": store.selected.conversationId
       }
     }
+  
     
     store._ws.send(JSON.stringify(mess))
     this.recorder.stopRecording()
+  }
   },
 
 

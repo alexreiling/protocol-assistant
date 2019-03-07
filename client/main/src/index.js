@@ -28,7 +28,7 @@ ipcMain.on('toggle-width',(e,args) => {
 ipcMain.on('close-app', (e,args) => {
   dialog.showMessageBox({
     title:'Anwendung schließen',
-    message: 'Wollen Sie Elisa wirklich beenden?',
+    message: 'Wollen Sie eLisA wirklich beenden?',
     type: 'question',
     defaultId: 1,
     cancelId: 1,

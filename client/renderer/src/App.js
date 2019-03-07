@@ -160,7 +160,7 @@ const App = observer(class App extends Component {
               items={[
                 {
                   to:'/selling',
-                  label: 'Up-/Crossselling',
+                  label: 'Hinweise',
                   img: img.upsellingActive,
                   imgInactive: img.upsellingInactive,
                   unseen: conversations.getNumOfUnseenHints(),

@@ -58,7 +58,7 @@ const Header = observer(class Header extends Component {
           className='clients custom-scroll'
           data={conversations.getCustomers()}
           label='Erkannte Versicherungsnehmer'
-          headOverview={<BrowserLink url='https://www.google.com' label='Externe Suche'><span>🔍</span></BrowserLink>}
+          headOverview={<BrowserLink url='https://www.google.com' label='Suche in Bestandssystem'><span>🔍</span></BrowserLink>}
           onSelect={(selected) => conversations.setCustomer(selected)}
           columns={columns.client}
           headSelected={(selected,onExit) => <ClientHead client={selected} onExit={onExit}/>}
@@ -67,7 +67,7 @@ const Header = observer(class Header extends Component {
         <SelectAndRender 
           data={conversations.getConcerns()}
           className='concerns custom-scroll'
-          headOverview={<BrowserLink url='https://www.google.com' label='Externe Suche'><span>🔍</span></BrowserLink>}
+          headOverview={<BrowserLink url='https://www.google.com' label='Suche in Bestandssystem'><span>🔍</span></BrowserLink>}
           label='Erkannte Anliegen'
           columns={columns.concern}            
           sub={(selected,onExit) => <ConcernDetails concern={selected} onExit={onExit}/>}
