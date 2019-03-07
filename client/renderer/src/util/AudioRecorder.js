@@ -90,9 +90,9 @@ class AudioRecorder{
       this._context = context
       var source = context.createMediaStreamSource(this._stream);
       var recorder = context.createScriptProcessor(this.config.bufferSize, 1, 1);
-      recorder.onaudioprocess = this._processAudio.bind(this)   
+     /*  recorder.onaudioprocess = this._processAudio.bind(this)   
       recorder.connect(context.destination)   
-      source.connect(recorder)
+      source.connect(recorder) */
     }
     else if(this._isStateOneOf(STATE.PAUSED)) {
       // resume recording

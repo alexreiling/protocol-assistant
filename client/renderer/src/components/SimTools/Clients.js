@@ -16,14 +16,14 @@ class Clients extends Component {
     return (
       <React.Fragment>
         <Control style={{}}>
-          <Label>Backend Polling</Label> 
+          <Label>Updates vom Server</Label> 
           <ToggleSwitch
             onChange={(checked)=> ipcMessage('store-action',{
             action: checked ? 'activateWorker': 'deactivateWorker',
             args:[workerUpdateSelected.workerId]})}/>
         </Control>
-        <Control style={{}}>
-          <Label>Polling Intervall</Label> 
+       {/* <Control style={{}}>
+          <Label>Update Intervall</Label> 
           <InputWithButton 
             placeholder='Intervall in ms'
             name='timeout'
@@ -34,12 +34,12 @@ class Clients extends Component {
               action: 'setWorkerTimeout',
               args: [workerUpdateSelected.workerId, value]
             })}/>
-        </Control>
+        </Control> }
         <button type='button' onClick={()=>ipcMessage('store-action',{
           action: 'getWorker',
           args: [workerUpdateSelected.workerId],
           respond: true
-        })}>Send Worker State Request</button>
+        })}>Send Worker State Request</button>*/}
       </React.Fragment>
     );
   }

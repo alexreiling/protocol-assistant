@@ -56,7 +56,7 @@ class ToggleSwitch extends Component{
   }
   componentWillReceiveProps(){
     this.setState({
-      checked: this.props.checked
+      //checked: this.props.checked
     })
   }
   handleChange(){

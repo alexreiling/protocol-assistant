@@ -42,12 +42,12 @@ class SimTools extends Component {
         </Section> */}
         <Section 
           title='Datenänderung:'
-          description='Simuliert die Änderung von Daten im Backend.'>
+          description='Aktiviert oder deaktiviert die Datenupdates vom Server.'>
           <ConversationStore/>
         </Section>
         <Section
           title='Audiotranskription'
-          description='Steuert die Aufnahme per Mikrofon und Übermittlung an das Backend'>
+          description='Steuert die Aufnahme per Mikrofon und Übermittlung an den Server'>
           <Audio/>
         </Section>
       </Layout>
