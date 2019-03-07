@@ -4,8 +4,7 @@
  * @param {Array[]} specialMappings - <startIndex,length,mappingFn>
  * @param {Function} [standardMapping=(text,key) => text)] - (text,key)=>{} 
  */
-export function chunkAndMap(text,specialMappings,standardMapping){
-  if (!standardMapping) standardMapping = (text) => text
+export function chunkAndMap(text,specialMappings,standardMapping = text => text){
   specialMappings.sort((a,b) => a[0] - b[0])
   var chunks = []
   var offset = 0

@@ -2,6 +2,7 @@
 
 # dependencies
 renderer/node_modules
+renderer/build
 main/node_modules
 /node_modules
 /.pnp

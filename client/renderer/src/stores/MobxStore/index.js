@@ -1,10 +1,12 @@
 import { decorate, observable, computed } from 'mobx';
-import { workers } from '@alexreiling/utilities';
+//import { workers } from '@alexreiling/utilities';
 import { defaultConfig } from './defaultConfig';
 import httpRequest from './httpRequest'
+import  workers  from  '../../util/workers'
+
 class Store {
   static instances = {}
-  constructor(storeName, options = {}, remoteMethods = {}, workers = {}){
+  constructor(storeName, options = {}, remoteMethods = {}, workerConfigs = {}){
     if(!storeName) throw new Error('Could not create store: storeName prop missing')
     if(! Store.instances[storeName]){
       this._data = new Map();
@@ -19,8 +21,8 @@ class Store {
       this._ws = this._options.wsUrl ? new WebSocket(this._options.wsUrl) : null
 
       // workers
-      Object.keys(workers).forEach(workerId => {
-        let worker = workers[workerId] 
+      Object.keys(workerConfigs).forEach(workerId => {
+        let worker = workerConfigs[workerId] 
         const cbWithStore = () => worker.callback(this)
         this.createWorker(worker.workerId, cbWithStore, worker.options)
       })
