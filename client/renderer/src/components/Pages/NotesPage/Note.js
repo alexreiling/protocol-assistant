@@ -32,9 +32,6 @@ const Header = styled.div`
     margin-right: 8px;
   }
 `
-const Footer = styled.div`
-  color: ${p => p.theme.font.color.gray};
-`
 const Note = observer(class Note extends Component{
   constructor(){
     super();

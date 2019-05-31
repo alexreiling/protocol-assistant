@@ -1,5 +1,4 @@
-import { decorate, observable, computed } from 'mobx';
-//import { workers } from '@alexreiling/utilities';
+import { decorate, observable } from 'mobx';
 import { defaultConfig } from './defaultConfig';
 import httpRequest from './httpRequest'
 import  workers  from  '../../util/workers'
@@ -96,7 +95,7 @@ class Store {
     else this._data.delete(key)
   }
   
-  deleteMany(){
+  deleteMany(localDataArray=[], ignoreRemote = false){
     throw new Error('Not implemented')
   }
   setSelected(id){

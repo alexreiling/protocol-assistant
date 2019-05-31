@@ -16,10 +16,10 @@ const SaveWrapper = styled.div`
   flex-shrink: 0;
   padding:8px;
   border-top: .5px solid rgb(0,0,0,.25);
-`
+`;
 const Label = styled.div`
   margin: 0 8px 0 24px;
-`
+`;
 
 const NotesPage = observer(class NotesPage extends Component {
   constructor(props){

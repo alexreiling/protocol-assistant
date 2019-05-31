@@ -1,9 +1,25 @@
 {
   "name": "renderer",
   "productName": "eLisA",
+  "homepage": "./",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "config": {
+    "port": "3003"
+  },
+  "build": {
+    "appId": "de.fraunhofer.iao.elisa",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
   "dependencies": {
+    "electron-is-dev": "^1.1.0",
     "mobx": "^5.5.2",
     "mobx-react": "^5.3.6",
     "moment": "^2.23.0",
@@ -23,10 +39,19 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-dev": "set PORT=3000 && concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "build",
+    "preelectron-pack": "npm run-script build"
   },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {}
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "electron": "^5.0.2",
+    "electron-builder": "^20.41.0",
+    "wait-on": "^3.2.0"
   }
 }

@@ -1,12 +1,12 @@
 // modules
 import React, { Component } from 'react';
-import {Switch,Route,Redirect, withRouter} from 'react-router-dom'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import styled from 'styled-components';
 import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 // config
-import { theme, menues } from './config';
+import { theme } from './config';
 
 // components
 import Header from './components/Header/index';
@@ -51,7 +51,7 @@ const AppLayout = styled.div`
 const Main = styled.main`
   display: flex;
   flex-direction: column;
-  height: ${window.innerHeight+'px'};
+  height: ${window.innerHeight + 'px'};
   grid-area: main;
 
   .header{
@@ -69,17 +69,16 @@ const Main = styled.main`
   }
 `
 const App = observer(class App extends Component {
-  constructor(){
+  constructor() {
     super()
     // method bindings
     this.toggleHeader = this.toggleHeader.bind(this)
     this.toggleAppCollapse = this.toggleAppCollapse.bind(this)
-    if(isElectron) {
-      ipcRenderer.on('toggled',(e,args) => {
+    if (isElectron) {
+      ipcRenderer.on('toggled', (e, args) => {
         console.log(args.width)
 
-        if(this.appWidth !== args.width) 
-        {
+        if (this.appWidth !== args.width) {
           this.appCollapsed = args.width < this.appWidth
           this.appWidth = args.width
         }
@@ -89,114 +88,115 @@ const App = observer(class App extends Component {
     this.headerVisible = true
     this.appCollapsed = true
     this.recorderState = ''
-    
+
   }
-  toggleAppCollapse(){
+  toggleAppCollapse() {
     sendToMain('toggle-width')
   }
-  toggleHeader(){
+  toggleHeader() {
     this.headerVisible = !this.headerVisible;
   }
-  openSimTools(){
-    sendToMain('open-sim-tools')    
+  openSimTools() {
+    sendToMain('open-sim-tools')
   }
-  openDevTools(){
+  openDevTools() {
     sendToMain('open-dev')
   }
-  componentDidMount(){
-    conversations.recorder.addStateChangeListener((state,error)=> {
-      this.recorderState=state.text
+  componentDidMount() {
+    conversations.recorder.addStateChangeListener((state, error) => {
+      this.recorderState = state.text
     })
     sendToMain('ready-to-show')
   }
-  closeApp(){
+  closeApp() {
     sendToMain('close-app')
   }
   render() {
     const conv = conversations.getConversation()
     return (
       <AppLayout appWidth={this.appWidth}>
-        <NavBar 
+        <NavBar
           vertical
           items={[
             {
-              to:'/#',
-              img:conv ? img.robotActive : img.robotInactive, 
+              to: '/#',
+              img: conv ? img.robotActive : img.robotInactive,
             }
           ]}
           onToggle={this.toggleWidth}
-          style={{paddingTop:'1em',borderRight: `1px solid ${theme.gridline.color}`}}>
+          style={{ paddingTop: '1em', borderRight: `1px solid ${theme.gridline.color}` }}>
           <CircleDiv pulsate style={{
-            opacity: this.recorderState==='RECORDING' ? 1 : 0, 
-            width: '40px', 
-            height:'40px', 
+            opacity: this.recorderState === 'RECORDING' ? 1 : 0,
+            width: '40px',
+            height: '40px',
             backgroundColor: '#A00',
             WebkitTransition: 'opacity 0.5s linear',
-            margin:'auto'}}/>
+            margin: 'auto'
+          }} />
           {isElectron && <Button
-            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main }}
             onClick={this.openSimTools}>
             SIM
           </Button>}
           {isElectron && <Button
-            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main }}
             onClick={this.openDevTools}>
             DEV
           </Button>}
           <Toggler
             onClick={this.toggleAppCollapse}
-            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main }}
             displayState={!this.appCollapsed}
-            vertical/>
-          <Button 
-            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main}}
+            vertical />
+          <Button
+            style={{ height: theme.nav.thickness.main, lineHeight: theme.nav.thickness.main }}
             onClick={this.closeApp}
             red>✕</Button>
         </NavBar>
         {conv ?
-        <Main>
-            <Header style={{display: !this.headerVisible && 'none'}}/>
-            <NavBar 
+          <Main>
+            <Header style={{ display: !this.headerVisible && 'none' }} />
+            <NavBar
               items={[
                 {
-                  to:'/selling',
+                  to: '/selling',
                   label: 'Up-/Crossselling',
                   img: img.upsellingActive,
                   imgInactive: img.upsellingInactive,
                   unseen: conversations.getNumOfUnseenHints(),
-                  onClick: ()=> conversations.setAllHintsAsSeen()
+                  onClick: () => conversations.setAllHintsAsSeen()
                 },
                 {
-                  to:'/notes',
+                  to: '/notes',
                   label: 'Gesprächsnotizen',
                   img: img.notesActive,
                   imgInactive: img.notesInactive,
                   unseen: conversations.getNumOfUnseenNotes()
                 },
-              ]} 
-              style={{borderTop: `1px solid ${theme.gridline.color}`}}>
+              ]}
+              style={{ borderTop: `1px solid ${theme.gridline.color}` }}>
               <Toggler
                 onClick={this.toggleHeader}
-                style={{width: '48px', lineHeight: theme.nav.thickness.sub}}
+                style={{ width: '48px', lineHeight: theme.nav.thickness.sub }}
                 displayState={this.headerVisible}
               />
             </NavBar>
             <Switch>
-              <Route exact path='/' render={()=>(<Redirect to='/selling'/>)}/>
-              <Route exact path='/selling/' render={()=>(<SellingPage items={conversations.getSellingHints()}/>)}/>              
-              <Route exact path='/notes/' render={()=>(<NotesPage store={conversations}/>)}/>
-              <Route exact path='/protocol/' render={()=>(<ProtocolPage/>)}/>
+              <Route exact path='/' render={() => (<Redirect to='/selling' />)} />
+              <Route exact path='/selling/' render={() => (<SellingPage items={conversations.getSellingHints()} />)} />
+              <Route exact path='/notes/' render={() => (<NotesPage store={conversations} />)} />
+              <Route exact path='/protocol/' render={() => (<ProtocolPage />)} />
             </Switch>
-        </Main>
-        : !this.appCollapsed && <div style={{display:'flex',flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
-          <img src={img.robotInactive} style={{width:'50px'}}/>
-          <div style={{fontSize:24, color: theme.font.color.gray, marginTop:'1em'}}>eLisA schläft...</div>
-        </div>}
+          </Main>
+          : !this.appCollapsed && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <img src={img.robotInactive} style={{ width: '50px' }} alt="robot icon"/>
+            <div style={{ fontSize: 24, color: theme.font.color.gray, marginTop: '1em' }}>eLisA schläft...</div>
+          </div>}
       </AppLayout>
     )
   }
 })
-decorate(App,{
+decorate(App, {
   headerVisible: observable,
   appCollapsed: observable,
   appWidth: observable,

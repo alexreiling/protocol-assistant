@@ -47,7 +47,7 @@ export const Image = (props) => {
 }
 
 function NavButton (props){
-  const {unseen,to, img, imgInactive, label,onClick, vertical} = props
+  const {unseen,to, img, label,onClick, vertical} = props
   return (
     <NavLink to={to} theme={props.theme}>
       <Wrapper vertical={vertical} onClick={onClick}>
