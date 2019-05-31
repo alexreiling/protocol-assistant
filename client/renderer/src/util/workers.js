@@ -1,27 +1,25 @@
-
 let workers = {}
-function loop(worker){
-  let id = worker.counter++
-  console.log('[' + id + ']: want to start')
+async function loop(worker){
+  let iteration = worker.counter++
+  console.log(worker.id + '[' + iteration + ']: want to start')
   if(!worker.busy){
     worker.busy = true
-    console.log('[' + id + ']: starting cycle')
-    //await this.getListRemote()
+    console.log(worker.id + '[' + iteration + ']: starting cycle')
     worker.task().then(()=>{
       worker.busy = false
-      console.log('[' + id + ']: finished cycle')  
+      console.log(worker.id + '[' + iteration + ']: finished cycle')  
     }).catch(error => {
       worker.errorHandler ? worker.errorHandler(error) : console.log(error)
+      worker.active = false
       worker.busy = false
     })
   }
   else{
-    console.log('[' + id + ']: still busy')
+    console.log(worker.id + '[' + iteration + ']: still busy')
   }
-  console.log('carrying on')
-  if(worker.active) setTimeout(() => loop(worker),worker.timeout)
+  if(worker.active) setTimeout(() => loop(worker),worker.options.timeout)
   else{
-    console.log('[' + id + ']: terminating loop')      
+    console.log(worker.id + '[' + iteration + ']: terminating loop')      
   }
 }
 function get(workerId){
@@ -30,13 +28,15 @@ function get(workerId){
   return worker
 }
 const Workers = {
-  createWorker: (workerId, timeout, periodicTask, errorHandler) => {
-    if (workers[workerId]) throw new Error(`Creation failed: Worker with id ${workerId} already exists`)
+  createWorker: (workerId, periodicTask, options, errorHandler, returnIfExists = false) => {
+    let worker = workers[workerId]
+    if (worker && returnIfExists) return worker 
+    else if (worker) throw new Error(`Creation failed: Worker with id ${workerId} already exists`)
     workers[workerId] = {
       id: workerId,
       task: periodicTask,
       errorHandler: errorHandler,
-      timeout: timeout,
+      options: options,
       counter: 0,
       active: false,
       busy: false,
@@ -57,7 +57,8 @@ const Workers = {
   deactivate: (workerId) => {
     get(workerId).active = false
   },
-  setTimeout: (workerId, timeout) => get(workerId).timeout = timeout
+  setTimeout: (workerId, timeout) => get(workerId).options.timeout = timeout    
+  
 }
 Object.freeze(Workers)
 export default Workers

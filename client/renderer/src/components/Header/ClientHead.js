@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   display:flex;
   align-items: center;
   > * {
-    margin-left: 16px;
+    margin-right: 16px;
   }
 
 `

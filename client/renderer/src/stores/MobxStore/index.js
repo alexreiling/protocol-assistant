@@ -1,10 +1,11 @@
-import { decorate, observable, computed } from 'mobx';
-import { workers } from '@alexreiling/utilities';
+import { decorate, observable } from 'mobx';
 import { defaultConfig } from './defaultConfig';
 import httpRequest from './httpRequest'
+import  workers  from  '../../util/workers'
+
 class Store {
   static instances = {}
-  constructor(storeName, options = {}, remoteMethods = {}, workers = {}){
+  constructor(storeName, options = {}, remoteMethods = {}, workerConfigs = {}){
     if(!storeName) throw new Error('Could not create store: storeName prop missing')
     if(! Store.instances[storeName]){
       this._data = new Map();
@@ -19,8 +20,8 @@ class Store {
       this._ws = this._options.wsUrl ? new WebSocket(this._options.wsUrl) : null
 
       // workers
-      Object.keys(workers).forEach(workerId => {
-        let worker = workers[workerId]
+      Object.keys(workerConfigs).forEach(workerId => {
+        let worker = workerConfigs[workerId] 
         const cbWithStore = () => worker.callback(this)
         this.createWorker(worker.workerId, cbWithStore, worker.options)
       })
@@ -36,11 +37,16 @@ class Store {
     return httpRequest(this._remote[method], data, this)
   }
 
+  async reopenWebsocket(){
+    this._ws.close()
+    this._ws = new WebSocket(this._options.wsUrl)
+  }
+
+
   // local
   async createOne(localData = {}, ignoreRemote = false){
     // TODO: key conflicts, try-catch?
     let remoteData = await this.remote('createOne',localData,true)
-    console.log(remoteData)
     this._data.set(remoteData[this._keyProp],remoteData)
     return remoteData
   }
@@ -56,9 +62,11 @@ class Store {
     return this._data.get(key)
   }
   async updateOne(item){
-    let updatedObj = await this.remote('updateOne', item)    
     let prevObj = this.getOne(item[this._keyProp])
-
+    let updatedObj = await this.remote('updateOne', item).catch(error => {
+      console.log(error)
+      return prevObj
+    })
     if(prevObj) {
       Object.keys(this._protectedProps).forEach(key => {
         if(this._protectedProps[key]) updatedObj[key] = prevObj[key]
@@ -69,9 +77,9 @@ class Store {
   }
   async updateSelected(){
     if (!this.selected) return null
-    let conv = await this.updateOne(this.selected)
-    this.setSelected(conv[this._keyProp])
-    return conv
+    let updatedObj = await this.updateOne(this.selected)
+    this.setSelected(updatedObj[this._keyProp])
+    return updatedObj
   }
   async getMany(){
     let remoteDataArray = await this.remote('getMany')
@@ -87,7 +95,7 @@ class Store {
     else this._data.delete(key)
   }
   
-  deleteMany(){
+  deleteMany(localDataArray=[], ignoreRemote = false){
     throw new Error('Not implemented')
   }
   setSelected(id){

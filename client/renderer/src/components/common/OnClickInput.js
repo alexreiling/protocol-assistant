@@ -11,7 +11,10 @@ const Div = styled.div`
   justify-content:center;
   cursor:text;
   :hover{
-    color: ${p => p.theme.font.color.linkHovered}
+    color: ${p => p.theme.font.color.linkHovered} !important;
+    * {
+      color: ${p => p.theme.font.color.linkHovered} !important;
+    }
   }
 `
 /* const Input = styled.input`

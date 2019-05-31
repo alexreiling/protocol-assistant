@@ -1,11 +1,11 @@
 
 // Modules to control application life and create native browser window
 const electron = require('electron')
-const {app,ipcMain,dialog} = electron;
+const { app, ipcMain, dialog } = electron;
 
-var MainWindow = require('./windows/mainWindow')
-var SimTools = require('./windows/simTools')
-const {sendToWebContents} = require('./util/electronHelpers')
+var MainWindow = require('./mainWindow')
+var SimTools = require('./simTools')
+const { sendToWebContents } = require('./util/electronHelpers')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -21,42 +21,42 @@ app.on('activate', function () {
 })
 
 // event handlers
-ipcMain.on('toggle-width',(e,args) => {
+ipcMain.on('toggle-width', (e, args) => {
   MainWindow.toggleCollapse()
 })
 
-ipcMain.on('close-app', (e,args) => {
+ipcMain.on('close-app', (e, args) => {
   dialog.showMessageBox({
-    title:'Anwendung schließen',
+    title: 'Anwendung schließen',
     message: 'Wollen Sie Elisa wirklich beenden?',
     type: 'question',
     defaultId: 1,
     cancelId: 1,
-    buttons: ['Ja','Nein']
-  },(response) => {
-    if(response===0) {
+    buttons: ['Ja', 'Nein']
+  }, (response) => {
+    if (response === 0) {
       MainWindow.close();
       SimTools.close();
     }
   })
 })
-ipcMain.on('open-dev', (e,args) => {
-  MainWindow.window.openDevTools({mode:'detach'})
+ipcMain.on('open-dev', (e, args) => {
+  MainWindow.window.openDevTools({ mode: 'detach' })
 })
-ipcMain.on('store-action',(event,args) => {
-  sendToWebContents(MainWindow.window,'store-action',args)
+ipcMain.on('store-action', (event, args) => {
+  sendToWebContents(MainWindow.window, 'store-action', args)
 })
-ipcMain.on('recorder-action',(event,args) => {
-  sendToWebContents(MainWindow.window,'recorder-action',args)
+ipcMain.on('recorder-action', (event, args) => {
+  sendToWebContents(MainWindow.window, 'recorder-action', args)
 })
-ipcMain.on('store-action-response',(event,args) => {
-  sendToWebContents(SimTools.window,'store-action-response',args)
+ipcMain.on('store-action-response', (event, args) => {
+  sendToWebContents(SimTools.window, 'store-action-response', args)
 })
-ipcMain.on('recorder-state',(event,args) => {
-  if(SimTools && SimTools.window) sendToWebContents(SimTools.window,'recorder-state',args)
+ipcMain.on('recorder-state', (event, args) => {
+  if (SimTools && SimTools.window) sendToWebContents(SimTools.window, 'recorder-state', args)
 })
-ipcMain.on('open-sim-tools', (e,args) => {
-  if(!SimTools.window) SimTools.create()
+ipcMain.on('open-sim-tools', (e, args) => {
+  if (!SimTools.window) SimTools.create()
   else SimTools.window.focus()
 })
 

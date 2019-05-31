@@ -59,7 +59,7 @@ var Selling = observer(class Selling extends Component {
     return this.filter.has(item.name)
   }
   render() {
-    const {type, name, seen} = this.props.item
+    const {name, seen} = this.props.item
     const items = [{name: this.props.item.text}]
     return (
       <div>

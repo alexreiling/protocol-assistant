@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 // config
-import {columns} from '../../config';
+import { columns } from '../../config';
 
 // components
 import SelectAndRender from '../abstract/SelectAndRender';
@@ -14,6 +14,7 @@ import { decorate, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import ContractDetails from './ContractDetails';
 import conversations from '../../stores/ConversationStore';
+import BrowserLink from '../abstract/BrowserLink';
 
 
 const Grid = styled.div`
@@ -57,31 +58,35 @@ const Header = observer(class Header extends Component {
           className='clients custom-scroll'
           data={conversations.getCustomers()}
           label='Erkannte Versicherungsnehmer'
+          // eslint-disable-next-line
+          headOverview={<BrowserLink url='https://www.google.com' label='Externe Suche'><span>🔍</span></BrowserLink>}
           onSelect={(selected) => conversations.setCustomer(selected)}
           columns={columns.client}
-          head={(selected,onExit) => <ClientHead client={selected} onExit={onExit}/>}
-          sub={(selected,onExit) => <ClientDetails client={selected} onExit={onExit}/>}
+          headSelected={(selected, onExit) => <ClientHead client={selected} onExit={onExit} />}
+          sub={(selected, onExit) => <ClientDetails client={selected} onExit={onExit} />}
         />
-        <SelectAndRender 
+        <SelectAndRender
           data={conversations.getConcerns()}
           className='concerns custom-scroll'
+          // eslint-disable-next-line
+          headOverview={<BrowserLink url='https://www.google.com' label='Externe Suche'><span>🔍</span></BrowserLink>}
           label='Erkannte Anliegen'
-          columns={columns.concern}            
-          sub={(selected,onExit) => <ConcernDetails concern={selected} onExit={onExit}/>}
-          noHeaders/>
+          columns={columns.concern}
+          sub={(selected, onExit) => <ConcernDetails concern={selected} onExit={onExit} />}
+          noHeaders />
         <SelectAndRender
           className='contracts custom-scroll'
           label='Verträge und Vorgänge'
           data={conversations.getCustomer() ? conversations.getCustomer().contracts : []}
           columns={columns.contract}
-          sub={(selected,onExit) => <ContractDetails contract={selected} onExit={onExit}/>}
-          noHeaders/>
+          sub={(selected, onExit) => <ContractDetails contract={selected} onExit={onExit} />}
+          noHeaders />
 
       </Grid>
     );
   }
 })
-decorate(Header,{
+decorate(Header, {
   selectedClient: observable
 })
 export default Header;
