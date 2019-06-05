@@ -2,6 +2,13 @@ import { conversation } from '../data/update';
 import Note from '../stores/Note';
 import shortId from 'shortid'
 
+
+
+let username = 'vu'
+let password = 'DA19!VU'
+
+let enc = new Buffer(username + ":" + password).toString("base64");
+
 async function dummyRequest(data, delay = 500, failureProb = 0) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -31,7 +38,7 @@ export const stores = {
       keyProperty: "conversationId",
       softDelete: true,
       softDeleteProperty: 'deleted',
-      wsUrl: 'ws://localhost:8082/audio'
+      wsUrl: 'wss://elisa.iao.fraunhofer.de/audio'
     },
     recorderOptions: {
       bufferSize: 8192
@@ -54,6 +61,7 @@ export const stores = {
         init: {
           method: 'POST',
           headers: {
+            'Authorization': 'Basic ' + enc,
             'uselessHeader': 1
           },
           mode: 'cors'
@@ -87,7 +95,7 @@ export const stores = {
         //url: 'http://localhost:8082/update',
         init: {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Basic ' + enc },
           mode: 'cors'
         },
         mode: 'cors',

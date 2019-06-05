@@ -3,6 +3,7 @@ import { defaultConfig } from './defaultConfig';
 import httpRequest from './httpRequest'
 import  workers  from  '../../util/workers'
 
+
 class Store {
   static instances = {}
   constructor(storeName, options = {}, remoteMethods = {}, workerConfigs = {}){
@@ -17,7 +18,7 @@ class Store {
       this._protectedProps = {}
 
       // webSocket
-      this._ws = this._options.wsUrl ? new WebSocket(this._options.wsUrl) : null
+      //this._ws = this._options.wsUrl ? new WebSocket(this._options.wsUrl) : null
 
       // workers
       Object.keys(workerConfigs).forEach(workerId => {
@@ -38,7 +39,9 @@ class Store {
   }
 
   async reopenWebsocket(){
-    this._ws.close()
+    if (undefined != this._ws){
+      this._ws.close()
+    }
     this._ws = new WebSocket(this._options.wsUrl)
   }
 
