@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import ToggleSwitch from '../../common/ToggleSwitch';
-import {saveFile} from '../../../util/electronHelpers';
+import { saveFile } from '../../../util/electronHelpers';
 
 
 const SaveWrapper = styled.div`
@@ -22,7 +22,7 @@ const Label = styled.div`
 `;
 
 const NotesPage = observer(class NotesPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.handleNotesSave = this.handleNotesSave.bind(this)
     this.addNote = this.addNote.bind(this)
@@ -34,7 +34,7 @@ const NotesPage = observer(class NotesPage extends Component {
   addNote(name) {
     this.props.store.addNote(name)
   }
-  handleNotesSave(){
+  handleNotesSave() {
 
     let saveOptions = {
       filters: [
@@ -42,37 +42,37 @@ const NotesPage = observer(class NotesPage extends Component {
       ]
     }
     let content = JSON.stringify(this.props.store.getNotes().map(note => note.data))
-    saveFile(content,saveOptions,() => {
+    saveFile(content, saveOptions, () => {
       this.setState({
         knr: false,
         vnr: false,
       })
       alert('Notizen wurden gespeichert.')
     })
-    
+
   }
 
   render() {
-    return ( 
+    return (
       <Page title='Notizen'>
-        <InputWithButton 
+        <InputWithButton
           onSubmit={this.addNote}
           clearAfterSubmit
           buttonText='Hinzufügen'
           placeholder='Neues Thema...'
           validator={text => text}
           messageOnInvalid='Bitte benennen Sie das neue Thema'
-          style={{width:'300px'}}/>
-        <VerticalCardList 
-          style={{height:'1fr', flexGrow: 1}}
+          style={{ width: '300px' }} />
+        <VerticalCardList
+          style={{ height: '1fr', flexGrow: 1 }}
           items={this.props.store.getNotes()}
-          renderItem={(note)=><Note note={note}/>}/>
+          renderItem={(note) => <Note note={note} />} />
         <SaveWrapper>
-            <Label style={{marginLeft: 0}}>VNR:</Label>
-            <ToggleSwitch checked={this.state.vnr}/>
-            <Label>KNR:</Label>
-            <ToggleSwitch checked={this.state.knr}/>
-          <Button strong style={{marginLeft:'auto'}}onClick={this.handleNotesSave}>Speichern</Button>
+          <Label style={{ marginLeft: 0 }}>VNR:</Label>
+          <ToggleSwitch checked={this.state.vnr} />
+          <Label>KNR:</Label>
+          <ToggleSwitch checked={this.state.knr} />
+          <Button strong style={{ marginLeft: 'auto' }} onClick={this.handleNotesSave}>Speichern</Button>
         </SaveWrapper>
       </Page>
 

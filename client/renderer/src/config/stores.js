@@ -62,19 +62,23 @@ export const stores = {
         // if true: create remotely => add locally
         autoFire: true,
         // if set, the provided method will be called instead of fetch
-        /*  override: (url, fetchOptions, body) => dummyRequest({
+        override: (url, fetchOptions, body) => dummyRequest({
            state: {
              conversationState: 'APPROVAL_PENDING'
            },
            conversationId: shortId(),
            concernCandidates: [],
            customerCandidates: [],
-           notes: [],
+           notes: {topics:[]},
            sellingHints: {
              sellingHints: [],
              unseenCounter: 5
            }
-         }, 1000), */
+         }, 1000),
+         postProcessor: (conv, res, store) => {
+          conv.notes.topics = conv.notes.topics.map(note => new Note(note))           
+          return conv
+         }
       },
       createMany: {
         disabled: true

@@ -67,7 +67,7 @@ class ToggleSwitch extends Component{
   }
   render() {
     return (
-      <Switch class="switch" onClick={this.handleChange}>
+      <Switch className="switch" onClick={this.handleChange}>
         <Slider checked={this.state.checked} className="slider round"></Slider>
       </Switch>
     );

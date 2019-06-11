@@ -37,17 +37,17 @@ const Fader = styled.div`
   margin-right: 8px;
   position: absolute;
   content: " ";
-  ${({position}) => position}: 0;
-  background: ${({position}) => `linear-gradient(to ${position}, rgba(255,255,255,0),rgba(255,255,255,1))`};
+  ${({ position }) => position}: 0;
+  background: ${({ position }) => `linear-gradient(to ${position}, rgba(255,255,255,0),rgba(255,255,255,1))`};
 `
 const VerticalCardList = observer((props) =>
-(
-  <Container {...props}>
-    <Fader position='top'/>
-    <ListContainer className={'custom-scroll'}>
-      {props.items.filter(item => !item.deleted).map((item,key) => <Card key={key.toString()}>{props.renderItem(item,key)}</Card>)}
-    </ListContainer>
-    <Fader position='bottom'/>
-  </Container>
-)) ;
+  (
+    <Container {...props}>
+      <Fader position='top' />
+      <ListContainer className={'custom-scroll'}>
+        {props.items.filter(item => !item.deleted).map((item, key) => <Card key={key.toString()}>{props.renderItem(item, key)}</Card>)}
+      </ListContainer>
+      <Fader position='bottom' />
+    </Container>
+  ));
 export default VerticalCardList;

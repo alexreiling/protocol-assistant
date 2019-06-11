@@ -32,6 +32,7 @@ module.exports = MainWindow = {
       show: false,
       minHeight: 0,
       hasShadow: true,
+      icon: __dirname + '/assets/Aktiv_blau_centered.png',
       webPreferences: {
         nodeIntegration: false,
         preload: __dirname + '/preload.js'

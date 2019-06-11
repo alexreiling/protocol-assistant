@@ -119,7 +119,7 @@ const App = observer(class App extends Component {
           vertical
           items={[
             {
-              to: '/#',
+              to: '/app',
               img: conv ? img.robotActive : img.robotInactive,
             }
           ]}
@@ -159,7 +159,7 @@ const App = observer(class App extends Component {
             <NavBar
               items={[
                 {
-                  to: '/selling',
+                  to: '/app/selling',
                   label: 'Up-/Crossselling',
                   img: img.upsellingActive,
                   imgInactive: img.upsellingInactive,
@@ -167,7 +167,7 @@ const App = observer(class App extends Component {
                   onClick: () => conversations.setAllHintsAsSeen()
                 },
                 {
-                  to: '/notes',
+                  to: '/app/notes',
                   label: 'Gesprächsnotizen',
                   img: img.notesActive,
                   imgInactive: img.notesInactive,
@@ -182,10 +182,10 @@ const App = observer(class App extends Component {
               />
             </NavBar>
             <Switch>
-              <Route exact path='/' render={() => (<Redirect to='/selling' />)} />
-              <Route exact path='/selling/' render={() => (<SellingPage items={conversations.getSellingHints()} />)} />
-              <Route exact path='/notes/' render={() => (<NotesPage store={conversations} />)} />
-              <Route exact path='/protocol/' render={() => (<ProtocolPage />)} />
+              <Route exact path='/app' render={() => (<Redirect to='/app/selling' />)} />
+              <Route exact path='/app/selling/' render={() => (<SellingPage items={conversations.getSellingHints()} />)} />
+              <Route exact path='/app/notes/' render={() => (<NotesPage store={conversations} />)} />
+              <Route exact path='/app/protocol/' render={() => (<ProtocolPage />)} />
             </Switch>
           </Main>
           : !this.appCollapsed && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
